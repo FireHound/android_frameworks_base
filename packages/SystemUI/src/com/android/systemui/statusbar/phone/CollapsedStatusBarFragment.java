@@ -79,6 +79,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private static final String STATUS_BAR_SHOW_TICKER =
             "system:" + Settings.System.STATUS_BAR_SHOW_TICKER;
 
+    private View mLeftClock;
+
     private class FhSettingsObserver extends ContentObserver {
         FhSettingsObserver(Handler handler) {
             super(handler);
@@ -146,6 +148,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         Dependency.get(StatusBarIconController.class).addIconGroup(mDarkIconManager);
         mSystemIconArea = mStatusBar.findViewById(R.id.system_icon_area);
         mSignalClusterView = mStatusBar.findViewById(R.id.signal_cluster);
+        mLeftClock = mStatusBar.findViewById(R.id.left_clock);
         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mSignalClusterView);
         mCustomCarrierLabel = mStatusBar.findViewById(R.id.statusbar_carrier_text);
         mWeatherTextView = mStatusBar.findViewById(R.id.weather_temp);
@@ -264,10 +267,12 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     public void hideNotificationIconArea(boolean animate) {
         animateHide(mNotificationIconAreaInner, animate, true);
+        animateHide(mLeftClock, animate);
     }
 
     public void showNotificationIconArea(boolean animate) {
         animateShow(mNotificationIconAreaInner, animate);
+        animateShow(mLeftClock, animate);
     }
 
     public void hideCarrierName(boolean animate) {
