@@ -24,4 +24,7 @@
     <!-- On-The-Go -->
     <string name="global_action_onthego">On-The-Go Mode</string>
 
+    <!-- Screen record -->
+    <string name="global_action_screenrecord">Screenrecord</string>
+
 </resources>
