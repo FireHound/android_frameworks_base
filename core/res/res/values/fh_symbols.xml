@@ -57,4 +57,9 @@
     <java-symbol type="string" name="singlehandmode_slide_hint_message" />
     <java-symbol type="layout" name="single_hand_window" />
 
+    <!-- Screenrecord -->
+    <java-symbol type="bool" name="config_enableScreenrecordChord" />
+    <java-symbol type="drawable" name="ic_lock_screenrecord" />
+    <java-symbol type="string" name="global_action_screenrecord" />
+
 </resources>
