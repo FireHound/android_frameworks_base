@@ -38,8 +38,8 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.android.internal.statusbar.StatusBarIcon;
-import com.android.internal.util.crdroid.FontHelper;
-import com.android.internal.util.crdroid.TickerColorHelper;
+import com.android.internal.util.fh.FontHelper;
+import com.android.internal.util.fh.TickerColorHelper;
 import com.android.internal.util.NotificationColorUtil;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.StatusBarIconView;

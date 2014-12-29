@@ -892,7 +892,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         TunerService.get(mContext).addTunable(this,
                 SCREEN_BRIGHTNESS_MODE,
-                STATUS_BAR_BRIGHTNESS_CONTROL);
+                STATUS_BAR_BRIGHTNESS_CONTROL,
                 QS_ROWS_PORTRAIT,
                 QS_ROWS_LANDSCAPE,
                 QS_COLUMNS,
@@ -5519,8 +5519,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 if ((time - mLastLockToAppLongPress) < LOCK_TO_APP_GESTURE_TOLERENCE) {
                     activityManager.stopLockTaskMode();
                     return true;
-                } else if ((v.getId() == R.id.back)
-                        && !mNavigationBarView.getRecentsButton().getCurrentView().isPressed()) {
+                } else if (v.getId() == R.id.back) {
                     // If we aren't pressing recents right now then they presses
                     // won't be together, so send the standard long-press action.
                     sendBackLongPress = true;

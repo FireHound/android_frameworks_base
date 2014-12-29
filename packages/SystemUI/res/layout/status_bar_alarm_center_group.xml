@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2016 MapleAOSP
-     Copyright (C) 2017 crDroid Android Project
-
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -21,10 +19,9 @@
     android:id="@+id/date_time_alarm_center_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="4dp"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-
     <LinearLayout
         android:id="@+id/date_time_center_group"
         android:layout_width="wrap_content"
@@ -32,10 +29,16 @@
         android:orientation="horizontal"
         android:focusable="true" >
 
-        <include layout="@layout/split_clock_view"
+        <FrameLayout
+            android:id="@+id/clock"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:layout_above="@id/date_time_alarm_center_group"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/clock" />
+            android:layout_height="wrap_content">
+            <include layout="@layout/split_clock_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
         <com.android.systemui.statusbar.AlphaOptimizedImageView
             android:id="@+id/alarm_status_collapsed"
@@ -44,6 +47,7 @@
             android:src="@drawable/ic_access_alarms_small"
             android:paddingStart="6dp"
             android:gravity="center"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -53,9 +57,10 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:layout_marginTop="-4dp"
-        android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Clock"
+        android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Clock.Shadow"
         android:textSize="@dimen/qs_time_collapsed_size"
         android:gravity="top"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         systemui:datePattern="@string/abbrev_wday_month_day_no_year_alarm" />
 
     <com.android.systemui.statusbar.AlphaOptimizedButton
@@ -67,9 +72,9 @@
         android:drawablePadding="8dp"
         android:drawableStart="@drawable/ic_access_alarms_small"
         android:textColor="#64ffffff"
-        android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Date"
+        android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Date.Shadow"
         android:gravity="top"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:visibility="gone" />
 
 </LinearLayout>
