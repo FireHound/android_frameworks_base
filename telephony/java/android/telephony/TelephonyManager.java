@@ -4802,6 +4802,8 @@ public class TelephonyManager {
                 return telephony.needsOtaServiceProvisioning();
         } catch (RemoteException e) {
             Log.e(TAG, "Error calling ITelephony#needsOtaServiceProvisioning", e);
+        } catch (NullPointerException npe) {
+            Log.e(TAG, "Error calling ITelephony#needsOtaServiceProvisioning", npe);
         }
         return false;
     }
@@ -4829,6 +4831,8 @@ public class TelephonyManager {
                 telephony.setDataEnabled(subId, enable);
         } catch (RemoteException e) {
             Log.e(TAG, "Error calling setDataEnabled", e);
+        } catch (NullPointerException npe) {
+            Log.e(TAG, "Error calling setDataEnabled", npe);
         }
     }
 
@@ -4895,6 +4899,8 @@ public class TelephonyManager {
                 return telephony.isVideoCallingEnabled(getOpPackageName());
         } catch (RemoteException e) {
             Log.e(TAG, "Error calling ITelephony#isVideoCallingEnabled", e);
+        } catch (NullPointerException npe) {
+            Log.e(TAG, "Error calling ITelephony#isVideoCallingEnabled", npe);
         }
         return false;
     }
