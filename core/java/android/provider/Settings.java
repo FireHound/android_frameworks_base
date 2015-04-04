@@ -3813,6 +3813,12 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_ENABLE_POWER_MENU = "lockscreen_enable_power_menu";
 
+	/**
+         * show the membar in recents
+         *  @hide
+         */
+        public static final String SYSTEMUI_RECENTS_MEM_DISPLAY = "systemui_recents_mem_display";
+
         /**
          * Shows custom date before clock time
          * 0 - No Date
