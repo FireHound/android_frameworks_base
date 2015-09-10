@@ -71,6 +71,9 @@
 
     <string name="global_action_screen_record">Screen record</string>
 
+    <!-- On-The-Go -->
+    <string name="global_action_onthego">On-The-Go Mode</string>
+
     <!-- Privacy Guard -->
     <string name="permlab_changePrivacyGuardState">enable or disable Privacy Guard</string>
     <string name="permdesc_changePrivacyGuardState">Allows the app to change whether another app runs with Privacy Guard. When an app is running with Privacy Guard, it will not have access to personal data such as contacts, call logs, or messages.</string>
