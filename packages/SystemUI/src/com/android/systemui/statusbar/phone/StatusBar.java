@@ -675,7 +675,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             mMediaMetadata = metadata;
             updateMediaMetaData(true, true);
 
-            f (mNavigationBar != null) {
+            if (mNavigationBar != null) {
                 setMediaPlaying();
             }
         }
