@@ -2061,12 +2061,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case KEY_ACTION_SPLIT_SCREEN:
                 toggleSplitScreen();
                 break;
-            case KEY_ACTION_SINGLE_HAND_LEFT:
-                toggleSingleHand(mContext, true);
-                break;
-            case KEY_ACTION_SINGLE_HAND_RIGHT:
-                toggleSingleHand(mContext, false);
-                break;
             default:
                 break;
          }
