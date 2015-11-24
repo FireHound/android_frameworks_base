@@ -35,6 +35,7 @@ import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IRemoteCallback;
 import android.os.RemoteException;
@@ -96,7 +97,7 @@ public class PhoneStatusBarPolicy implements Callback {
     private final UserInfoController mUserInfoController;
     private boolean mAlarmIconVisible;
     private final SuController mSuController;
-    private boolean mSuIndicatorVisible;
+    private int mHeadsetIconVisible;
 
     // Assume it's all good unless we hear otherwise.  We don't always seem
     // to get broadcasts that it *is* there.
@@ -198,6 +199,13 @@ public class PhoneStatusBarPolicy implements Callback {
         mContext.getContentResolver().registerContentObserver(
                 CMSettings.System.getUriFor(CMSettings.System.SHOW_ALARM_ICON),
                 false, mSettingsObserver);
+
+	//  Headset Icon
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.SHOW_HEADSET_ICON),
+                false, mSettingsObserver);
+
+	// Su Icon
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.SHOW_SU_INDICATOR),
                 false, mSettingsObserver);
@@ -249,8 +257,21 @@ public class PhoneStatusBarPolicy implements Callback {
             mSuIndicatorVisible = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.SHOW_SU_INDICATOR, 1) == 1;
             updateAlarm();
-            updateSu();
-        }
+
+
+            mHeadsetIconVisible = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.SHOW_HEADSET_ICON, 1);
+            Intent mHeadsetIntent = new Intent();
+            mHeadsetIntent.putExtra("state", mHeadsetIconVisible);
+            String s = "state";
+            Bundle b = new Bundle();
+            b.putString(String.valueOf(mHeadsetIconVisible), s);
+            mHeadsetIntent.putExtras(b);
+            AudioManager am1 = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+            if (am1.isWiredHeadsetOn()) {
+                updateHeadset(mHeadsetIntent);
+            }
+	}
 
         @Override
         public void onChange(boolean selfChange) {
@@ -260,7 +281,7 @@ public class PhoneStatusBarPolicy implements Callback {
 
     private final void updateHeadset(Intent intent) {
         int state = intent.getIntExtra("state", 0);
-        mService.setIconVisibility(SLOT_HEADSET, state == 1 ? true : false);
+        mService.setIconVisibility(SLOT_HEADSET, ((state == 1 && (mHeadsetIconVisible == 1)))  ? true : false);
     }
 
     public void setZenMode(int zen) {
