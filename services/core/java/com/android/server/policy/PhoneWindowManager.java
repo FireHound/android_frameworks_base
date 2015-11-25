@@ -1246,7 +1246,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
     };
-    private EdgeGestureManager mEdgeGetureManager = null;
+    private EdgeGestureManager mEdgeGestureManager = null;
     private int mLastEdgePositions = 0;
     private boolean mEdgeListenerActivated = false;
     private boolean mUsingEdgeGestureServiceForGestures = false;
