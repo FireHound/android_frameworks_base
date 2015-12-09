@@ -3485,6 +3485,12 @@ public final class Settings {
         /** @hide */
         public static final Validator WINDOW_ORIENTATION_LISTENER_LOG_VALIDATOR = sBooleanValidator;
 
+        /** Three Finger Gesture from Oppo
+         *
+         * @hide
+         */
+        public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
+
         /**
          * Force expanded notifications on all apps that support it.
          * @hide
