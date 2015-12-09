@@ -3719,6 +3719,14 @@ public final class Settings {
 	 */
 
         /**
+         * Whether to display screen record in the power menu
+         *
+         * @hide
+         */
+        public static final String POWERMENU_SCREENRECORD = "powermenu_screenrecord";
+
+
+        /**
          * Disable dashboard suggestions in settings
          * @hide
          */

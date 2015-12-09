@@ -55,6 +55,10 @@
     <java-symbol type="array" name="app_ops_labels" />
     <java-symbol type="string" name="status_bar_su" />
 
+    <!-- Screen Record -->
+    <java-symbol type="drawable" name="ic_lock_power_screenrecord" />
+    <java-symbol type="string" name="powermenu_screenrecord" />
+
     <!-- Usb drive persistent notification -->
     <java-symbol type="bool" name="config_persistUsbDriveNotification" />
 

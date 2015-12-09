@@ -2167,6 +2167,7 @@
          on the current state of the device.
          Each item must be one of the following strings:
          "power" = Power off
+         "screenrecord" = Take screen recording
          "settings" = An action to launch settings
          "airplane" = Airplane mode toggle
          "bugreport" = Take bug report, if available
@@ -2176,6 +2177,7 @@
     <string-array translatable="false" name="config_globalActionsList">
         <item>power</item>
         <item>bugreport</item>
+        <item>screenrecord</item>
         <item>users</item>
     </string-array>
 
