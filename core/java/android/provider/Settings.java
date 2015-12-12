@@ -3752,10 +3752,10 @@ public final class Settings {
         public static final String FORCE_EXPANDED_NOTIFICATIONS = "force_expanded_notifications";
 
         /**
-         * Disable Immersive Message
+         * Enable double tap gesture anywhere on the lock screen put device to sleep
          * @hide
          */
-        public static final String DISABLE_IMMERSIVE_MESSAGE = "disable_immersive_message";
+        public static final String DOUBLE_TAP_SLEEP_LOCK_SCREEN = "double_tap_sleep_lock_screen";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
