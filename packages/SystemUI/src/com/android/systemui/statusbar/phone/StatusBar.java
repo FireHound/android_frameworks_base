@@ -548,8 +548,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     private ScreenPinningRequest mScreenPinningRequest;
 
-    private final MetricsLogger mMetricsLogger = Dependency.get(MetricsLogger.class);
-
     Runnable mLongPressBrightnessChange = new Runnable() {
         @Override
         public void run() {
@@ -558,6 +556,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             mLinger = BRIGHTNESS_CONTROL_LINGER_THRESHOLD + 1;
         }
     };
+
+    private final MetricsLogger mMetricsLogger = Dependency.get(MetricsLogger.class);
 
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     private boolean mUserSetup = false;
@@ -1174,8 +1174,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             mNotificationPanelDebugText.setVisibility(View.VISIBLE);
         }
 
-        try {
-            boolean showNav = Settings.Secure.getInt(mContext.getContentResolver(),
+        boolean showNav = Settings.Secure.getInt(mContext.getContentResolver(),
                 Settings.Secure.NAVIGATION_BAR_VISIBLE,
                 DUActionUtils.hasNavbarByDefault(mContext) ? 1 : 0) != 0;
         if (DEBUG)
@@ -6153,9 +6152,9 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     };
 
-    private NosSettingsObserver mNosSettingsObserver = new NosSettingsObserver(mHandler);
-    private class NosSettingsObserver extends ContentObserver {
-        NosSettingsObserver(Handler handler) {
+    private FhSettingsObserver mFhSettingsObserver = new FhSettingsObserver(mHandler);
+    private class FhSettingsObserver extends ContentObserver {
+        FhSettingsObserver(Handler handler) {
             super(handler);
         }
 
@@ -7854,6 +7853,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         return shouldPeek(entry, entry.notification);
     }
 
+    protected boolean shouldPeek(Entry entry, StatusBarNotification sbn) {
+
     // get the info from the currently running task
         List<ActivityManager.RunningTaskInfo> taskInfo = mAm.getRunningTasks(1);
         if(taskInfo != null && !taskInfo.isEmpty()) {
@@ -7868,7 +7869,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             return false;
         }
 
-    protected boolean shouldPeek(Entry entry, StatusBarNotification sbn) {
         if (!mUseHeadsUp || isDeviceInVrMode()) {
             if (DEBUG) Log.d(TAG, "No peeking: no huns or vr mode");
             return false;
