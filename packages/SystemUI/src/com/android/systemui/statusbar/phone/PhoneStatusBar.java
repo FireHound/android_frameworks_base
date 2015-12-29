@@ -62,6 +62,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -387,6 +388,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     View mExpandedContents;
     TextView mNotificationPanelDebugText;
 
+    // FH logo
+    private boolean mFhLogo;
+    private int mFhLogoColor;
+    private int mFhLogoStyle;
+    private ImageView fhLogo;
+    private ImageView fhLogoright;
+    private ImageView fhLogoleft;
+
     // settings
     private QSPanel mQSPanel;
 
@@ -480,7 +489,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(CMSettings.Global.getUriFor(
                     CMSettings.Global.DEV_FORCE_SHOW_NAVBAR), false, this, UserHandle.USER_ALL);
-
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_FH_LOGO),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_FH_LOGO_COLOR),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_FH_LOGO_STYLE),
+                    false, this, UserHandle.USER_ALL);
             CurrentUserTracker userTracker = new CurrentUserTracker(mContext) {
                 @Override
                 public void onUserSwitched(int newUserId) {
@@ -519,6 +536,21 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mNavigationBarView.setDisabledFlags(mDisabled1);
         addNavigationBar();
+    }
+
+    // FH logo
+            fhLogo = (ImageView) mStatusBarView.findViewById(R.id.fh_logo);
+            fhLogoright = (ImageView) mStatusBarView.findViewById(R.id.fh_logo_right);
+            fhLogoleft = (ImageView) mStatusBarView.findViewById(R.id.fh_logo_left);
+            mFhLogo = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_FH_LOGO, 0, mCurrentUserId) == 1;
+            mFhLogoColor = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_FH_LOGO_COLOR, 0xFFFFFFFF, mCurrentUserId);
+            mFhLogoStyle = Settings.System.getIntForUser(
+                    resolver, Settings.System.STATUS_BAR_FH_LOGO_STYLE, 0,
+                    UserHandle.USER_CURRENT);
+            showFhLogo(mFhLogo, mFhLogoColor, mFhLogoStyle);
+        }
     }
 
     // ensure quick settings is disabled until the current user makes it through the setup wizard
@@ -3903,6 +3935,40 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     }
+
+    public void showFhLogo(boolean show, int color, int style) {
+        if (mStatusBarView == null) return;
+        if (!show) {
+            fhLogo.setVisibility(View.GONE);
+            fhLogoright.setVisibility(View.GONE);
+            fhLogoleft.setVisibility(View.GONE);
+            return;
+        }
+
+        if (color != 0xFFFFFFFF) {
+            fhLogo.setColorFilter(color, Mode.SRC_IN);
+            fhLogoright.setColorFilter(color, Mode.SRC_IN);
+            fhLogoleft.setColorFilter(color, Mode.SRC_IN);
+        } else {
+            fhLogo.clearColorFilter();
+            fhLogoright.clearColorFilter();
+            fhLogoleft.clearColorFilter();
+        }
+        if (style == 0) {
+            fhLogo.setVisibility(View.VISIBLE);
+            fhLogoright.setVisibility(View.GONE);
+            fhLogoleft.setVisibility(View.GONE);
+        } else if (style == 1) {
+            fhLogo.setVisibility(View.GONE);
+            fhLogoright.setVisibility(View.VISIBLE);
+            fhLogoleft.setVisibility(View.GONE);
+        } else if (style == 2) {
+            fhLogo.setVisibility(View.GONE);
+            fhLogoright.setVisibility(View.GONE);
+            fhLogoleft.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     @Override
     protected void dismissKeyguardThenExecute(OnDismissAction action, boolean afterKeyguardGone) {
