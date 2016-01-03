@@ -3923,6 +3923,12 @@ public final class Settings {
         public static final String QS_DATA_ADVANCED = "qs_data_advanced";
 
         /**
+         * Enable/Disable screenshot sound
+         * @hide
+         */
+        public static final String SCREENSHOT_SOUND = "screenshot_sound";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
