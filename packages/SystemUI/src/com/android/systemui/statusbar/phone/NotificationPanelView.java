@@ -36,6 +36,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.PorterDuff.Mode;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -361,6 +363,9 @@ public class NotificationPanelView extends PanelView implements
         }
     };
 
+    // QS alpha
+    private int mQSShadeAlpha;
+
     public NotificationPanelView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(!DEBUG);
@@ -555,7 +560,8 @@ public class NotificationPanelView extends PanelView implements
 
     public boolean isAffordanceSwipeInProgress() {
         return mAfforanceHelper.isSwipingInProgress();
-    }
+
+        setQSBackgroundAlpha();
 
     @Override
     protected void onAttachedToWindow() {
@@ -2813,8 +2819,9 @@ public class NotificationPanelView extends PanelView implements
                     CMSettings.System.STATUS_BAR_QUICK_QS_PULLDOWN), false, this);
             resolver.registerContentObserver(CMSettings.System.getUriFor(
                     CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE), false, this);
-            resolver.registerContentObserver(CMSettings.Secure.getUriFor(
-                    CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TRANSPARENT_SHADE),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2839,14 +2846,19 @@ public class NotificationPanelView extends PanelView implements
                     resolver, CMSettings.System.STATUS_BAR_QUICK_QS_PULLDOWN, 1);
             mDoubleTapToSleepEnabled = CMSettings.System.getInt(
                     resolver, CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE, 1) == 1;
+            mQSShadeAlpha = Settings.System.getInt(
+                    resolver, Settings.System.QS_TRANSPARENT_SHADE, 255);
+            setQSBackgroundAlpha();
+        }
+    }
 
-            boolean wasKeyguardWeatherEnabled = mKeyguardWeatherEnabled;
-            mKeyguardWeatherEnabled = CMSettings.Secure.getInt(
-                    resolver, CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED, 0) == 1;
-            if (mWeatherController != null
-                    && wasKeyguardWeatherEnabled != mKeyguardWeatherEnabled) {
-                onWeatherChanged(mWeatherController.getWeatherInfo());
-            }
+    // QS alpha
+    private void setQSBackgroundAlpha() {
+        if (mQsContainer != null) {
+            mQsContainer.getBackground().setAlpha(mQSShadeAlpha);
+        }
+        if (mQsPanel != null) {
+            mQsPanel.setQSShadeAlphaValue(mQSShadeAlpha);
         }
     }
 
