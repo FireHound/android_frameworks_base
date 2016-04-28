@@ -259,6 +259,7 @@
    <!-- Play queue -->
    <string name="play_queue_extention">Show play queue</string>
 
+<<<<<<< HEAD:packages/SystemUI/res/values/fh_strings.xml
     <!-- Path data for portrait battery -->
     <string name="battery_portrait_path_full" translatable="false">M 5 2 H 19 V 21 H 5 V 2 Z</string>
     <string name="battery_portrait_path_empty" translatable="false">M 5 21 H 19 V 21 H 5 V 21 Z</string>
@@ -274,5 +275,9 @@
 
     <!-- Weather string format in keyguard -->
     <string name="keyguard_status_view_weather_format"><xliff:g id="temp">%1$s</xliff:g> <xliff:g id="condition">%2$s</xliff:g></string>
+
+    <!-- The text for the button in the notification window-shade that clears
+         all of the currently visible notifications. [CHAR LIMIT=10]-->
+    <string name="clear_recents">Close all recent</string>
 
 </resources>

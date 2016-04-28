@@ -20,7 +20,10 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.animation.AnimationUtils;
@@ -114,6 +117,9 @@ public class RecentsConfiguration {
     /** Task bar size & animations */
     public int taskBarHeight;
     public int taskBarDismissDozeDelaySeconds;
+    public int taskBarEnterAnimDuration;
+    public int taskBarEnterAnimDelay;
+    public int taskBarExitAnimDuration;
 
     /** Nav bar scrim */
     public int navBarScrimEnterDuration;
@@ -269,6 +275,12 @@ public class RecentsConfiguration {
         taskBarHeight = res.getDimensionPixelSize(R.dimen.recents_task_bar_height);
         taskBarDismissDozeDelaySeconds =
                 res.getInteger(R.integer.recents_task_bar_dismiss_delay_seconds);
+        taskBarEnterAnimDuration =
+                res.getInteger(R.integer.recents_animate_task_bar_enter_duration);
+        taskBarEnterAnimDelay =
+                res.getInteger(R.integer.recents_animate_task_bar_enter_delay);
+        taskBarExitAnimDuration =
+                res.getInteger(R.integer.recents_animate_task_bar_exit_duration);
 
         // Nav bar scrim
         navBarScrimEnterDuration =
@@ -341,10 +353,10 @@ public class RecentsConfiguration {
             int rightInset, Rect searchBarBounds, Rect taskStackBounds) {
         if (isLandscape && hasTransposedSearchBar) {
             // In landscape, the search bar appears on the left, but we overlay it on top
-            taskStackBounds.set(0, topInset, windowWidth - rightInset, windowHeight);
+            taskStackBounds.set(0, 0, windowWidth - rightInset, windowHeight);
         } else {
             // In portrait, the search bar appears on the top (which already has the inset)
-            taskStackBounds.set(0, searchBarBounds.bottom, windowWidth, windowHeight);
+            taskStackBounds.set(0, 0, windowWidth, windowHeight);
         }
     }
 

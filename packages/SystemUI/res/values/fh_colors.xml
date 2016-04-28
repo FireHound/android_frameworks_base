@@ -129,4 +129,12 @@
 
     <color name="live_lockscreen_gradient_start">#00000000</color>
     <color name="live_lockscreen_gradient_end">#66000000</color>
+    
+    <!-- Floating action button -->
+    <color name="fab_color">#ff009688</color>
+    <color name="floating_action_button_icon_color">#ffffff</color>
+
+    <!-- Color for the RAM bar text in the recent view -->
+    <color name="ram_bar_text">#FFFFFFFF</color>
+
 </resources>
