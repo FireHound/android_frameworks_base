@@ -99,6 +99,8 @@ public class NotificationPanelView extends PanelView implements
             "cmsystem:" + CMSettings.System.STATUS_BAR_QUICK_QS_PULLDOWN;
     private static final String DOUBLE_TAP_SLEEP_GESTURE =
             "cmsystem:" + CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE;
+    private static final String DOUBLE_TAP_SLEEP_ANYWHERE =
+            "cmsystem:" + CMSettings.System.DOUBLE_TAP_SLEEP_ANYWHERE;
     private static final String LOCK_SCREEN_WEATHER_ENABLED =
             "cmsecure:" + CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED;
 
@@ -225,6 +227,7 @@ public class NotificationPanelView extends PanelView implements
 
     private int mOneFingerQuickSettingsIntercept;
     private boolean mDoubleTapToSleepEnabled;
+    private boolean mDoubleTapToSleepAnywhere;
     private int mStatusBarHeaderHeight;
     private GestureDetector mDoubleTapGesture;
 
@@ -393,6 +396,7 @@ public class NotificationPanelView extends PanelView implements
         TunerService.get(mContext).addTunable(this,
                 STATUS_BAR_QUICK_QS_PULLDOWN,
                 DOUBLE_TAP_SLEEP_GESTURE,
+                DOUBLE_TAP_SLEEP_ANYWHERE,
                 LOCK_SCREEN_WEATHER_ENABLED);
     }
 
@@ -797,6 +801,9 @@ public class NotificationPanelView extends PanelView implements
         if (mDoubleTapToSleepEnabled
                 && mStatusBarState == StatusBarState.KEYGUARD
                 && event.getY() < mStatusBarHeaderHeight) {
+            mDoubleTapGesture.onTouchEvent(event);
+        } else if (mDoubleTapToSleepAnywhere
+                && mStatusBarState == StatusBarState.KEYGUARD) {
             mDoubleTapGesture.onTouchEvent(event);
         }
         initDownStates(event);
@@ -2216,7 +2223,7 @@ public class NotificationPanelView extends PanelView implements
 
                 // This gets called in the middle of the touch handling, where the state is still
                 // that we are tracking the panel. Collapse the panel after this is done.
-                post(mEmptySpaceClickedRunnable);
+                post(mPostCollapseRunnable);
                 return false;
             default:
                 return true;
@@ -2450,6 +2457,9 @@ public class NotificationPanelView extends PanelView implements
         switch (key) {
             case DOUBLE_TAP_SLEEP_GESTURE:
                 mDoubleTapToSleepEnabled = newValue == null || Integer.parseInt(newValue) == 1;
+                break;
+            case DOUBLE_TAP_SLEEP_ANYWHERE:
+                mDoubleTapToSleepAnywhere = newValue == null || Integer.parseInt(newValue) == 1;
                 break;
             case STATUS_BAR_QUICK_QS_PULLDOWN:
                 mOneFingerQuickSettingsIntercept =
