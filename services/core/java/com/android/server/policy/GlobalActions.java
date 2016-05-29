@@ -377,6 +377,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                     mItems.add(ScreenrecordAction());
                 }
                 mItems.add(new ScreenshotAction());
+	    } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
+                mItems.add(getScreenRecordAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
                 mItems.add(mAirplaneModeOn);
             } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
@@ -544,9 +546,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         }
     }
 
-    private Action ScreenrecordAction() {
-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_power_screenrecord,
-                R.string.powermenu_screenrecord) {
+    private Action getScreenRecordAction() {
+        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_screen_record,
+                R.string.global_action_screen_record) {
 
             public void onPress() {
                 takeScreenrecord();
@@ -557,10 +559,10 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             }
 
             public boolean showBeforeProvisioning() {
-                return false;
+                return true;
             }
         };
-   }
+    }
 
     private class BugReportAction extends SinglePressAction implements LongPressAction {
         public BugReportAction() {
@@ -891,7 +893,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 return;
             }
             ComponentName cn = new ComponentName("com.android.systemui",
-                    "com.android.systemui.omni.screenrecord.TakeScreenrecordService");
+                    "com.android.systemui.fh.screenrecord.TakeScreenrecordService");
             Intent intent = new Intent();
             intent.setComponent(cn);
             ServiceConnection conn = new ServiceConnection() {
