@@ -103,6 +103,7 @@ public class VolumeDialog implements TunerService.Tunable {
     private final Context mContext;
     private final H mHandler = new H();
     private final VolumeDialogController mController;
+    private Context vContext;
 
     private Window mWindow;
     private CustomDialog mDialog;
@@ -128,6 +129,7 @@ public class VolumeDialog implements TunerService.Tunable {
 
     private boolean mShowing;
     private boolean mExpanded;
+    private boolean mForceExpanded;
 
     private int mActiveStream;
     private boolean mShowHeaders = VolumePrefs.DEFAULT_SHOW_HEADERS;
@@ -160,6 +162,7 @@ public class VolumeDialog implements TunerService.Tunable {
     public VolumeDialog(Context context, int windowType, VolumeDialogController controller,
                         ZenModeController zenModeController, Callback callback) {
         mContext = context;
+	vContext = context;
         mController = controller;
         mCallback = callback;
         mWindowType = windowType;
@@ -177,7 +180,7 @@ public class VolumeDialog implements TunerService.Tunable {
 
         controller.addCallback(mControllerCallbackH, mHandler);
         controller.getState();
-        TunerService.get(mContext).addTunable(this, SHOW_FULL_ZEN);
+	TunerService.get(mContext).addTunable(this, SHOW_FULL_ZEN);
 
         final Configuration currentConfig = mContext.getResources().getConfiguration();
         mDensity = currentConfig.densityDpi;
@@ -275,6 +278,7 @@ public class VolumeDialog implements TunerService.Tunable {
         mZenPanel = (TunerZenModePanel) mDialog.findViewById(R.id.tuner_zen_mode_panel);
         mZenPanel.init(mZenModeController);
         mZenPanel.setCallback(mZenPanelCallback);
+        updateForceExpanded();
     }
 
     @Override
@@ -365,6 +369,7 @@ public class VolumeDialog implements TunerService.Tunable {
         writer.println(VolumeDialog.class.getSimpleName() + " state:");
         writer.print("  mShowing: "); writer.println(mShowing);
         writer.print("  mExpanded: "); writer.println(mExpanded);
+	writer.print("  mForceExpanded: "); writer.println(mForceExpanded);
         writer.print("  mExpandButtonAnimationRunning: ");
         writer.println(mExpandButtonAnimationRunning);
         writer.print("  mActiveStream: "); writer.println(mActiveStream);
@@ -497,7 +502,7 @@ public class VolumeDialog implements TunerService.Tunable {
         if (mAccessibility.mFeedbackEnabled) return 20000;
         if (mHovering) return 16000;
         if (mSafetyWarning != null) return 5000;
-        if (mExpanded || mExpandButtonAnimationRunning) return 1500;
+        if (mExpanded || mForceExpanded || mExpandButtonAnimationRunning) return 1500;
         if (mActiveStream == AudioManager.STREAM_MUSIC) return 1500;
         return 1500;
     }
@@ -606,6 +611,7 @@ public class VolumeDialog implements TunerService.Tunable {
 
     private void updateExpandButtonH() {
         if (D.BUG) Log.d(TAG, "updateExpandButtonH");
+	// TO DO: Make button unclickable when force expanded view, need to update "off" state for this to be done without causing ui issues
         mExpandButton.setClickable(!mExpandButtonAnimationRunning);
         if (!(mExpandButtonAnimationRunning && isAttached())) {
             final int res = mExpanded ? R.drawable.ic_volume_collapse_animation
@@ -641,8 +647,8 @@ public class VolumeDialog implements TunerService.Tunable {
     }
 
     private boolean shouldBeVisibleH(VolumeRow row, boolean isActive) {
-        return mExpanded && row.view.getVisibility() == View.VISIBLE
-                || (mExpanded && (row.important || isActive))
+        return mExpanded || mForceExpanded && row.view.getVisibility() == View.VISIBLE
+                || (mExpanded  && (row.important || isActive))
                 || !mExpanded && isActive;
     }
 
@@ -650,6 +656,7 @@ public class VolumeDialog implements TunerService.Tunable {
         if (D.BUG) Log.d(TAG, "updateRowsH");
         setVolumeStroke();
         setVolumeAlpha();
+        updateForceExpanded();
         if (!mShowing) {
             trimObsoleteH();
         }
@@ -876,7 +883,7 @@ public class VolumeDialog implements TunerService.Tunable {
     }
 
     private void updateVolumeRowSliderTintH(VolumeRow row, boolean isActive) {
-        if (isActive && mExpanded) {
+        if (isActive && mForceExpanded) {
             row.slider.requestFocus();
         }
         final ColorStateList tint = isActive && row.slider.isEnabled() ? mActiveSliderTint
@@ -1256,7 +1263,7 @@ public class VolumeDialog implements TunerService.Tunable {
             mFeedbackEnabled = computeFeedbackEnabled();
         }
 
-        private boolean computeFeedbackEnabled() {
+	private boolean computeFeedbackEnabled() {
             // are there any enabled non-generic a11y services?
             final List<AccessibilityServiceInfo> services =
                     mAccessibilityMgr.getEnabledAccessibilityServiceList(FEEDBACK_ALL_MASK);
@@ -1337,5 +1344,9 @@ public class VolumeDialog implements TunerService.Tunable {
             volumeDialogGd.setCornerRadius(mCustomCornerRadius);
             mDialogView.setBackground(volumeDialogGd);
         }
+
+    private void updateForceExpanded() {
+        mForceExpanded = Settings.System.getInt(vContext.getContentResolver(),
+                Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 1) == 1;
     }
 }
