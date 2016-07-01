@@ -59,7 +59,7 @@
     <string name="status_bar_latest_events_title">Notifications</string>
 
     <!-- When the battery is low, this is displayed to the user in a dialog.  The title of the low battery alert.  [CHAR LIMIT=NONE]-->
-    <string name="battery_low_title">Battery is low</string>
+    <string name="battery_low_title">Battery is hungry!</string>
 
     <!-- A message that appears when the battery level is getting low in a dialog.  This is
         appened to the subtitle of the low battery alert.  "percentage" is the percentage of battery
@@ -791,7 +791,7 @@
     <string name="interruption_level_alarms_twoline">Alarms\nonly</string>
 
     <!-- Indication on the keyguard that is shown when the device is charging. [CHAR LIMIT=40]-->
-    <string name="keyguard_indication_charging_time">Charging (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g> until full)</string>
+    <string name="keyguard_indication_charging_time">Feeding Battery (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g> until it blasts)</string>
 
     <!-- Indication on the keyguard that is shown when the device is charging rapidly. Should match keyguard_plugged_in_charging_fast [CHAR LIMIT=40]-->
     <string name="keyguard_indication_charging_time_fast">Charging rapidly (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g> until full)</string>
