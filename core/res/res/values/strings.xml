@@ -2605,7 +2605,7 @@
     <string name="android_upgrading_fstrim">Optimizing storage.</string>
 
     <!-- [CHAR LIMIT=NONE] Message shown in upgrading dialog for each .apk that is optimized. -->
-    <string name="android_upgrading_apk">Phoenix Spreading Fire
+    <string name="android_upgrading_apk">Spreading Fire
         <xliff:g id="number" example="123">%1$d</xliff:g> of
         <xliff:g id="number" example="123">%2$d</xliff:g>.</string>
 
