@@ -136,4 +136,5 @@
 
     <!-- Color for the RAM bar text in the recent view -->
     <color name="recents_membar_text_color">@android:color/white</color>
+
 </resources>
