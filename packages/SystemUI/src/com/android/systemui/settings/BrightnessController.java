@@ -53,6 +53,12 @@ public class BrightnessController implements ToggleSlider.Listener {
     private static final int MSG_ATTACH_LISTENER = 3;
     private static final int MSG_DETACH_LISTENER = 4;
 
+    private static final int MSG_UPDATE_ICON = 0;
+    private static final int MSG_UPDATE_SLIDER = 1;
+    private static final int MSG_SET_CHECKED = 2;
+    private static final int MSG_ATTACH_LISTENER = 3;
+    private static final int MSG_DETACH_LISTENER = 4;
+
     private final int mMinimumBacklight;
     private final int mMaximumBacklight;
 
@@ -259,6 +265,10 @@ public class BrightnessController implements ToggleSlider.Listener {
         mAutomaticAvailable = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_automatic_brightness_available);
         mPower = IPowerManager.Stub.asInterface(ServiceManager.getService("power"));
+    }
+
+    public void setBackgroundLooper(Looper backgroundLooper) {
+        mBackgroundHandler = new Handler(backgroundLooper);
     }
 
     public void setBackgroundLooper(Looper backgroundLooper) {
