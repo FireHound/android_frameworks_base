@@ -97,6 +97,7 @@ public class PhoneStatusBarPolicy implements Callback {
     private final UserInfoController mUserInfoController;
     private boolean mAlarmIconVisible;
     private final SuController mSuController;
+    private boolean mSuIndicatorVisible;
     private int mHeadsetIconVisible;
 
     // Assume it's all good unless we hear otherwise.  We don't always seem
