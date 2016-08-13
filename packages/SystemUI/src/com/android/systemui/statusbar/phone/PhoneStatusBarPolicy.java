@@ -258,7 +258,7 @@ public class PhoneStatusBarPolicy implements Callback {
             mSuIndicatorVisible = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.SHOW_SU_INDICATOR, 1) == 1;
             updateAlarm();
-	    updateSu9);
+	    updateSu();
         }
 
             mHeadsetIconVisible = Settings.System.getInt(mContext.getContentResolver(),
