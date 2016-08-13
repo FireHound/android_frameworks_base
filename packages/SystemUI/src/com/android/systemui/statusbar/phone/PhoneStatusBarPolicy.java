@@ -253,13 +253,7 @@ public class PhoneStatusBarPolicy implements Callback {
         public void onChange(boolean selfChange, Uri uri) {
             mAlarmIconVisible = CMSettings.System.getInt(mContext.getContentResolver(),
                     CMSettings.System.SHOW_ALARM_ICON, 1) == 1;
-            mAlarmIconVisible = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.SHOW_ALARM_ICON, 1) == 1;
-            mSuIndicatorVisible = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.SHOW_SU_INDICATOR, 1) == 1;
             updateAlarm();
-	    updateSu();
-        }
 
             mHeadsetIconVisible = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.SHOW_HEADSET_ICON, 1);
@@ -273,7 +267,11 @@ public class PhoneStatusBarPolicy implements Callback {
             if (am1.isWiredHeadsetOn()) {
                 updateHeadset(mHeadsetIntent);
             }
-	}
+            mSuIndicatorVisible = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.SHOW_SU_INDICATOR, 1) == 1;
+            updateAlarm();
+            updateSu();
+        }
 
         @Override
         public void onChange(boolean selfChange) {
