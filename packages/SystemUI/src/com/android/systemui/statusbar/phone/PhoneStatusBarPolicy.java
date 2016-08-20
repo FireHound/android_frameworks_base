@@ -132,7 +132,7 @@ public class PhoneStatusBarPolicy implements Callback {
             }
             else if (action.equals(TelecomManager.ACTION_CURRENT_TTY_MODE_CHANGED)) {
                 updateTTY(intent);
-            }}
+            }
             else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
                 updateHeadset(intent);
             }
