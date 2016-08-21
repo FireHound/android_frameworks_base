@@ -362,13 +362,6 @@ public class NotificationPanelView extends PanelView implements
             mKeyguardStatusView.setAlpha(1f);
         }
     };
-            boolean wasKeyguardWeatherEnabled = mKeyguardWeatherEnabled;
-            mKeyguardWeatherEnabled = CMSettings.Secure.getInt(
-                    resolver, CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED, 0) == 1;
-            if (mWeatherController != null
-                    && wasKeyguardWeatherEnabled != mKeyguardWeatherEnabled) {
-                onWeatherChanged(mWeatherController.getWeatherInfo());
-            }
 
     // QS alpha
     private int mQSShadeAlpha;
@@ -2859,6 +2852,14 @@ public class NotificationPanelView extends PanelView implements
             mQSShadeAlpha = Settings.System.getInt(
                     resolver, Settings.System.QS_TRANSPARENT_SHADE, 255);
             setQSBackgroundAlpha();
+
+	boolean wasKeyguardWeatherEnabled = mKeyguardWeatherEnabled;
+            mKeyguardWeatherEnabled = CMSettings.Secure.getInt(
+                    resolver, CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED, 0) == 1;
+            if (mWeatherController != null
+                    && wasKeyguardWeatherEnabled != mKeyguardWeatherEnabled) {
+                onWeatherChanged(mWeatherController.getWeatherInfo());
+            }
         }
     }
 
