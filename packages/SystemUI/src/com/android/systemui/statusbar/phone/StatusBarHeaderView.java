@@ -1098,8 +1098,5 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         if (mHeaderView != null) {
             mHeaderView.getBackground().setAlpha(mQSHeaderAlpha);
         }
-        if (mBackgroundImage != null) {
-            mBackgroundImage.setAlpha(mQSHeaderAlpha);
-        }
     }
 }
