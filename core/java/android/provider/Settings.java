@@ -3007,7 +3007,14 @@ public final class Settings {
         public static final Validator TIME_12_24_VALIDATOR =
                 new DiscreteValueValidator(new String[] {"12", "24"});
 
-        /**
+	/**
+        * Developer options - Navigation Bar show switch
+        * @deprecated Moved to CMSettings.Secure.DEV_FORCE_SHOW_NAVBAR
+        * @hide
+        */
+        public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
+
+	/**
          * Navigation bar button color
          * @hide
          */
