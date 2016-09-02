@@ -41,6 +41,8 @@ import android.graphics.PorterDuff.Mode;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -262,6 +264,9 @@ public class NotificationPanelView extends PanelView implements
     private int mStatusBarHeaderHeight;
     private GestureDetector mDoubleTapGesture;
 
+    // QS alpha
+    private int mQSShadeAlpha;
+
     // Used to identify whether showUnlock() can dismiss the keyguard
     // or not.
     // TODO - add a new state to make it easier to identify keyguard vs
@@ -362,9 +367,6 @@ public class NotificationPanelView extends PanelView implements
             mKeyguardStatusView.setAlpha(1f);
         }
     };
-
-    // QS alpha
-    private int mQSShadeAlpha;
 
     public NotificationPanelView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -561,8 +563,6 @@ public class NotificationPanelView extends PanelView implements
     public boolean isAffordanceSwipeInProgress() {
         return mAfforanceHelper.isSwipingInProgress();
     }
-
-        setQSBackgroundAlpha();
 
     @Override
     protected void onAttachedToWindow() {
@@ -2822,9 +2822,6 @@ public class NotificationPanelView extends PanelView implements
                     CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE), false, this);
 	    resolver.registerContentObserver(CMSettings.Secure.getUriFor(
                     CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED), false, this);
-	    resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_TRANSPARENT_SHADE),
-                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2853,7 +2850,7 @@ public class NotificationPanelView extends PanelView implements
                     resolver, Settings.System.QS_TRANSPARENT_SHADE, 255);
             setQSBackgroundAlpha();
 
-	boolean wasKeyguardWeatherEnabled = mKeyguardWeatherEnabled;
+	    boolean wasKeyguardWeatherEnabled = mKeyguardWeatherEnabled;
             mKeyguardWeatherEnabled = CMSettings.Secure.getInt(
                     resolver, CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED, 0) == 1;
             if (mWeatherController != null
