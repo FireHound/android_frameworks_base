@@ -32,6 +32,9 @@
     <!-- Content description of the superuser tile -->
     <string name="accessibility_su_active">Superuser session active</string>
 
+    <!-- Screenshot delete toast -->
+    <string name="delete_screenshot_toast">Screenshot Deleted</string>
+
     <!-- Notification which notifies user flashlight is enabled -->
     <string name="quick_settings_tile_flashlight_not_title">Flashlight is on</string>
     <string name="quick_settings_tile_flashlight_not_summary">Tap to turn off</string>
