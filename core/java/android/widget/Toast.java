@@ -422,7 +422,6 @@ public class Toast {
                         }
                         appIcon.setImageDrawable(icon);
                     }
-                    appIcon.setImageDrawable(icon);
                 }
                 mWM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
                 // We can resolve the Gravity here by using the Locale for getting
