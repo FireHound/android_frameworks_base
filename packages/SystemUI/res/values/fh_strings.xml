@@ -259,6 +259,9 @@
     <!-- CellularTile data sim not configured state string -->
     <string name="data_sim_not_configured">No data SIM</string>
 
+    <!-- Screenshot delete toast -->
+    <string name="delete_screenshot_toast">Screenshot Deleted</string>
+
     <!-- Content description of the dock battery level icon for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_dock_battery_level">Dock battery <xliff:g id="number">%d</xliff:g> percent.</string>
 
