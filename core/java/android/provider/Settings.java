@@ -3716,16 +3716,19 @@ public final class Settings {
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
          * the setting value. See an example above.
+	 */
+
+        /**
+         * Disable dashboard suggestions in settings
+         * @hide
          */
+        public static final String DISABLE_SUGGESTIONS = "disable_suggestions";
 
 	/**
-          * Volume keys control cursor in text fields (default is 0)
-          * 0 - Disabled
-          * 1 - Volume up/down moves cursor left/right
-          * 2 - Volume up/down moves cursor right/left
-          * @hide
-          */
-         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
+         * Disable dashboard conditions in settings
+         * @hide
+         */
+        public static final String DISABLE_DASHBOARD_CONDITIONS = "disable_dashboard_conditions";
 
         /**
          * Remove tile summaries in settings
