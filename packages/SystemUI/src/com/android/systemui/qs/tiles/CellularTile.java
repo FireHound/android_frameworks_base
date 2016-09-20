@@ -39,8 +39,8 @@ import com.android.systemui.statusbar.policy.SignalCallbackAdapter;
 
 /** Quick settings tile: Cellular **/
 public class CellularTile extends QSTile<QSTile.SignalState> {
-    static final Intent SIM_SETTINGS = new Intent().setComponent(new ComponentName(
-            "com.android.settings", "com.android.settings.sim.SimSettings"));
+    static final Intent CELLULAR_SETTINGS = new Intent().setComponent(new ComponentName(
+            "com.android.settings", "com.android.settings.Settings$SimSettingsActivity"));
 
     private final NetworkController mController;
     private final DataUsageController mDataController;
@@ -81,16 +81,34 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
 
     @Override
     public Intent getLongClickIntent() {
-        return new Intent(SIM_SETTINGS);
+        return null;
     }
 
     @Override
     protected void handleClick() {
         MetricsLogger.action(mContext, getMetricsCategory());
         if (mDataController.isMobileDataSupported()) {
-            showDetail(true);
+            if(mController.isAdvancedDataTileEnabled()) {
+                mDataController.setMobileDataEnabled(!mDataController.isMobileDataEnabled());
+            } else {
+                showDetail(true);
+            }
         } else {
-            mHost.startActivityDismissingKeyguard(SIM_SETTINGS);
+            mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+        }
+    }
+
+    @Override
+    protected void handleLongClick() {
+        MetricsLogger.action(mContext, getMetricsCategory());
+        if(mController.isAdvancedDataTileEnabled()) {
+            if (mDataController.isMobileDataSupported()) {
+            showDetail(true);
+            } else {
+                mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+            }
+        } else {
+            mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
         }
     }
 
@@ -258,7 +276,7 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
 
         @Override
         public Intent getSettingsIntent() {
-            return SIM_SETTINGS;
+            return CELLULAR_SETTINGS;
         }
 
         @Override
