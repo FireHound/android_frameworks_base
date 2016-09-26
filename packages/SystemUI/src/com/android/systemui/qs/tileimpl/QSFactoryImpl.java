@@ -50,6 +50,7 @@ import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.SoundTile;
+import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.VolumeTile;
 import com.android.systemui.qs.tiles.WeatherTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
@@ -77,6 +78,7 @@ public class QSFactoryImpl implements QSFactory {
         else if (tileSpec.equals("airplane")) return new AirplaneModeTile(mHost);
         else if (tileSpec.equals("work")) return new WorkModeTile(mHost);
         else if (tileSpec.equals("pip")) return new PictureInPictureTile(mHost);
+        else if (tileSpec.equals("sync")) return new SyncTile(mHost);
         else if (tileSpec.equals("reboot")) return new RebootTile(mHost);
         else if (tileSpec.equals("rotation")) return new RotationLockTile(mHost);
         else if (tileSpec.equals("flashlight")) return new FlashlightTile(mHost);
