@@ -31,6 +31,10 @@
     <!-- Lights settings, LED notification -->
     <string name="led_notification_title">Light settings</string>
     <string name="led_notification_text">LED light enabled by settings</string>
+    
+    <!-- Screen Recording -->
+    <string name="quick_settings_screenrecord">Screenrecord</string>
+    <string name="quick_settings_screenrecord_on">Recording ...</string>
 
     <!-- Content description of the superuser tile -->
     <string name="accessibility_su_active">Superuser session active</string>
