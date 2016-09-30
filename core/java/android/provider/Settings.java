@@ -3742,16 +3742,9 @@ public final class Settings {
          public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
 	/**
-         * Disable dashboard conditions in settings
          * @hide
          */
-        public static final String DISABLE_DASHBOARD_CONDITIONS = "disable_dashboard_conditions";
-
-        /**
-         * Remove tile summaries in settings
-         * @hide
-         */
-        public static final String REMOVE_TILE_SUMMARY = "remove_tile_summary";
+        public static final String SHOW_SU_INDICATOR = "show_su_indicator";
 
         /**
          * Toast icon
