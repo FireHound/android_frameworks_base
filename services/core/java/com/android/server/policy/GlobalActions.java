@@ -303,10 +303,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 mItems.add(new RebootAction());
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 mItems.add(getScreenshotAction());
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.POWERMENU_SCREENSHOT, 1) == 1) {
-                    mItems.add(ScreenshotAction());
-                }
             } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.POWERMENU_SCREENRECORD, 0) != 0) {
@@ -451,24 +447,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
             public boolean showBeforeProvisioning() {
                 return true;
-            }
-        };
-    }
-
-    private Action ScreenrecordAction() {
-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_power_screenrecord,
-                R.string.powermenu_screenrecord) {
-
-            public void onPress() {
-                takeScreenrecord();
-            }
-
-            public boolean showDuringKeyguard() {
-                return true;
-            }
-
-            public boolean showBeforeProvisioning() {
-                return false;
             }
         };
     }
