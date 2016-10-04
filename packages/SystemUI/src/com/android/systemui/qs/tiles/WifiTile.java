@@ -107,13 +107,14 @@ public class WifiTile extends QSTile<QSTile.SignalState> {
         mState.copyTo(mStateBeforeClick);
         MetricsLogger.action(mContext, getMetricsCategory(), !mState.value);
         mController.setWifiEnabled(!mState.value);
+
     }
 
     @Override
     protected void handleClick() {
         boolean easyToggle = isWiFiEasyToggleEnabled();
-         if (easyToggle) {
-	    mState.copyTo(mStateBeforeClick);
+        if (easyToggle) {
+            mState.copyTo(mStateBeforeClick);
             MetricsLogger.action(mContext, getMetricsCategory(), !mState.value);
             mController.setWifiEnabled(!mState.value);
         } else {
@@ -121,13 +122,13 @@ public class WifiTile extends QSTile<QSTile.SignalState> {
                 mHost.startActivityDismissingKeyguard(new Intent(Settings.ACTION_WIFI_SETTINGS));
                 return;
             }
-            if (!mState.value) {
-                mController.setWifiEnabled(true);
-                mState.value = true;
-            }
             showDetail(true);
+            if (!mState.value) {
+            mController.setWifiEnabled(true);
+            mState.value = true;
+            }
         }
-    }
+     }
 
     @Override
     protected void handleLongClick() {
