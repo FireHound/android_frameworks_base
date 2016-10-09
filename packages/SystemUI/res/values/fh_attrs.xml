@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Initial Shit -->
+<resources>
+
+    <declare-styleable name="BatteryBarController">
+        <attr name="viewLocation" format="integer" />
+    </declare-styleable>
+
+</resources>
