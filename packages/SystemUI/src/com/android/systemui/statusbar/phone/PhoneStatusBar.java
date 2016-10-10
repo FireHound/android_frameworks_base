@@ -151,6 +151,7 @@ import com.android.systemui.statusbar.ExpandableNotificationRow;
 import com.android.systemui.statusbar.GestureRecorder;
 import com.android.systemui.statusbar.KeyboardShortcuts;
 import com.android.systemui.statusbar.KeyguardIndicationController;
+import com.android.systemui.statusbar.MediaExpandableNotificationRow;
 import com.android.systemui.statusbar.NotificationData;
 import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.NotificationOverflowContainer;
@@ -1135,6 +1136,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mBatteryController);
         mKeyguardStatusBar.setBatteryController(mBatteryController);
         mHeader.setWeatherController(mWeatherController);
+
+        mNotificationPanel.setWeatherController(mWeatherController);
 
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mBroadcastReceiver.onReceive(mContext,
@@ -2223,6 +2226,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Log.v(TAG, "DEBUG_MEDIA: insert listener, receive metadata: "
                             + mMediaMetadata);
                 }
+                if (mediaNotification != null
+                        && mediaNotification.row != null
+                        && mediaNotification.row instanceof MediaExpandableNotificationRow) {
+                    ((MediaExpandableNotificationRow) mediaNotification.row)
+                            .setMediaController(controller);
+                }
 
                 if (mediaNotification != null) {
                     mMediaNotificationKey = mediaNotification.notification.getKey();
@@ -2636,6 +2645,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         return mMediaNotificationKey;
     }
 
+    @Override
+    protected MediaController getCurrentMediaController() {
+        return mMediaController;
+    }
+
     public boolean isScrimSrcModeEnabled() {
         return mScrimSrcModeEnabled;
     }
@@ -3008,7 +3022,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     ServiceManager.getService("power"));
             if (power != null) {
                 if (mAutomaticBrightness) {
-                    float adj = (value * 100) / (BRIGHTNESS_ADJ_RESOLUTION / 2f) - 1;
+                    float adj = (2 * value) - 1;
                     adj = Math.max(adj, -1);
                     adj = Math.min(adj, 1);
                     final float val = adj;
@@ -3130,19 +3144,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         if (mBrightnessChanged && upOrCancel) {
             mBrightnessChanged = false;
-            if (mJustPeeked) {
-                /**
-                 * if we were just peeking, eat the event and collapse the status bar, otherwise
-                 * the event gets passed down and a full expand might happen.
-                 */
+            if (mJustPeeked && mExpandedVisible) {
                 mNotificationPanel.fling(10, false);
-                if (mExpandedVisible) {
-                    mExpandedVisible = false;
-                    visibilityChanged(false);
-                    setInteracting(StatusBarManager.WINDOW_STATUS_BAR, false);
-                }
-                disable(mDisabledUnmodified1, mDisabledUnmodified2, true /* animate */);
-                return true;
             }
         }
         return false;
