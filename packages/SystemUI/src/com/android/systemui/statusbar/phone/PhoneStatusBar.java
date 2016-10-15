@@ -1615,6 +1615,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     @Override
     public void screenPinningStateChanged(boolean enabled) {
+        super.screenPinningStateChanged(enabled);
         mNavigationController.screenPinningStateChanged(enabled);
     }
 
