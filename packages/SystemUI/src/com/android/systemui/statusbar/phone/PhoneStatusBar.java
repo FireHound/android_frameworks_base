@@ -371,6 +371,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             "system:" + Settings.System.BLUR_MIXED_COLOR_PREFERENCE_KEY;
     private static final String NAVBAR_DYNAMIC =
             "system:" + Settings.System.NAVBAR_DYNAMIC;
+    private static final String STATUS_BAR_SHOW_CARRIER =
+            "system:" + Settings.System.STATUS_BAR_SHOW_CARRIER;
 
     static {
         boolean onlyCoreApps;
@@ -418,6 +420,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     MinitBatteryController mMinitBatteryController;
 
     int mNaturalBarHeight = -1;
+
+    // Custom Carrier Label
+    private int mShowCarrierLabel;
+    private TextView mCustomCarrierLabel;
 
     Display mDisplay;
     Point mCurrentDisplaySize = new Point();
@@ -904,7 +910,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 BLUR_DARK_COLOR_PREFERENCE_KEY,
                 BLUR_LIGHT_COLOR_PREFERENCE_KEY,
                 BLUR_MIXED_COLOR_PREFERENCE_KEY,
-                NAVBAR_DYNAMIC);
+                NAVBAR_DYNAMIC,
+                STATUS_BAR_SHOW_CARRIER);
 
 
         // Lastly, call to the icon policy to install/update all the icons.
@@ -1131,6 +1138,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         initSignalCluster(mStatusBarView);
         initSignalCluster(mKeyguardStatusBar);
         initEmergencyCryptkeeperText();
+
+        updateCarrier();
 
         mFlashlightController = new FlashlightController(mContext);
         mKeyguardBottomArea.setFlashlightController(mFlashlightController);
@@ -4996,6 +5005,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         updateStackScrollerState(goingToFullShade, fromShadeLocked);
         updateNotifications();
         checkBarModes();
+        updateCarrier();
         updateMediaMetaData(false, mState != StatusBarState.KEYGUARD);
         mKeyguardMonitor.notifyKeyguardState(mStatusBarKeyguardViewManager.isShowing(),
                 mStatusBarKeyguardViewManager.isSecure(),
@@ -5944,8 +5954,24 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mNavigationController.updateNavbarOverlay(mContext.getResources());
                 }
                 break;
+            case STATUS_BAR_SHOW_CARRIER:
+                mShowCarrierLabel = 
+                        newValue == null ? 1 : Integer.parseInt(newValue);
+                updateCarrier();
+                break;
             default:
                 break;
+        }
+    }
+
+    private void updateCarrier() {
+        if (mStatusBarView == null) return;
+        mCustomCarrierLabel = (TextView) mStatusBarWindow.findViewById(R.id.statusbar_carrier_text);
+        if (mCustomCarrierLabel == null) return;
+        if (mShowCarrierLabel == 2 || mShowCarrierLabel == 3) {
+            mCustomCarrierLabel.setVisibility(View.VISIBLE);
+        } else {
+            mCustomCarrierLabel.setVisibility(View.GONE);
         }
     }
 
