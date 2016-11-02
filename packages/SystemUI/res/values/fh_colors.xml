@@ -39,4 +39,11 @@
 
     <!-- Keyguard affordance circle background -->
     <color name="keyguard_affordance_circle_background">@android:color/white</color>
+
+    <!-- Custom Navbar Color -->
+    <color name="icon_color_back">@android:color/white</color>
+    <color name="icon_color_ime_switcher">@android:color/white</color>
+    <color name="icon_color_split_screen">@android:color/white</color>
+    <color name="icon_color_home">@android:color/white</color>
+    <color name="icon_color_overview">@android:color/white</color>
 </resources>
