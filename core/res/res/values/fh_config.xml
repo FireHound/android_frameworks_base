@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+[B<?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2017 FireHound ROMs
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,4 +19,6 @@
     <!-- Default value for led color when battery is really fully charged -->
     <integer name="config_notificationsBatteryReallyFullARGB">0xFF00FF00</integer>
 
+    <!-- OH Mode -->
+    <bool name="single_hand_mode">true</bool>
 </resources>
