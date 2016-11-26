@@ -37,7 +37,6 @@
     <java-symbol type="bool" name="config_singleStageCameraKey" />
     <java-symbol type="integer" name="config_longPressOnMenuBehavior" />
     <java-symbol type="integer" name="config_longPressOnAppSwitchBehavior" />
-    <java-symbol type="bool" name="config_enableScreenrecordChord" />
 
     <!-- Toast Animation -->
     <java-symbol type="style" name="Animation.Toast.Fade" />
@@ -74,10 +73,6 @@
     <java-symbol type="layout" name="permission_confirmation_dialog" />
     <java-symbol type="array" name="app_ops_labels" />
     <java-symbol type="string" name="status_bar_su" />
-
-    <!-- Screen Record -->
-    <java-symbol type="drawable" name="ic_lock_power_screenrecord" />
-    <java-symbol type="string" name="powermenu_screenrecord" />
 
     <!-- Usb drive persistent notification -->
     <java-symbol type="bool" name="config_persistUsbDriveNotification" />
