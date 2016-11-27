@@ -30,7 +30,7 @@ import android.os.RemoteException;
 import android.view.View;
 
 import com.android.systemui.R;
-import com.android.systemui.omni.screenrecord.TakeScreenrecordService;
+import com.android.systemui.fh.screenrecord.TakeScreenrecordService;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.QSTileView;
 import com.android.internal.logging.MetricsProto.MetricsEvent;
@@ -100,7 +100,6 @@ public class ScreenrecordTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = true;
 	state.value = mRecording;
         if (mRecording) {
             state.icon = ResourceIcon.get(R.drawable.ic_qs_screenrecord);

@@ -371,12 +371,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 mItems.add(new RestartAction());
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 mItems.add(new ScreenshotAction());
-            } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.POWERMENU_SCREENRECORD, 0) != 0) {
-                    mItems.add(ScreenrecordAction());
-                }
-                mItems.add(new ScreenshotAction());
 	    } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
                 mItems.add(getScreenRecordAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
