@@ -6435,7 +6435,10 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SYSTEM_THEME_STYLE),
                     false, this, UserHandle.USER_ALL);
-             }
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TILE_TITLE_VISIBILITY),
+                    false, this, UserHandle.USER_ALL);
+        }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
@@ -6444,7 +6447,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         public void update() {
         setLockscreenMediaMetadata();
-        setQsRowsColumns();
+        updateQsPanelResources();
         setBatterySaverWarning();
         setHeadsUpStoplist();
         setHeadsUpBlacklist();
@@ -6457,7 +6460,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                 Settings.System.LOCKSCREEN_MEDIA_METADATA, 1, UserHandle.USER_CURRENT) == 1;
     }
 
-    private void setQsRowsColumns() {
+    private void updateQsPanelResources() {
         if (mQSPanel != null) {
             mQSPanel.updateResources();
         }
