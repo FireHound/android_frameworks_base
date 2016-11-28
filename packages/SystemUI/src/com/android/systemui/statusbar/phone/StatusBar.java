@@ -281,6 +281,8 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public static final String FORCE_SHOW_NAVBAR =
             "lineagesystem:" + LineageSettings.System.FORCE_SHOW_NAVBAR;
+    private static final String QS_TILE_TITLE_VISIBILITY =
+            "system:" + Settings.System.QS_TILE_TITLE_VISIBILITY;
 
     private static final String BANNER_ACTION_CANCEL =
             "com.android.systemui.statusbar.banner_action_cancel";
@@ -706,6 +708,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         tunerService.addTunable(this, SCREEN_BRIGHTNESS_MODE);
         tunerService.addTunable(this, STATUS_BAR_BRIGHTNESS_CONTROL);
         tunerService.addTunable(this, FORCE_SHOW_NAVBAR);
+        tunerService.addTunable(this, QS_TILE_TITLE_VISIBILITY);
 
         mDisplayManager = mContext.getSystemService(DisplayManager.class);
 
@@ -4670,26 +4673,40 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     @Override
     public void onTuningChanged(String key, String newValue) {
-        if (SCREEN_BRIGHTNESS_MODE.equals(key)) {
-            mAutomaticBrightness = newValue != null && Integer.parseInt(newValue)
-                    == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
-        } else if (STATUS_BAR_BRIGHTNESS_CONTROL.equals(key)) {
-            mBrightnessControl = newValue != null && Integer.parseInt(newValue) == 1;
-        } else if (FORCE_SHOW_NAVBAR.equals(key) && mDisplayId == Display.DEFAULT_DISPLAY &&
-                mWindowManagerService != null) {
-            boolean mNavbarVisible =
-                    TunerService.parseIntegerSwitch(newValue, FhUtils.hasNavbarByDefault(mContext));;
-            boolean hasNavbar = getNavigationBarView() != null;
-            if (mNavbarVisible) {
-                if (!hasNavbar) {
-                    mNavigationBarController.onDisplayReady(mDisplayId,
-                            mNavigationBarSystemUiVisibility);
+        switch (key) {
+            case SCREEN_BRIGHTNESS_MODE:
+                mAutomaticBrightness = newValue != null && Integer.parseInt(newValue)
+                        == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+                break;
+            case STATUS_BAR_BRIGHTNESS_CONTROL:
+                mBrightnessControl =
+                        TunerService.parseIntegerSwitch(newValue, false);
+                break;
+            case FORCE_SHOW_NAVBAR:
+                if (mDisplayId != Display.DEFAULT_DISPLAY ||
+                        mWindowManagerService == null)
+                    return;
+                boolean mNavbarVisible =
+                        TunerService.parseIntegerSwitch(newValue, FhUtils.hasNavbarByDefault(mContext));
+                boolean hasNavbar = getNavigationBarView() != null;
+                if (mNavbarVisible) {
+                    if (!hasNavbar) {
+                        mNavigationBarController.onDisplayReady(mDisplayId,
+                                mNavigationBarSystemUiVisibility);
+                    }
+                } else {
+                    if (hasNavbar) {
+                        mNavigationBarController.onDisplayRemoved(mDisplayId);
+                    }
                 }
-            } else {
-                if (hasNavbar) {
-                    mNavigationBarController.onDisplayRemoved(mDisplayId);
+                break;
+            case QS_TILE_TITLE_VISIBILITY:
+                if (mQSPanel != null) {
+                    mQSPanel.updateResources();
                 }
-            }
+                break;
+            default:
+                break;
         }
     }
     // End Extra BaseStatusBarMethods.
