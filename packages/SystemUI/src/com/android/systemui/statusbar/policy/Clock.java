@@ -37,7 +37,10 @@ import android.util.AttributeSet;
 import android.view.Display;
 import android.widget.TextView;
 
+import android.content.res.TypedArray;
 import com.android.systemui.DemoMode;
+
+import com.android.systemui.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -98,6 +101,9 @@ public class Clock extends TextView implements DemoMode {
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.STATUS_BAR_DATE_FORMAT), false,
                     this, UserHandle.USER_ALL);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CLOCK_SECONDS),
+                    false, this, UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -117,6 +123,15 @@ public class Clock extends TextView implements DemoMode {
 
     public Clock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+	TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.Clock,
+                0, 0);
+        try {
+            mAmPmStyle = a.getInt(R.styleable.Clock_amPmStyle, AM_PM_STYLE_GONE);
+        } finally {
+            a.recycle();
+        }
     }
 
     @Override
@@ -148,7 +163,7 @@ public class Clock extends TextView implements DemoMode {
         }
         mSettingsObserver.observe();
         updateSettings();
-        updateShowSeconds();
+	updateShowSeconds();
     }
 
     @Override
@@ -338,8 +353,11 @@ public class Clock extends TextView implements DemoMode {
         mClockDateStyle = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_DATE_STYLE, CLOCK_DATE_STYLE_REGULAR,
                 UserHandle.USER_CURRENT);
+	mShowSeconds = Settings.System.getIntForUser(resolver,
+                Settings.System.STATUS_BAR_CLOCK_SECONDS, 0,
+                UserHandle.USER_CURRENT) == 1;
         updateClock();
-
+	updateShowSeconds();
     }
 
     private boolean mDemoMode;
@@ -405,10 +423,4 @@ public class Clock extends TextView implements DemoMode {
         mClockFormatString = "";
         updateClock();
     }
-
-    public void setShowSeconds(boolean showSeconds) {
-        mShowSeconds = showSeconds;
-        updateShowSeconds();;
-    }
 }
-
