@@ -4445,6 +4445,13 @@ public final class Settings {
          */
         public static final String TOAST_ICON = "toast_icon";
 
+	/**
+         * Whether to show seconds next to clock in status bar
+         * default: off
+         * @hide
+         */
+        public static final String STATUS_BAR_CLOCK_SECONDS = "status_bar_clock_seconds";
+
         /**
          * Whether to display data activity arrows for wifi/data connections
          * @hide
