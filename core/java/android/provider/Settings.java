@@ -350,7 +350,6 @@ public final class Settings {
      * Input: Nothing.
      * <p>
      * Output: Nothing.
-
      */
     @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
     public static final String ACTION_WIFI_SETTINGS =
@@ -3843,6 +3842,13 @@ public final class Settings {
          * @hide
          */
         public static final String VOLUME_DIALOG_FORCE_EXPANDED = "volume_dialog_force_expanded";
+
+	/**
+         * Whether to show seconds next to clock in status bar
+         * default: off
+         * @hide
+         */
+        public static final String STATUS_BAR_CLOCK_SECONDS = "status_bar_clock_seconds";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings

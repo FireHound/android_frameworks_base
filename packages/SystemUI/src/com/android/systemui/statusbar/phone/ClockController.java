@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
@@ -36,7 +38,6 @@ public class ClockController implements TunerService.Tunable {
     private int mAmPmStyle = AM_PM_STYLE_GONE;
     private int mClockPosition = STYLE_CLOCK_RIGHT;
     private boolean mClockVisible = true;
-    private boolean mShowSeconds = false;
 
     private int mIconTint = Color.WHITE;
 
@@ -79,7 +80,6 @@ public class ClockController implements TunerService.Tunable {
         mActiveClock = getClockForCurrentLocation();
         mActiveClock.setVisibility(View.VISIBLE);
         mActiveClock.setAmPmStyle(mAmPmStyle);
-        mActiveClock.setShowSeconds(mShowSeconds);
 
         setClockAndDateStatus();
         setTextColor(mIconTint);
@@ -89,6 +89,9 @@ public class ClockController implements TunerService.Tunable {
     @Override
     public void onTuningChanged(String key, String newValue) {
         Log.d(TAG, "onTuningChanged key=" + key + " value=" + newValue);
+        boolean mShowSeconds = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CLOCK_SECONDS, 0,
+                UserHandle.USER_CURRENT) == 1;
 
         if (CLOCK_POSITION.equals(key)) {
             mClockPosition = newValue == null ? STYLE_CLOCK_RIGHT : Integer.valueOf(newValue);
