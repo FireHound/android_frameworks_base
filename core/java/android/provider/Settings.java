@@ -350,7 +350,6 @@ public final class Settings {
      * Input: Nothing.
      * <p>
      * Output: Nothing.
-
      */
     @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
     public static final String ACTION_WIFI_SETTINGS =
@@ -3789,7 +3788,6 @@ public final class Settings {
         public static final String DISABLE_IMMERSIVE_MESSAGE = "disable_immersive_message";
 
         /**
-
         /**
          * Hide lockscreen date
          * @hide
@@ -3919,6 +3917,12 @@ public final class Settings {
          * @hide
          */
         public static final String QS_EXPAND_INDICATOR_TOGGLE = "qs_expand_indicator_toggle";
+
+        /**
+         * Whether to center or left justify date time group
+         * @hide
+         */
+        public static final String QS_DATE_TIME_CENTER = "qs_date_time_center";
 
          /** Show the membar in recents
           *  @hide
