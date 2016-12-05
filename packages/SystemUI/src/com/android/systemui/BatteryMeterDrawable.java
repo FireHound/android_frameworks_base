@@ -21,6 +21,7 @@ import android.annotation.Nullable;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.content.res.ThemeConfig;
 import android.content.res.TypedArray;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
@@ -38,7 +39,6 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.StopMotionVectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +50,8 @@ import android.view.View;
 import com.android.systemui.statusbar.policy.BatteryController;
 
 import cyanogenmod.providers.CMSettings;
+
+import org.cyanogenmod.graphics.drawable.StopMotionVectorDrawable;
 
 public class BatteryMeterDrawable extends Drawable implements
         BatteryController.BatteryStateChangeCallback {
@@ -176,10 +178,10 @@ public class BatteryMeterDrawable extends Drawable implements
         final int resId = getBatteryDrawableStyleResourceForStyle(style);
         PorterDuff.Mode xferMode = PorterDuff.Mode.XOR;
         if (resId != 0) {
-            TypedArray a = mContext.obtainStyledAttributes(
-                    getBatteryDrawableStyleResourceForStyle(style), attrs);
+            TypedArray a = mContext.obtainStyledAttributes(resId, attrs);
             mTextGravity = a.getInt(0, Gravity.CENTER);
             xferMode = PorterDuff.intToMode(a.getInt(1, PorterDuff.modeToInt(PorterDuff.Mode.XOR)));
+            a.recycle();
         } else {
             mTextGravity = Gravity.CENTER;
         }
@@ -294,8 +296,8 @@ public class BatteryMeterDrawable extends Drawable implements
         }
         final float[] ptsF = new float[pts.length];
         for (int i = 0; i < pts.length; i += 2) {
-            ptsF[i] = (float)pts[i] / maxX;
-            ptsF[i + 1] = (float)pts[i + 1] / maxY;
+            ptsF[i] = (float) pts[i] / maxX;
+            ptsF[i + 1] = (float) pts[i + 1] / maxY;
         }
         return ptsF;
     }
@@ -318,16 +320,17 @@ public class BatteryMeterDrawable extends Drawable implements
 
         // If we are in power save mode, always use the normal color.
         if (mPowerSaveEnabled) {
-            return mColors[mColors.length-1];
+            return mColors[mColors.length - 1];
         }
-        int thresh, color = 0;
-        for (int i=0; i<mColors.length; i+=2) {
+        int thresh = 0;
+        int color = 0;
+        for (int i = 0; i < mColors.length; i += 2) {
             thresh = mColors[i];
-            color = mColors[i+1];
+            color = mColors[i + 1];
             if (percent <= thresh) {
 
                 // Respect tinting for "normal" level
-                if (i == mColors.length-2) {
+                if (i == mColors.length - 2) {
                     return mIconTint;
                 } else {
                     return color;
@@ -403,6 +406,23 @@ public class BatteryMeterDrawable extends Drawable implements
     }
 
     private void loadBatteryDrawables(Resources res, int style) {
+        if (isThemeApplied()) {
+            try {
+                checkBatteryMeterDrawableValid(res, style);
+            } catch (BatteryMeterDrawableException e) {
+                Log.w(TAG, "Invalid themed battery meter drawable, falling back to system", e);
+/*              Disable until the theme engine is brought up
+                PackageManager pm = mContext.getPackageManager();
+                try {
+                    res = pm.getThemedResourcesForApplication(mContext.getPackageName(),
+                            ThemeConfig.SYSTEM_DEFAULT);
+                } catch (PackageManager.NameNotFoundException nnfe) {
+                    // Ignore; this should not happen
+                }
+*/
+            }
+        }
+
         final int drawableResId = getBatteryDrawableResourceForStyle(style);
         mBatteryDrawable = (LayerDrawable) res.getDrawable(drawableResId);
         mFrameDrawable = mBatteryDrawable.findDrawableByLayerId(R.id.battery_frame);
@@ -412,6 +432,12 @@ public class BatteryMeterDrawable extends Drawable implements
         final Drawable levelDrawable = mBatteryDrawable.findDrawableByLayerId(R.id.battery_fill);
         mLevelDrawable = new StopMotionVectorDrawable(levelDrawable);
         mBoltDrawable = mBatteryDrawable.findDrawableByLayerId(R.id.battery_charge_indicator);
+    }
+
+    private boolean isThemeApplied() {
+        final ThemeConfig themeConfig = ThemeConfig.getBootTheme(mContext.getContentResolver());
+        return themeConfig != null &&
+                !ThemeConfig.SYSTEM_DEFAULT.equals(themeConfig.getOverlayForStatusBar());
     }
 
     private void checkBatteryMeterDrawableValid(Resources res, int style) {
@@ -643,5 +669,4 @@ public class BatteryMeterDrawable extends Drawable implements
             super(detailMessage, throwable);
         }
     }
-
 }
