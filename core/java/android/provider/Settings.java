@@ -4193,10 +4193,10 @@ public final class Settings {
         public static final String SHOW_CLEAR_ALL_RECENTS = "show_clear_all_recents";
 
          /**
-          * Whether to show the negociated charger current in the lockscreen
+          * Whether to show the battery info on the lockscreen while charging
           * @hide
           */
-         public static final String LOCKSCREEN_CHARGING_CURRENT = "lockscreen_charging_current";
+         public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
  
         /**
          * location of the clear all rectents button
