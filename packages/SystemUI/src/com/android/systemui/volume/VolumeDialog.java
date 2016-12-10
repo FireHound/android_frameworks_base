@@ -168,7 +168,6 @@ public class VolumeDialog implements TunerService.Tunable {
 
         controller.addCallback(mControllerCallbackH, mHandler);
         controller.getState();
-	updateForceExpanded();
         TunerService.get(mContext).addTunable(this, SHOW_FULL_ZEN);
 
         final Configuration currentConfig = mContext.getResources().getConfiguration();
@@ -223,7 +222,6 @@ public class VolumeDialog implements TunerService.Tunable {
         mExpandButton.setOnClickListener(mClickExpand);
         updateWindowWidthH();
         updateExpandButtonH();
-	updateForceExpanded();
 
         mMotion = new VolumeDialogMotion(mDialog, mDialogView, mDialogContentView, mExpandButton,
                 new VolumeDialogMotion.Callback() {
@@ -263,6 +261,8 @@ public class VolumeDialog implements TunerService.Tunable {
         mZenPanel = (TunerZenModePanel) mDialog.findViewById(R.id.tuner_zen_mode_panel);
         mZenPanel.init(mZenModeController);
         mZenPanel.setCallback(mZenPanelCallback);
+	
+	updateForceExpanded();
     }
 
     @Override
@@ -638,6 +638,7 @@ public class VolumeDialog implements TunerService.Tunable {
 
     private void updateRowsH(final VolumeRow activeRow) {
         if (D.BUG) Log.d(TAG, "updateRowsH");
+	updateForceExpanded();    
         if (!mShowing) {
             trimObsoleteH();
         }
@@ -1241,11 +1242,6 @@ public class VolumeDialog implements TunerService.Tunable {
             mFeedbackEnabled = computeFeedbackEnabled();
         }
 
-	private void updateForceExpanded() {
-        mForceExpanded = Settings.System.getInt(vContext.getContentResolver(),
-                Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 1) == 1;
-    }
-
         private boolean computeFeedbackEnabled() {
             // are there any enabled non-generic a11y services?
             final List<AccessibilityServiceInfo> services =
@@ -1284,5 +1280,9 @@ public class VolumeDialog implements TunerService.Tunable {
     public interface Callback {
         void onZenSettingsClicked();
         void onZenPrioritySettingsClicked();
+    }    
+    private void updateForceExpanded() {
+        mForceExpanded = Settings.System.getInt(vContext.getContentResolver(),
+                Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 1) == 1;
     }
 }
