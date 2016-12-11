@@ -37,6 +37,7 @@ import android.util.AttributeSet;
 import android.view.Display;
 import android.widget.TextView;
 
+import android.content.res.TypedArray;
 import com.android.systemui.DemoMode;
 
 import com.android.systemui.R;
