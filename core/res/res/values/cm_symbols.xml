@@ -13,10 +13,6 @@
      limitations under the License.
 -->
 <resources>
-    <!-- We don't want to publish private symbols in android.R as part of the
-         SDK.  Instead, put them here. -->
-    <private-symbols package="com.android.internal" />
-
     <!-- Notification and battery light -->
     <java-symbol type="bool" name="config_intrusiveNotificationLed" />
     <java-symbol type="bool" name="config_intrusiveBatteryLed" />
@@ -85,6 +81,9 @@
 
     <java-symbol type="string" name="global_action_current_user" />
     <java-symbol type="dimen" name="global_actions_avatar_size" />
+
+    <!-- Screenshot action status message -->
+    <java-symbol type="string" name="global_actions_screenshot_status" />
 
     <!-- Support Samsung docks -->
     <java-symbol type="bool" name="config_forceAnalogCarDock" />
