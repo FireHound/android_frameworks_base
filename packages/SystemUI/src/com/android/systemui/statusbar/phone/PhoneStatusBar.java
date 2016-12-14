@@ -327,6 +327,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             Settings.Secure.QS_ROWS_LANDSCAPE;
     private static final String QS_COLUMNS =
             Settings.Secure.QS_COLUMNS;
+    private static final String NAVBAR_DYNAMIC =
+            "system:" + Settings.System.NAVBAR_DYNAMIC;
 
     static {
         boolean onlyCoreApps;
@@ -801,20 +803,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         TunerService.get(mContext).addTunable(this,
                 SCREEN_BRIGHTNESS_MODE,
-<<<<<<< HEAD
-                NAVBAR_LEFT_IN_LANDSCAPE,
-                STATUS_BAR_BRIGHTNESS_CONTROL);
-=======
                 STATUS_BAR_BRIGHTNESS_CONTROL,
-                LOCKSCREEN_MAX_NOTIF_CONFIG,
-                STATUS_BAR_CRDROID_LOGO,
-                STATUS_BAR_CRDROID_LOGO_COLOR,
-                STATUS_BAR_CRDROID_LOGO_STYLE,
->>>>>>> a3ee752... Revert "Runtime toggle of navbar"
                 QS_ROWS_PORTRAIT,
                 QS_ROWS_LANDSCAPE,
-                QS_COLUMNS);
-
+                QS_COLUMNS,
+                NAVBAR_DYNAMIC);
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController, mCastController,
@@ -5436,6 +5429,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mHeader.updateSettings();
                 }
                 updateResources();
+                break;
+            case NAVBAR_DYNAMIC:
+                if (mNavigationController != null) {
+                    mNavigationController.updateNavbarOverlay(mContext.getResources());
+                }
                 break;
             default:
                 break;
