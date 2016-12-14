@@ -426,6 +426,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             "lineagesecure:" + LineageSettings.Secure.LOCKSCREEN_MEDIA_METADATA;
     private static final String RECENTS_ICON_PACK =
             "system:" + Settings.System.RECENTS_ICON_PACK;
+    private static final String NAVBAR_DYNAMIC =
+            "system:" + Settings.System.NAVBAR_DYNAMIC;
 
     static {
         boolean onlyCoreApps;
@@ -1156,7 +1158,8 @@ public class StatusBar extends SystemUI implements DemoMode,
                 SCREEN_BRIGHTNESS_MODE,
                 STATUS_BAR_BRIGHTNESS_CONTROL,
                 LOCKSCREEN_MEDIA_METADATA,
-                RECENTS_ICON_PACK);
+                RECENTS_ICON_PACK,
+                NAVBAR_DYNAMIC);
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController);
@@ -8439,6 +8442,11 @@ public class StatusBar extends SystemUI implements DemoMode,
                     IconPackHelper.getInstance(mContext).updatePrefs(currentIconPack);
                 }
                 mRecents.resetIconCache();
+                break;
+            case NAVBAR_DYNAMIC:
+                if (mNavigationBar != null && mNavigationBarView != null) {
+                    mNavigationBar.updateNavbarOverlay(mContext.getResources());
+                }
                 break;
             default:
                 break;
