@@ -28,5 +28,5 @@
     <color name="floating_action_button_icon_color">#ffffff</color>
 
     <!-- Color for the RAM bar text in the recent view -->
-    <color name="ram_bar_text">#FFFFFFFF</color>
+    <color name="recents_membar_text_color">@android:color/white</color>
 </resources>
