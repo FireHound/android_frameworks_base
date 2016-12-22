@@ -23,7 +23,6 @@ import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
@@ -202,7 +201,6 @@ public class Cat extends Drawable {
     }
 
     public static Cat create(Context context) {
-    Toast.makeText(context, R.string.cat_captured, Toast.LENGTH_SHORT).show();
         return new Cat(context, Math.abs(ThreadLocalRandom.current().nextInt()));
     }
 
