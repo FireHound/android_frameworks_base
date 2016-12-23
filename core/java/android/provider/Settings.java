@@ -6319,6 +6319,13 @@ public final class Settings {
         public static final String QS_BT_EASY_TOGGLE = "qs_bt_easy_toggle";
 
         /**
+         * Enable single click to turn Battery Saver on or off.
+         * @hide
+         */
+        public static final String QS_BATTERY_EASY_TOGGLE = "qs_battery_easy_toggle";
+
+
+        /**
          * Whether the device should doze if configured.
          * @hide
          */
