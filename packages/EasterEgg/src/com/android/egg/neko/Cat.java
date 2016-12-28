@@ -33,7 +33,6 @@ import com.android.internal.logging.MetricsLogger;
 
 public class Cat extends Drawable {
     public static final long[] PURR = {0, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40};
-    public static final String[] title = {"Tom","Mickey","Oscar","Max","Tiger","Sam","Simba","Coco","Lucy","Bella","Milo","Ginger","Tuffy","Misty","Sooty","Oreo","Lily","Smokey","Casper","Alfie","Lucky","Scooby","Shadow","Samantha","Fluffy","Whiskers","Kitty"};
 
     private Random mNotSoRandom;
     private Bitmap mBitmap;
@@ -42,8 +41,6 @@ public class Cat extends Drawable {
     private int mBodyColor;
     private int mFootType;
     private boolean mBowTie;
-    private Random rand;
-    private int i;
 
     private synchronized Random notSoRandom(long seed) {
         if (mNotSoRandom == null) {
@@ -143,10 +140,10 @@ public class Cat extends Drawable {
 
     public Cat(Context context, long seed) {
         D = new CatParts(context);
-	rand = new Random();
-	i = rand.nextInt(26);
-	setName(context.getString(R.string.default_cat_name,
-                String.valueOf(title[i])));
+        mSeed = seed;
+
+        setName(context.getString(R.string.default_cat_name,
+                String.valueOf(mSeed % 1000)));
 
         final Random nsr = notSoRandom(seed);
 
