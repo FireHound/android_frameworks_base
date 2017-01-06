@@ -2801,7 +2801,7 @@ public class NotificationPanelView extends PanelView implements
                 break;
             case LOCK_ENABLE_QS:
                 mStatusBarAllowedOnSecureKeyguard =
-                        newValue == null ? 1 : Integer.parseInt(newValue);
+                        newValue == null || Integer.parseInt(newValue) == 1;
                 break;
             default:
                 break;
