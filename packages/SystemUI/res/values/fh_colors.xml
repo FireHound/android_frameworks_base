@@ -28,4 +28,7 @@
     <color name="fab_color">?android:attr/colorAccent</color>
     <color name="floating_action_button_icon_color">@android:color/white</color>
 
+    <!-- Alarm color -->
+    <color name="alarm_status_color">#E0E0E0</color>
+    <color name="system_primary_color">@*android:color/primary_material_settings</color>
 </resources>
