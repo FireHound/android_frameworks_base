@@ -129,7 +129,11 @@ public class BatteryTile extends QSTile<QSTile.State> implements BatteryControll
             public Drawable getDrawable(Context context) {
                 BatteryMeterDrawable drawable =
                         new BatteryMeterDrawable(context, new Handler(Looper.getMainLooper()),
+<<<<<<< HEAD
                         context.getColor(R.color.batterymeter_frame_color));
+=======
+                        context.getColor(R.color.batterymeter_frame_color), mBatteryStyle);
+>>>>>>> parent of faf558b... Battery tile bolt/text should not be clear
                 drawable.onBatteryLevelChanged(mLevel, mPluggedIn, mCharging);
                 drawable.onPowerSaveChanged(mPowerSave);
                 return drawable;
@@ -175,7 +179,11 @@ public class BatteryTile extends QSTile<QSTile.State> implements BatteryControll
     private final class BatteryDetail implements DetailAdapter, OnClickListener,
             OnAttachStateChangeListener {
         private final BatteryMeterDrawable mDrawable = new BatteryMeterDrawable(mHost.getContext(),
+<<<<<<< HEAD
                 new Handler(), mHost.getContext().getColor(R.color.batterymeter_frame_color));
+=======
+                new Handler(), mHost.getContext().getColor(R.color.batterymeter_frame_color), mBatteryStyle);
+>>>>>>> parent of faf558b... Battery tile bolt/text should not be clear
         private View mCurrentView;
 
         @Override
