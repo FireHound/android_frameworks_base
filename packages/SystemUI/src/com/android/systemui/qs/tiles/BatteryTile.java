@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.provider.Settings;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -104,6 +103,21 @@ public class BatteryTile extends QSTile<QSTile.State> implements BatteryControll
         }
     }
 
+    public boolean isSaverEasyToggleEnabled() {
+        return Settings.Secure.getInt(mContext.getContentResolver(),
+            Settings.Secure.QS_BATTERY_EASY_TOGGLE, 0) == 1;
+    }
+
+    @Override
+    protected void handleLongClick() {
+        boolean easyToggle = isSaverEasyToggleEnabled();
+        if (easyToggle) {
+            showDetail(true);
+        } else {
+            mHost.startActivityDismissingKeyguard(new Intent(Intent.ACTION_POWER_USAGE_SUMMARY));
+        }
+    }
+
     @Override
     public Intent getLongClickIntent() {
         return new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
@@ -111,7 +125,12 @@ public class BatteryTile extends QSTile<QSTile.State> implements BatteryControll
 
     @Override
     protected void handleClick() {
+    boolean batteryeasy = isSaverEasyToggleEnabled();
+        if (!batteryeasy) {
         showDetail(true);
+    } else {
+        mBatteryController.setPowerSaveMode(!mPowerSave);
+        }
     }
 
     @Override
@@ -129,11 +148,7 @@ public class BatteryTile extends QSTile<QSTile.State> implements BatteryControll
             public Drawable getDrawable(Context context) {
                 BatteryMeterDrawable drawable =
                         new BatteryMeterDrawable(context, new Handler(Looper.getMainLooper()),
-<<<<<<< HEAD
                         context.getColor(R.color.batterymeter_frame_color));
-=======
-                        context.getColor(R.color.batterymeter_frame_color), mBatteryStyle);
->>>>>>> parent of faf558b... Battery tile bolt/text should not be clear
                 drawable.onBatteryLevelChanged(mLevel, mPluggedIn, mCharging);
                 drawable.onPowerSaveChanged(mPowerSave);
                 return drawable;
@@ -179,11 +194,7 @@ public class BatteryTile extends QSTile<QSTile.State> implements BatteryControll
     private final class BatteryDetail implements DetailAdapter, OnClickListener,
             OnAttachStateChangeListener {
         private final BatteryMeterDrawable mDrawable = new BatteryMeterDrawable(mHost.getContext(),
-<<<<<<< HEAD
                 new Handler(), mHost.getContext().getColor(R.color.batterymeter_frame_color));
-=======
-                new Handler(), mHost.getContext().getColor(R.color.batterymeter_frame_color), mBatteryStyle);
->>>>>>> parent of faf558b... Battery tile bolt/text should not be clear
         private View mCurrentView;
 
         @Override
