@@ -37,4 +37,7 @@
         <item name="android:textSize">14dp</item>
     </style>
 
+    <!-- Solid Battery -->
+    <style name="BatteryMeterViewDrawable.Solid"/>
+
 </resources>
