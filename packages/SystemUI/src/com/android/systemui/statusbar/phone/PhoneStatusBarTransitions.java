@@ -32,7 +32,7 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
     private final PhoneStatusBarView mView;
     private final float mIconAlphaWhenOpaque;
 
-    private View mLeftSide, mStatusIcons, mSignalCluster, mBattery, mClock, mNetworkTraffic, mFhLogo, mFhLogoRight, mFhLogoLeft;
+    private View mLeftSide, mStatusIcons, mSignalCluster, mBattery, mClock, mNetworkTraffic;
 
     private Animator mCurrentAnimation;
 
@@ -50,9 +50,6 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
         mBattery = mView.findViewById(R.id.battery);
         mClock = mView.findViewById(R.id.clock);
         mNetworkTraffic = mView.findViewById(R.id.networkTraffic);
-        mFhLogo = mView.findViewById(R.id.fh_logo);
-        mFhLogoRight = mView.findViewById(R.id.fh_logo_right);
-        mFhLogoLeft = mView.findViewById(R.id.fh_logo_left);
         applyModeBackground(-1, getMode(), false /*animate*/);
         applyMode(getMode(), false /*animate*/);
     }
@@ -98,10 +95,7 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
                     animateTransitionTo(mSignalCluster, newAlpha),
                     animateTransitionTo(mNetworkTraffic, newAlpha),
                     animateTransitionTo(mBattery, newAlphaBC),
-                    animateTransitionTo(mClock, newAlphaBC),
-                    animateTransitionTo(mFhLogo, newAlphaBC),
-                    animateTransitionTo(mFhLogoRight, newAlphaBC),
-                    animateTransitionTo(mFhLogoLeft, newAlphaBC)
+                    animateTransitionTo(mClock, newAlphaBC)
                     );
             if (isLightsOut(mode)) {
                 anims.setDuration(LIGHTS_OUT_DURATION);
@@ -115,9 +109,6 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
             mNetworkTraffic.setAlpha(newAlpha);
             mBattery.setAlpha(newAlphaBC);
             mClock.setAlpha(newAlphaBC);
-            mFhLogo.setAlpha(newAlphaBC);
-            mFhLogoRight.setAlpha(newAlphaBC);
-            mFhLogoLeft.setAlpha(newAlphaBC);
         }
     }
 }

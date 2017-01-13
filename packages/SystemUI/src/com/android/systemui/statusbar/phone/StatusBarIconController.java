@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.os.UserHandle;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.ArraySet;
 import android.util.TypedValue;
@@ -81,10 +80,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
     private BatteryMeterView mBatteryMeterViewKeyguard;
     private ClockController mClockController;
     private View mCenterClockLayout;
-
-    private ImageView mFhLogo;
-    private ImageView mFhLogoRight;
-    private ImageView mFhLogoLeft;
 
     private int mIconSize;
     private int mIconHPadding;
@@ -154,10 +149,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         mBatteryLevelView = (BatteryLevelTextView) statusBar.findViewById(R.id.battery_level);
 
         TunerService.get(mContext).addTunable(this, ICON_BLACKLIST);
-
-        mFhLogo = (ImageView) statusBar.findViewById(R.id.fh_logo);
-        mFhLogoRight = (ImageView) statusBar.findViewById(R.id.fh_logo_right);
-        mFhLogoLeft = (ImageView) statusBar.findViewById(R.id.fh_logo_left);
     }
 
     public void setSignalCluster(SignalClusterView signalCluster) {
@@ -341,25 +332,11 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
     public void hideSystemIconArea(boolean animate) {
         animateHide(mSystemIconArea, animate);
         animateHide(mCenterClockLayout, animate);
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_FH_LOGO, 0) == 1 &&
-           (Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_FH_LOGO_STYLE,  0,
-                UserHandle.USER_CURRENT) == 2)) {
-            animateHide(mFhLogoLeft, animate);
-        }
     }
 
     public void showSystemIconArea(boolean animate) {
         animateShow(mSystemIconArea, animate);
         animateShow(mCenterClockLayout, animate);
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_FH_LOGO, 0) == 1  &&
-           (Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_FH_LOGO_STYLE,  0,
-                UserHandle.USER_CURRENT) == 2)) {
-            animateShow(mFhLogoLeft, animate);
-        }
     }
 
     public void hideNotificationIconArea(boolean animate) {
@@ -572,14 +549,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 isInArea(mTintArea, mBatteryMeterView) ? mDarkIntensity : 0);
         mClockController.setTextColor(mTintArea, mIconTint);
         mBatteryLevelView.setTextColor(getTint(mTintArea, mBatteryLevelView, mIconTint));
-
-        if (Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.STATUS_BAR_FH_LOGO_COLOR, 0xFFFFFFFF,
-                    UserHandle.USER_CURRENT) == 0xFFFFFFFF) {
-                mFhLogo.setImageTintList(ColorStateList.valueOf(mIconTint));
-                mFhLogoRight.setImageTintList(ColorStateList.valueOf(mIconTint));
-                mFhLogoLeft.setImageTintList(ColorStateList.valueOf(mIconTint));
-        }
     }
 
     public void appTransitionPending() {
