@@ -33,4 +33,7 @@
 
     <!-- QS edit button text color -->
     <color name="qs_edit_button_text_color">#64FFFFFF</color>
+
+    <!-- External QS tile tint color -->
+    <color name="external_qs_tile_tint_color">@android:color/white</color>
 </resources>
