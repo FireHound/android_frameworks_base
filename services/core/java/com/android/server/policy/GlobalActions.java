@@ -825,7 +825,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
     private void startOnTheGo() {
         final ComponentName cn = new ComponentName("com.android.systemui",
-                "com.android.systemui.crdroid.onthego.OnTheGoService");
+                "com.android.systemui.fh.onthego.OnTheGoService");
         final Intent startIntent = new Intent();
         startIntent.setComponent(cn);
         startIntent.setAction("start");
