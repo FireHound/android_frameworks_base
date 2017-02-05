@@ -1502,8 +1502,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void powerLongPress() {
-        int behavior = getResolvedLongPressOnPowerBehavior();
-        final int behavior = mResolvedLongPressOnPowerBehavior;
+        int behavior = mResolvedLongPressOnPowerBehavior;
         switch (behavior) {
         case LONG_PRESS_POWER_NOTHING:
             break;
@@ -1512,15 +1511,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (!performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false)) {
                 performAuditoryFeedbackForAccessibilityIfNeed();
             }
-            KeyguardManager km = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
-            boolean locked = km.inKeyguardRestrictedInputMode();
-            boolean globalActionsOnLockScreen = Settings.System.getInt(
-                    mContext.getContentResolver(), Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1) == 1;
-            if (locked && !globalActionsOnLockScreen) {
-                behavior = LONG_PRESS_POWER_NOTHING;
-            } else {
-                showGlobalActionsInternal();
-            }
+            boolean locked = isStatusBarKeyguard() && isKeyguardSecure(mCurrentUserId);
+            boolean globalActionsOnLockScreen = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1, UserHandle.USER_CURRENT) == 1;
+                if (locked && !globalActionsOnLockScreen) {
+                    behavior = LONG_PRESS_POWER_NOTHING;
+                } else {
+                     showGlobalActionsInternal();
+                }
             break;
         case LONG_PRESS_POWER_SHUT_OFF:
         case LONG_PRESS_POWER_SHUT_OFF_NO_CONFIRM:
@@ -9049,10 +9047,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
-<<<<<<< HEAD
-    public void freezeOrThawRotation(int rotation) {
-        mDesiredRotation = rotation;
-=======
     private String getRearFlashCameraId() throws CameraAccessException {
         if (mRearFlashCameraId != null) return mRearFlashCameraId;
         for (final String id : mCameraManager.getCameraIdList()) {
@@ -9078,5 +9072,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (!cameraId.equals(mRearFlashCameraId)) return;
             mTorchEnabled = false;
         }
+    }
+       public void freezeOrThawRotation(int rotation) {
+        mDesiredRotation = rotation;
     }
 }
