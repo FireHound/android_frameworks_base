@@ -21,14 +21,10 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.ContentObserver;
-import android.net.Uri;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.os.UserHandle;
-import android.provider.Settings;
-import android.provider.Settings.Global;
 import android.telecom.TelecomManager;
 import android.telephony.ServiceState;
 import android.util.AttributeSet;
@@ -81,7 +77,6 @@ public class EmergencyButton extends Button {
         }
     };
     private boolean mLongPressWasDragged;
-    private boolean mShowEmergencyButton;
 
     public interface EmergencyButtonCallback {
         public void onEmergencyButtonClickedWhenInCall();
@@ -200,12 +195,6 @@ public class EmergencyButton extends Button {
         }
     }
 
-    public void showEmergencyButton() {
-    boolean showEmergencyButton = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.SHOW_EMERGENCY_BUTTON, 0, UserHandle.USER_CURRENT) != 0;
-            updateEmergencyCallButton();
-        }
-
     private void updateEmergencyCallButton() {
         boolean visible = false;
         if (mIsVoiceCapable) {
@@ -229,14 +218,18 @@ public class EmergencyButton extends Button {
                 }
             }
         }
-
         if (visible) {
-            boolean showEmergencyButton = Settings.System.getIntForUser(getContentResolver(),
-                    Settings.System.SHOW_EMERGENCY_BUTTON, 0, UserHandle.USER_CURRENT) != 0;
-            if (showEmergencyButton()) {
-                findViewById(R.id.emergency_call_button).setVisibility(View.VISIBLE);
+            setVisibility(View.VISIBLE);
+
+            int textId;
+            if (isInCall()) {
+                textId = com.android.internal.R.string.lockscreen_return_to_call;
             } else {
-                findViewById(R.id.emergency_call_button).setVisibility(View.GONE);
+                textId = com.android.internal.R.string.lockscreen_emergency_call;
+            }
+            setText(textId);
+        } else {
+            setVisibility(View.GONE);
         }
     }
 

@@ -3783,13 +3783,7 @@ public final class Settings {
           * @hide
           */
          public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
-
-        /**
-         * Show/Hide Emergency Button on Lockscreen
-         * @hide
-         */
-        public static final String SHOW_EMERGENCY_BUTTON = "show_emergency_button";
-
+ 
         /**
          * Toast icon
          * @hide
