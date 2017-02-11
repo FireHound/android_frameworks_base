@@ -14,6 +14,7 @@
 
 package com.android.systemui.qs.tiles;
 
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.Switch;
@@ -26,8 +27,9 @@ import com.android.systemui.qs.QSTile;
 import com.android.systemui.statusbar.phone.SystemUIDialog;
 import com.android.systemui.statusbar.policy.DataSaverController;
 
-public class DataSaverTile extends QSTile<QSTile.BooleanState> implements
-        DataSaverController.Listener{
+public class DataSaverTile extends QSTile<QSTile.BooleanState> implements DataSaverController.Listener{
+    static final Intent DATA_USAGE = new Intent().setComponent(new ComponentName(
+            "com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity"));
 
     private final DataSaverController mDataSaverController;
 
@@ -52,7 +54,7 @@ public class DataSaverTile extends QSTile<QSTile.BooleanState> implements
 
     @Override
     public Intent getLongClickIntent() {
-        return CellularTile.CELLULAR_SETTINGS;
+        return new Intent(DATA_USAGE);
     }
 
     @Override
