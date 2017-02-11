@@ -15,6 +15,7 @@
  */
 package com.android.systemui.qs.tiles;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -27,6 +28,8 @@ import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.statusbar.policy.UserSwitcherController;
 
 public class UserTile extends QSTile<QSTile.State> implements UserInfoController.OnUserInfoChangedListener {
+    static final Intent USERS_SETTINGS = new Intent().setComponent(new ComponentName(
+             "com.android.settings", "com.android.settings.users.UserSettings"));
 
     private final UserSwitcherController mUserSwitcherController;
     private final UserInfoController mUserInfoController;
@@ -45,7 +48,7 @@ public class UserTile extends QSTile<QSTile.State> implements UserInfoController
 
     @Override
     public Intent getLongClickIntent() {
-        return new Intent(Settings.ACTION_USER_SETTINGS);
+        return new Intent(USERS_SETTINGS);
     }
 
     @Override
