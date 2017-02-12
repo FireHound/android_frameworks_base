@@ -71,4 +71,7 @@
     <string name="quick_settings_location_gps_only_label">Device only</string>
     <string name="quick_settings_location_high_accuracy_label">High accuracy</string>
     <string name="quick_settings_location_off_label">Location off</string>
+
+    <!-- volte icon switch -->
+    <string name="status_bar_volte">VoLte</string>
 </resources>
