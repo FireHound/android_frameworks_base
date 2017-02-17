@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2018 FireHound
@@ -75,4 +76,10 @@
   <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
   <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
 
+  <!-- Wheter to enable doze always on -->
+  <java-symbol type="bool" name="config_enableDozeAlwaysOn"/>
+
+  <java-symbol type="string" name="config_optionalPackageVerifierName" />
+  <java-symbol type="integer" name="config_sms_authorization_timeout_ms" />
+  <java-symbol type="bool" name="config_sms_authorization_enabled" />
 </resources>
