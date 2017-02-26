@@ -852,10 +852,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 QS_ROWS_PORTRAIT,
                 QS_ROWS_LANDSCAPE,
                 QS_COLUMNS,
-<<<<<<< HEAD
-                NAVBAR_DYNAMIC);
-=======
-                STATUS_BAR_SHOW_TICKER,
                 NAVBAR_DYNAMIC,
                 BLUR_SCALE_PREFERENCE_KEY,
                 BLUR_RADIUS_PREFERENCE_KEY,
@@ -870,7 +866,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 BLUR_DARK_COLOR_PREFERENCE_KEY,
                 BLUR_LIGHT_COLOR_PREFERENCE_KEY,
                 BLUR_MIXED_COLOR_PREFERENCE_KEY);
->>>>>>> e4a1332... Implement XOSP Blur personalization options [1/2]
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController, mCastController,

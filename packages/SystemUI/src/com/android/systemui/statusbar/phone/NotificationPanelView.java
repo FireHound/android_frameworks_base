@@ -361,10 +361,6 @@ public class NotificationPanelView extends PanelView implements
         });
 
         mKeyguardWeatherInfo = (TextView) mKeyguardStatusView.findViewById(R.id.weather_info);
-<<<<<<< HEAD
-=======
-        setQSStroke();
-        setQSBackgroundAlpha();
 
         mNotificationPanelView = this;
 
@@ -476,7 +472,6 @@ public class NotificationPanelView extends PanelView implements
         BlurTask.setBlurEngine(BlurUtils.BlurEngine.RenderScriptBlur);
 
         new BlurTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
->>>>>>> e4a1332... Implement XOSP Blur personalization options [1/2]
     }
 
     @Override
@@ -567,17 +562,7 @@ public class NotificationPanelView extends PanelView implements
                 STATUS_BAR_QUICK_QS_PULLDOWN,
                 DOUBLE_TAP_SLEEP_GESTURE,
                 LOCK_SCREEN_WEATHER_ENABLED,
-<<<<<<< HEAD
-                DOUBLE_TAP_SLEEP_ANYWHERE);
-=======
                 DOUBLE_TAP_SLEEP_ANYWHERE,
-                QS_TRANSPARENT_SHADE,
-                QS_STROKE,
-                QS_STROKE_COLOR,
-                QS_STROKE_THICKNESS,
-                QS_CORNER_RADIUS,
-                QS_STROKE_DASH_WIDTH,
-                QS_STROKE_DASH_GAP,
                 BLUR_SCALE_PREFERENCE_KEY,
                 BLUR_RADIUS_PREFERENCE_KEY,
                 TRANSLUCENT_QUICK_SETTINGS_PREFERENCE_KEY,
@@ -586,7 +571,6 @@ public class NotificationPanelView extends PanelView implements
                 BLUR_DARK_COLOR_PREFERENCE_KEY,
                 BLUR_LIGHT_COLOR_PREFERENCE_KEY,
                 BLUR_MIXED_COLOR_PREFERENCE_KEY);
->>>>>>> e4a1332... Implement XOSP Blur personalization options [1/2]
     }
 
     @Override
@@ -2757,50 +2741,6 @@ public class NotificationPanelView extends PanelView implements
             case DOUBLE_TAP_SLEEP_ANYWHERE:
                 mDoubleTapToSleepAnywhere = newValue == null || Integer.parseInt(newValue) == 1;
                 break;
-<<<<<<< HEAD
-=======
-            case QS_TRANSPARENT_SHADE:
-                mQSShadeAlpha =
-                        newValue == null ? 255 : Integer.parseInt(newValue);
-                setQSStroke();
-                setQSBackgroundAlpha();
-                break;
-            case QS_STROKE:
-                mQSStroke =
-                        newValue == null ? 0 : Integer.parseInt(newValue);
-                setQSStroke();
-                setQSBackgroundAlpha();
-                break;
-            case QS_STROKE_COLOR:
-                mCustomStrokeColor =
-                        newValue == null ? mContext.getResources().getColor(R.color.system_accent_color) : Integer.parseInt(newValue);
-                setQSStroke();
-                setQSBackgroundAlpha();
-                break;
-            case QS_STROKE_THICKNESS:
-                mCustomStrokeThickness =
-                        newValue == null ? 4 : Integer.parseInt(newValue);
-                setQSStroke();
-                setQSBackgroundAlpha();
-                break;
-            case QS_CORNER_RADIUS:
-                mCustomCornerRadius =
-                        newValue == null ? 5 : Integer.parseInt(newValue);
-                setQSStroke();
-                setQSBackgroundAlpha();
-                break;
-            case QS_STROKE_DASH_WIDTH:
-                mCustomDashWidth =
-                        newValue == null ? 0 : Integer.parseInt(newValue);
-                setQSStroke();
-                setQSBackgroundAlpha();
-                break;
-            case QS_STROKE_DASH_GAP:
-                mCustomDashGap =
-                        newValue == null ? 10 : Integer.parseInt(newValue);
-                setQSStroke();
-                setQSBackgroundAlpha();
-                break;
             case BLUR_SCALE_PREFERENCE_KEY:
                 mBlurScale =
                         newValue == null ? 10 : Integer.parseInt(newValue);
@@ -2840,52 +2780,13 @@ public class NotificationPanelView extends PanelView implements
                 mBlurMixedColorFilter =
                         newValue == null ? Color.GRAY : Integer.parseInt(newValue);
                 setBlurSettings();
-                break;
->>>>>>> e4a1332... Implement XOSP Blur personalization options [1/2]
             default:
                 break;
         }
     }
-<<<<<<< HEAD
-=======
 
     private void setBlurSettings() {
         mQSTranslucencyPercentage = 255 - ((mQSTranslucencyPercentage * 255) / 100);
         handleQuickSettingsBackround();
     }
-
-    private void setQSBackgroundAlpha() {
-        if (mQsContainer != null) {
-            mQsContainer.getBackground().setAlpha(mQSShadeAlpha);
-        }
-        /*if (mQsPanel != null) {
-            mQsPanel.setQSShadeAlphaValue(mQSShadeAlpha);
-        }*/
-    }
-
-    private void setQSStroke() {
-        final GradientDrawable qSGd = new GradientDrawable();
-        if (mQsContainer != null) {
-            if (mQSStroke == 0) {
-                /*qSGd.setColor(mContext.getResources().getColor(R.color.system_primary_color));
-                qSGd.setStroke(0, mContext.getResources().getColor(R.color.system_accent_color));
-                qSGd.setCornerRadius(mCustomCornerRadius);
-                mQsContainer.setBackground(qSGd);*/
-                // Don't do anything when disabled, it fucks up themes that use drawable instead of color
-            } else if (mQSStroke == 1) { // use accent color for border
-                qSGd.setColor(mContext.getResources().getColor(R.color.system_primary_color));
-                qSGd.setStroke(mCustomStrokeThickness, mContext.getResources().getColor(R.color.system_accent_color),
-                        mCustomDashWidth, mCustomDashGap);
-            } else if (mQSStroke == 2) { // use custom border color
-                qSGd.setColor(mContext.getResources().getColor(R.color.system_primary_color));
-                qSGd.setStroke(mCustomStrokeThickness, mCustomStrokeColor, mCustomDashWidth, mCustomDashGap);
-            }
-
-            if (mQSStroke != 0) {
-                qSGd.setCornerRadius(mCustomCornerRadius);
-                mQsContainer.setBackground(qSGd);
-            }
-        }
-    }
->>>>>>> e4a1332... Implement XOSP Blur personalization options [1/2]
 }
