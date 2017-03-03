@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2017 FireHound
+     Copyright (C) 2017 FireHound ROM
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -12,19 +12,6 @@
      limitations under the License.
 -->
 <resources>
-
-    <!-- The min animation duration for animating the fab in. -->
-    <integer name="recents_animate_fab_enter_duration">225</integer>
-
-    <!-- The animation delay for animating the fab in. This should roughly be the animation duration of the transition in to recents. -->
-    <integer name="recents_animate_fab_enter_delay">275</integer>
-
-    <!-- The min animation duration for animating the fab out. -->
-    <integer name="recents_animate_fab_exit_duration">125</integer>
-
-    <!-- On-The-Go -->
-    <integer name="quick_settings_onthego_dialog_short_timeout">3000</integer>
-    <integer name="quick_settings_onthego_dialog_long_timeout">6000</integer>
 
     <!-- Default value how much apps show the app screenshot on recents view entry -->
     <integer name="expanded_items_default">2</integer>
