@@ -105,4 +105,10 @@
     <string name="omnijaws_detail_header">Weather</string>
     <string name="omnijaws_label_default">Weather</string>
     <string name="omnijaws_current_text">Now</string>
+
+    <!-- Greenify -->
+    <string name="quick_settings_greenify">Greenify</string>
+    <string name="greenified_apps">Selected apps hibernated</string>
+    <string name="greenify_not_installed">Greenify not installed! Please install Greenify</string>
+
 </resources>
