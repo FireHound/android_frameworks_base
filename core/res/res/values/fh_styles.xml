@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2017 FireHound ROMs
+     Copyright (C) 2017 FireHound ROM
+
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -13,17 +14,18 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
 
-    <!-- EdgeGesture service -->
-    <java-symbol type="dimen" name="edge_gesture_trigger_distance" />
-    <java-symbol type="dimen" name="edge_gesture_perpendicular_distance" />
-    <java-symbol type="dimen" name="edge_gesture_trigger_thickness" />
+    <!-- Slim recent app screen animation -->
+    <style name="Animation" />
 
-    <!-- The duration (in milliseconds) of recent app screen animation. -->
-    <integer name="config_recentDefaultDur">300</integer>
+    <style name="Animation.RecentScreen">
+        <item name="android:windowEnterAnimation">@anim/recent_screen_enter</item>
+        <item name="android:windowExitAnimation">@anim/recent_screen_exit</item>
+    </style>
 
-    <!-- The duration (in milliseconds) of recent app screen exit animation. -->
-    <integer name="config_recentExitDur">450</integer>
-
+    <style name="Animation.RecentScreen.Left">
+        <item name="android:windowEnterAnimation">@anim/recent_screen_enter_left</item>
+        <item name="android:windowExitAnimation">@anim/recent_screen_exit_left</item>
+    </style>
 </resources>
