@@ -107,7 +107,7 @@ public class GreenifyTile extends QSTile<QSTile.BooleanState> {
     }
 
     @Override
-    public boolean isInstalled(){
+    public boolean isAvailable(){
       return isGreenifyInstalled();
     }
 
