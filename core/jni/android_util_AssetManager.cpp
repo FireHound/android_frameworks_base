@@ -2217,3 +2217,4 @@ int register_android_content_AssetManager(JNIEnv* env)
 }
 
 }; // namespace android
+
