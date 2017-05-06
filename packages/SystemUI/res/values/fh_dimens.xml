@@ -42,6 +42,6 @@
     <dimen name="qs_detail_item_height_twoline">72dp</dimen>
 
     <!-- Custom Carrier Label -->
-    <dimen name="status_bar_carrier_height">14dp</dimen>
+    <dimen name="status_bar_carrier_height">14sp</dimen>
 
 </resources>
