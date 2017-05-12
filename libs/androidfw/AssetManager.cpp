@@ -80,6 +80,7 @@ static volatile int32_t gCount = 0;
 const char* AssetManager::RESOURCES_FILENAME = "resources.arsc";
 const char* AssetManager::IDMAP_BIN = "/system/bin/idmap";
 const char* AssetManager::OVERLAY_DIR = "/vendor/overlay";
+const char* AssetManager::OVERLAY_THEME_DIR_PROPERTY = "ro.boot.vendor.overlay.theme";
 const char* AssetManager::TARGET_PACKAGE_NAME = "android";
 const char* AssetManager::TARGET_APK_PATH = "/system/framework/framework-res.apk";
 const char* AssetManager::IDMAP_DIR = "/data/resource-cache";
@@ -642,7 +643,7 @@ bool AssetManager::appendPathToResTable(const asset_path& ap, bool appAsLib) con
                         mZipSet.setZipResourceTableAsset(ap.path, ass);
                 }
             }
-
+            
             if (nextEntryIdx == 0 && ass != NULL) {
                 // If this is the first resource table in the asset
                 // manager, then we are going to cache it so that we

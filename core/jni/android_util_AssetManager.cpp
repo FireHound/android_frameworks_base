@@ -25,9 +25,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/system_properties.h>
 
 #include <private/android_filesystem_config.h> // for AID_SYSTEM
-#include <private/regionalization/Environment.h>
 
 #include "androidfw/Asset.h"
 #include "androidfw/AssetManager.h"
@@ -42,6 +42,7 @@
 #include "ScopedUtfChars.h"
 #include "utils/Log.h"
 #include "utils/misc.h"
+#include "utils/String8.h"
 
 extern "C" int capget(cap_user_header_t hdrp, cap_user_data_t datap);
 extern "C" int capset(cap_user_header_t hdrp, const cap_user_data_t datap);
@@ -2102,7 +2103,7 @@ static const JNINativeMethod gAssetManagerMethods[] = {
         (void*) android_content_AssetManager_getResourceEntryName },
     { "loadResourceValue","!(ISLandroid/util/TypedValue;Z)I",
         (void*) android_content_AssetManager_loadResourceValue },
-    { "loadResourceBagValue","!(IILandroid/util/TypedValue;Z)I",
+    { "loadResourceBagValue","(IILandroid/util/TypedValue;Z)I",
         (void*) android_content_AssetManager_loadResourceBagValue },
     { "getStringBlockCount","!()I",
         (void*) android_content_AssetManager_getStringBlockCount },
@@ -2130,15 +2131,15 @@ static const JNINativeMethod gAssetManagerMethods[] = {
         (void*) android_content_AssetManager_getThemeChangingConfigurations },
     { "dumpTheme", "(JILjava/lang/String;Ljava/lang/String;)V",
         (void*) android_content_AssetManager_dumpTheme },
-    { "applyStyle","!(JIIJ[I[I[I)Z",
+    { "applyStyle","(JIIJ[I[I[I)Z",
         (void*) android_content_AssetManager_applyStyle },
-    { "resolveAttrs","!(JII[I[I[I[I)Z",
+    { "resolveAttrs","(JII[I[I[I[I)Z",
         (void*) android_content_AssetManager_resolveAttrs },
-    { "retrieveAttributes","!(J[I[I[I)Z",
+    { "retrieveAttributes","(J[I[I[I)Z",
         (void*) android_content_AssetManager_retrieveAttributes },
-    { "getArraySize","!(I)I",
+    { "getArraySize","(I)I",
         (void*) android_content_AssetManager_getArraySize },
-    { "retrieveArray","!(I[I)I",
+    { "retrieveArray","(I[I)I",
         (void*) android_content_AssetManager_retrieveArray },
 
     // XML files.
@@ -2148,11 +2149,11 @@ static const JNINativeMethod gAssetManagerMethods[] = {
     // Arrays.
     { "getArrayStringResource","(I)[Ljava/lang/String;",
         (void*) android_content_AssetManager_getArrayStringResource },
-    { "getArrayStringInfo","!(I)[I",
+    { "getArrayStringInfo","(I)[I",
         (void*) android_content_AssetManager_getArrayStringInfo },
-    { "getArrayIntResource","!(I)[I",
+    { "getArrayIntResource","(I)[I",
         (void*) android_content_AssetManager_getArrayIntResource },
-    { "getStyleAttributes","!(I)[I",
+    { "getStyleAttributes","(I)[I",
         (void*) android_content_AssetManager_getStyleAttributes },
 
     // Bookkeeping.

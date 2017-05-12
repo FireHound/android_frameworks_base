@@ -55,6 +55,7 @@
          power usage activity to find out what drained the battery.  [CHAR LIMIT=30] -->
   <string name="battery_low_why">Axustes</string>
   <!-- Battery saver confirmation dialog title [CHAR LIMIT=NONE]-->
+  <string name="battery_saver_confirmation_title">¿Activar l\'aforrador de batería?</string>
   <!-- Battery saver confirmation dialog ok text [CHAR LIMIT=40]-->
   <!-- Battery saver notification action [CHAR LIMIT=NONE]-->
   <!-- Name of the button that links to the Settings app. [CHAR LIMIT=NONE] -->
@@ -335,6 +336,10 @@
   <!-- The overflow indicator shown when a group has more notification inside the group than the visible ones. An example is "+ 3" [CHAR LIMIT=5] -->
   <string name="notification_group_overflow_indicator">+ <xliff:g id="number" example="3">%s</xliff:g></string>
   <!-- Content description describing how many more notifications are in a group [CHAR LIMIT=NONE] -->
+  <plurals name="notification_group_overflow_description">
+    <item quantity="one"><xliff:g id="number" example="1">%s</xliff:g> avisu más dientro.</item>
+    <item quantity="other"><xliff:g id="number" example="1">%s</xliff:g> avisos más dientro.</item>
+  </plurals>
   <!-- Content description of button in notification inspector for system settings relating to
          notifications from this application [CHAR LIMIT=NONE] -->
   <string name="status_bar_notification_inspect_item_title">Axustes d\'avisos</string>
@@ -403,6 +408,7 @@
   <!-- QuickSettings: Wifi (Off) [CHAR LIMIT=NONE] -->
   <!-- QuickSettings: Wifi (On) [CHAR LIMIT=NONE] -->
   <!-- QuickSettings: Wifi detail panel, text when there are no items [CHAR LIMIT=NONE] -->
+  <string name="quick_settings_wifi_detail_empty_text">Nun hai redes Wi-Fi disponibles</string>
   <!-- QuickSettings: Cast title [CHAR LIMIT=NONE] -->
   <!-- QuickSettings: Cast detail panel, status text when casting [CHAR LIMIT=NONE] -->
   <!-- QuickSettings: Cast detail panel, default device name [CHAR LIMIT=NONE] -->
@@ -447,6 +453,7 @@
   <!-- QuickSettings: Summary for the toggle to deactivate Night display when it's on (renamed "Night Light" with title caps). [CHAR LIMIT=NONE] -->
   <!-- QuickSettings: Label for the toggle to activate Night display when it's off (renamed "Night Light" with title caps). [CHAR LIMIT=NONE] -->
   <!-- QuickSettings: NFC tile [CHAR LIMIT=NONE] -->
+  <string name="quick_settings_nfc_label">NFC</string>
   <!-- QuickSettings: NFC (off) [CHAR LIMIT=NONE] -->
   <!-- QuickSettings: NFC (on) [CHAR LIMIT=NONE] -->
   <!-- Recents: The empty recents string. [CHAR LIMIT=NONE] -->
@@ -585,9 +592,16 @@
   <string name="monitoring_title_profile_owned">Monitorización de perfiles</string>
   <!-- Monitoring dialog title for normal devices  [CHAR LIMIT=35]-->
   <string name="monitoring_title">Monitorización de rede</string>
+  <!-- Monitoring dialog subtitle for the section describing VPN [CHAR LIMIT=35]-->
+  <string name="monitoring_subtitle_vpn">VPN</string>
+  <!-- Monitoring dialog subtitle for the section describing network logging [CHAR LIMIT=35]-->
   <!-- Monitoring dialog disable vpn button [CHAR LIMIT=30] -->
   <!-- Monitoring dialog disconnect vpn button [CHAR LIMIT=30] -->
   <!-- Monitoring dialog device owner body text [CHAR LIMIT=400] -->
+  <!-- Monitoring dialog: Part of text body explaining that a VPN is connected and what it can do, for devices managed by a Device Owner app [CHAR LIMIT=130] -->
+  <!-- Monitoring dialog: Space that separates the VPN body text and the "Open VPN Settings" link that follows it. [CHAR LIMIT=5] -->
+  <!-- Monitoring dialog: Link to open the VPN settings page [CHAR LIMIT=60] -->
+  <!-- Monitoring dialog: Network logging text [CHAR LIMIT=400] -->
   <!-- Monitoring dialog VPN text [CHAR LIMIT=400] -->
   <!-- Monitoring dialog VPN with device owner text [CHAR LIMIT=400] -->
   <!-- Monitoring dialog VPN with profile owner text [CHAR LIMIT=400] -->
@@ -612,6 +626,7 @@
   <!-- Content description for accessibility (not shown on the screen): volume dialog expand button. [CHAR LIMIT=NONE] -->
   <!-- Content description for accessibility (not shown on the screen): volume dialog collapse button. [CHAR LIMIT=NONE] -->
   <!-- Screen pinning dialog title. -->
+  <!-- Screen pinning dialog description. -->
   <!-- Screen pinning dialog description. -->
   <!-- Screen pinning positive response. -->
   <string name="screen_pinning_positive">Coyío</string>
@@ -747,7 +762,7 @@
   <!-- Title of the battery settings detail panel [CHAR LIMIT=20] -->
   <string name="battery_panel_title">Usu de batería</string>
   <!-- Summary of battery saver not available [CHAR LIMIT=NONE] -->
-  <string name="battery_detail_charging_summary">L\'aforrador d\'enerxía nun ta disponible na carga</string>
+  <string name="battery_detail_charging_summary">L\'aforrador de batería nun ta disponible na carga</string>
   <!-- Title of switch for battery saver [CHAR LIMIT=NONE] -->
   <string name="battery_detail_switch_title">Aforrador de batería</string>
   <!-- Summary of switch for battery saver [CHAR LIMIT=NONE] -->
@@ -842,8 +857,11 @@
   <!-- Accessibility description of headphones icon [CHAR LIMIT=NONE] -->
   <!-- Accessibility description of headset icon [CHAR LIMIT=NONE] -->
   <!-- Label for quick settings tile for data saver [CHAR LIMIT=30] -->
+  <string name="data_saver">Aforrador de datos</string>
   <!-- Accessibility description for data saver being on [CHAR LIMIT=NONE] -->
+  <string name="accessibility_data_saver_on">L\'aforrador de datos ta activáu</string>
   <!-- Accessibility description for data saver being off [CHAR LIMIT=NONE] -->
+  <string name="accessibility_data_saver_off">L\'aforrador de datos ta desactiváu</string>
   <!-- Label for feature switch [CHAR LIMIT=30] -->
   <!-- Label for feature switch [CHAR LIMIT=30] -->
   <!-- SysUI Tuner: Button that leads to the navigation bar customization screen [CHAR LIMIT=60] -->
@@ -929,4 +947,7 @@
   <!-- Label that replaces other notification controls when the notification is from the system
          and cannot be silenced (see @string/show_silently) or blocked (see @string/block) -->
   <string name="cant_silence_or_block">Los avisos nun puen silenciase o bloquiase</string>
+  <!-- Title for notification (and dialog) that user's phone has reached a certain temperature and may start to slow down in order to cool down. [CHAR LIMIT=30] -->
+  <!-- Message body for notification that user's phone has reached a certain temperature and may start to slow down in order to cool down. [CHAR LIMIT=100] -->
+  <!-- Text body for dialog alerting user that their phone has reached a certain temperature and may start to slow down in order to cool down. [CHAR LIMIT=300] -->
 </resources>
