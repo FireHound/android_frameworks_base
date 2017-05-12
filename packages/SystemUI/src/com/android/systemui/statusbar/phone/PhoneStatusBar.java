@@ -1684,7 +1684,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private void prepareNavigationBarView() {
         mNavigationController.getBar().reorient();
-        mNavigationController.getBar().setListeners(mUserAutoHideListener, mLongPressBackListener);
+        mNavigationController.getBar().setListeners(mUserAutoHideListener, this::handleLongPressBackRecents);
         mNavigationController.getBar().setOnVerticalChangedListener(mVerticalChangedListener);
         mAssistManager.onConfigurationChanged();
     }
@@ -5314,45 +5314,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
      */
     private boolean handleLongPressBackRecents(View v) {
         try {
-            boolean sendBackLongPress = false;
             IActivityManager activityManager = ActivityManagerNative.getDefault();
-            boolean touchExplorationEnabled = mAccessibilityManager.isTouchExplorationEnabled();
-            boolean inLockTaskMode = activityManager.isInLockTaskMode();
-            if (inLockTaskMode && !touchExplorationEnabled) {
-                long time = System.currentTimeMillis();
-                // If we recently long-pressed the other button then they were
-                // long-pressed 'together'
-                if ((time - mLastLockToAppLongPress) < LOCK_TO_APP_GESTURE_TOLERENCE) {
-                    activityManager.stopLockTaskMode();
-                    // When exiting refresh disabled flags.
-                    mNavigationBarView.setDisabledFlags(mDisabled1, true);
-                    return true;
-                } else if ((v.getId() == R.id.back)
-                        && !mNavigationBarView.getRecentsButton().getCurrentView().isPressed()) {
-                    // If we aren't pressing recents right now then they presses
-                    // won't be together, so send the standard long-press action.
-                    sendBackLongPress = true;
-                }
-                mLastLockToAppLongPress = time;
-            } else {
-                // If this is back still need to handle sending the long-press event.
-                if (v.getId() == R.id.back) {
-                    sendBackLongPress = true;
-                } else if (touchExplorationEnabled && inLockTaskMode) {
-                    // When in accessibility mode a long press that is recents (not back)
-                    // should stop lock task.
-                    activityManager.stopLockTaskMode();
-                    // When exiting refresh disabled flags.
-                    mNavigationBarView.setDisabledFlags(mDisabled1, true);
-                    return true;
-                } else if (v.getId() == R.id.recent_apps) {
-                    return handleLongPressRecents();
-                }
-            }
-            if (sendBackLongPress) {
-                KeyButtonView keyButtonView = (KeyButtonView) v;
-                keyButtonView.sendEvent(KeyEvent.ACTION_DOWN, KeyEvent.FLAG_LONG_PRESS);
-                keyButtonView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_LONG_CLICKED);
+            if (activityManager.isInLockTaskMode()) {
+                activityManager.stopSystemLockTaskMode();
                 return true;
             }
         } catch (RemoteException e) {
