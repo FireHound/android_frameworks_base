@@ -2255,6 +2255,12 @@ message MetricsEvent {
     // Add new aosp constants above this line.
     // END OF AOSP CONSTANTS
 
+    // FH
+    FH_SETTINGS = 998;
+
+    // Quick setting tiles
+    QUICK_SETTINGS = 999;
+
     // Location detail adapter
     QS_LOCATION_DETAIL = 504;
   }
