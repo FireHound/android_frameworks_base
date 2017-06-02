@@ -158,4 +158,7 @@
     <string name="accessibility_quick_settings_gaming_mode_on">Gaming mode on</string>
     <string name="accessibility_quick_settings_gaming_mode_off">Gaming mode off</string>
 
+    <!-- Reset Message QS tiles -->
+    <string name="reset_qs_tiles_message">Do you want to reset all Quick Settings tiles to defaults? This cannot be undone.</string>
+
 </resources>
