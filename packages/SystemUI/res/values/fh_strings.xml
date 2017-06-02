@@ -111,4 +111,7 @@
     <string name="greenified_apps">Selected apps hibernated</string>
     <string name="greenify_not_installed">Greenify not installed! Please install Greenify</string>
 
+    <!-- Reset Message QS tiles -->
+    <string name="reset_qs_tiles_message">Do you want to reset all Quick Settings tiles to defaults? This cannot be undone.</string>
+
 </resources>
