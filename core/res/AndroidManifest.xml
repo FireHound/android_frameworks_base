@@ -3004,9 +3004,10 @@
         android:protectionLevel="signature" />
 
     <!-- Must be required by an {@link
-         android.service.notification.NotificationRankerService         to ensure that only the system can bind to it.
+         android.service.notification.NotificationRankerService
+         to ensure that only the system can bind to it.
          <p>Protection level: signature
-         @hide This is not a third-party API (intended for system apps). -->
+         @hide This is not a third-party API (intended for system apps).
     -->
     <permission android:name="android.permission.BIND_NOTIFICATION_RANKER_SERVICE"
         android:protectionLevel="signature" />
@@ -3186,10 +3187,10 @@
                 android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to make calls to OverlayManagerService.-->
-    <permission android:name="android.permission.MODIFY_OVERLAYS"
+    <permission android:name="oms.permission.MODIFY_OVERLAYS"
         android:label="@string/permlab_modifyOverlays"
         android:description="@string/permdesc_modifyOverlays"
-        android:protectionLevel="normal" />
+        android:protectionLevel="signatureOrSystem" />
 
     <application android:process="system"
                  android:persistent="true"
