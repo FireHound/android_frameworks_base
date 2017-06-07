@@ -24,10 +24,16 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.IPackageDataObserver;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Outline;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.FloatProperty;
 import android.util.Property;
@@ -402,12 +408,26 @@ public class TaskView extends FixedSizeFrameLayout implements Task.TaskCallbacks
         EventBus.getDefault().send(dismissEvent);
     }
 
+    // Screen Pinning fab
     void screenPinning() {
         boolean screenPinningRequested = false;
         mActionButtonView.setTranslationZ(0f);
         screenPinningRequested = true;
         EventBus.getDefault().send(new LaunchTaskEvent(this, mTask, null, INVALID_STACK_ID,
                 screenPinningRequested));
+    }
+
+    // Uninstall app
+    void uninstallApp() {
+    final TaskView tv = this;
+    if(taskView != null) {
+    Uri packageURI = Uri.parse("package:"+ad.packageName);
+    Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageURI);
+    uninstallIntent.putExtra(Intent.EXTRA_UNINSTALL_ALL_USERS, true);
+    mContext.startActivity(uninstallIntent);
+    } else {
+          throw new IllegalStateException("Oops, no tag on view " + selectedView);
+        }
     }
 
     /**

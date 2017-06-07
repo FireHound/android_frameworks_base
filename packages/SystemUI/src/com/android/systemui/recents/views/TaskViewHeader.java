@@ -148,6 +148,7 @@ public class TaskViewHeader extends FrameLayout
     ImageView mMoveTaskButton;
     ImageView mDismissButton;
     ImageView mPinButton;
+    ImageView mUninstallButton;
     FrameLayout mAppOverlayView;
     ImageView mAppIconView;
     ImageView mAppInfoView;
@@ -167,6 +168,8 @@ public class TaskViewHeader extends FrameLayout
     Drawable mDarkDismissDrawable;
     Drawable mLightPinDrawable;
     Drawable mDarkPinDrawable;
+    Drawable mUninstallDrawable;
+    Drawable mUninstallDarkDrawable;
     Drawable mLightFreeformIcon;
     Drawable mDarkFreeformIcon;
     Drawable mLightFullscreenIcon;
@@ -217,6 +220,8 @@ public class TaskViewHeader extends FrameLayout
                 res.getDimensionPixelSize(R.dimen.recents_task_view_rounded_corners_radius);
         mLightPinDrawable = context.getDrawable(R.drawable.ic_pin);
         mDarkPinDrawable = context.getDrawable(R.drawable.ic_pin_dark);
+        mUninstallDrawable = context.getDrawable(R.drawable.ic_uninstall_app);
+        mUninstallDarkDrawable = context.getDrawable(R.drawable.ic_uninstall_dark_app);
         mHighlightHeight = res.getDimensionPixelSize(R.dimen.recents_task_view_highlight);
         mTaskBarViewLightTextColor = context.getColor(R.color.recents_task_bar_light_text_color);
         mTaskBarViewDarkTextColor = context.getColor(R.color.recents_task_bar_dark_text_color);
@@ -255,6 +260,7 @@ public class TaskViewHeader extends FrameLayout
         mTitleView = (TextView) findViewById(R.id.title);
         mDismissButton = (ImageView) findViewById(R.id.dismiss_task);
         mPinButton = (ImageView) findViewById(R.id.lock_to_app_fab);
+        mUninstallButton = (ImageView) findViewById(R.id.uninstall_app_fab);
         if (ssp.hasFreeformWorkspaceSupport()) {
             mMoveTaskButton = (ImageView) findViewById(R.id.move_task);
         }
@@ -488,11 +494,19 @@ public class TaskViewHeader extends FrameLayout
         mDismissButton.setClickable(false);
         ((RippleDrawable) mDismissButton.getBackground()).setForceSoftware(true);
 
+        // Screen pinning fab
         mPinButton.setImageDrawable(t.useLightOnPrimaryColor ?
                 mLightPinDrawable : mDarkPinDrawable);
         mPinButton.setOnClickListener(this);
         mPinButton.setClickable(false);
         ((RippleDrawable) mPinButton.getBackground()).setForceSoftware(true);
+
+        // Uninstall app fab
+        mUninstallButton.setImageDrawable(t.useLightOnPrimaryColor ?
+                mUninstallDrawable : mUninstallDarkDrawable);
+        mUninstallButton.setOnClickListener(this);
+        mUninstallButton.setClickable(false);
+        ((RippleDrawable) mUninstallButton.getBackground()).setForceSoftware(true);
 
         // When freeform workspaces are enabled, then update the move-task button depending on the
         // current task
@@ -582,6 +596,19 @@ public class TaskViewHeader extends FrameLayout
             mPinButton.setVisibility(View.GONE);
             mPinButton.setClickable(false);
         }
+        if (mUninstallButton != null) {
+            if (mUninstallButton.getVisibility() == VISIBLE) {
+                mUninstallButton.setVisibility(View.VISIBLE);
+                mUninstallButton.setClickable(true);
+                mUninstallButton.animate()
+                        .alpha(1f)
+                        .setInterpolator(Interpolators.FAST_OUT_LINEAR_IN)
+                        .setDuration(duration)
+                        .start();
+        } else {
+            mMoveTaskButton.setAlpha(1f);
+            }
+        }
         if (mMoveTaskButton != null) {
             if (mMoveTaskButton.getVisibility() == VISIBLE) {
                 mMoveTaskButton.setVisibility(View.VISIBLE);
@@ -617,6 +644,12 @@ public class TaskViewHeader extends FrameLayout
             mPinButton.setVisibility(View.GONE);
             mPinButton.setClickable(false);
         }
+        if (mUninstallButton != null) {
+            mUninstallButton.setVisibility(View.VISIBLE);
+            mUninstallButton.animate().cancel();
+            mUninstallButton.setAlpha(1f);
+            mUninstallButton.setClickable(true);
+        }
         if (mMoveTaskButton != null) {
             mMoveTaskButton.setVisibility(View.VISIBLE);
             mMoveTaskButton.animate().cancel();
@@ -638,6 +671,10 @@ public class TaskViewHeader extends FrameLayout
         mPinButton.setVisibility(View.INVISIBLE);
         mPinButton.setAlpha(0f);
         mPinButton.setClickable(false);
+        // Uninstall app fab
+        mUninstallButton.setVisibility(View.INVISIBLE);
+        mUninstallButton.setAlpha(0f);
+        mUninstallButton.setClickable(false);
         if (mMoveTaskButton != null) {
             mMoveTaskButton.setVisibility(View.INVISIBLE);
             mMoveTaskButton.setAlpha(0f);
@@ -668,6 +705,9 @@ public class TaskViewHeader extends FrameLayout
         } else if (v == mPinButton) {
             TaskView tv = Utilities.findParent(this, TaskView.class);
             tv.screenPinning();
+        } else if (v == mUninstallButton) {
+            TaskView tv = Utilities.findParent(this, TaskView.class);
+            tv.uninstallApp();
         } else if (v == mMoveTaskButton) {
             TaskView tv = Utilities.findParent(this, TaskView.class);
             EventBus.getDefault().send(new LaunchTaskEvent(tv, mTask, null,
