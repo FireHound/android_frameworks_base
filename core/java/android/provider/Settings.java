@@ -4682,6 +4682,13 @@ public final class Settings {
          * @hide
          */
         public static final String SHOW_MEDIA_MUTED = "show_media_muted";
+
+        /**
+         * Whether to show fully charged battery notification
+         * @hide
+         */
+        public static final String SHOW_BATTERY_FULLY_CHARGED = "show_battery_fully_charged";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.

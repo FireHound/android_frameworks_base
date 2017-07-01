@@ -17,6 +17,9 @@
 package com.android.server;
 
 import android.app.ActivityManagerInternal;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.database.ContentObserver;
 import android.os.BatteryStats;
 
@@ -34,6 +37,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.RingtoneManager;
 import android.os.BatteryManager;
 import android.os.BatteryManagerInternal;
 import android.os.BatteryProperties;
@@ -159,6 +163,9 @@ public final class BatteryService extends SystemService {
     private boolean mHasTurboPower;
     private boolean mLastTurboPower;
 
+    private boolean mShowBatteryFullyChargedNotification;
+    private boolean mIsShowingBatteryFullyChargedNotification;
+
     private long mDischargeStartTime;
     private int mDischargeStartLevel;
 
@@ -193,6 +200,9 @@ public final class BatteryService extends SystemService {
                 com.android.internal.R.integer.config_lowBatteryCloseWarningBump);
         mShutdownBatteryTemperature = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_shutdownBatteryTemperature);
+        mShowBatteryFullyChargedNotification = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.SHOW_BATTERY_FULLY_CHARGED, 0,
+                UserHandle.USER_CURRENT) == 1;
 
         // watch for invalid charger messages if the invalid_charger switch exists
         if (new File("/sys/devices/virtual/switch/invalid_charger/state").exists()) {
@@ -547,6 +557,11 @@ public final class BatteryService extends SystemService {
 
             // Update the battery LED
             mLed.updateLightsLocked();
+            if (shouldShowBatteryFullyChargedNotificationLocked()) {
+                showBatteryFullyChargedNotificationLocked();
+            } else if (shouldClearBatteryFullyChargedNotificationLocked()) {
+                clearBatteryFullyChargedNotificationLocked();
+            }
 
             // This needs to be done after sendIntent() so that we get the lastest battery stats.
             if (logOutlier && dischargeDuration != 0) {
@@ -951,6 +966,57 @@ public final class BatteryService extends SystemService {
 
     private synchronized void updateLedPulse() {
         mLed.updateLightsLocked();
+    }
+
+    private boolean shouldShowBatteryFullyChargedNotificationLocked() {
+        return mShowBatteryFullyChargedNotification && mPlugType != 0
+                && mBatteryProps.batteryLevel == BATTERY_SCALE
+                && !mIsShowingBatteryFullyChargedNotification;
+    }
+
+    private void showBatteryFullyChargedNotificationLocked() {
+        NotificationManager nm = mContext.getSystemService(NotificationManager.class);
+        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+        PendingIntent pi = PendingIntent.getActivityAsUser(mContext, 0,
+                intent, 0, null, UserHandle.CURRENT);
+
+        CharSequence title = mContext.getText(
+                com.android.internal.R.string.notify_battery_fully_charged_title);
+        CharSequence message = mContext.getText(
+                com.android.internal.R.string.notify_battery_fully_charged_text);
+
+        Notification notification = new Notification.Builder(mContext)
+                .setSmallIcon(com.android.internal.R.drawable.stat_sys_battery_charge)
+                .setWhen(0)
+                .setOngoing(false)
+                .setAutoCancel(true)
+                .setTicker(title)
+                .setDefaults(0)  // please be quiet
+                .setPriority(Notification.PRIORITY_DEFAULT)
+                .setColor(mContext.getColor(
+                         com.android.internal.R.color.system_notification_accent_color))
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentTitle(title)
+                .setContentText(message)
+                .setStyle(new Notification.BigTextStyle().bigText(message))
+                .setContentIntent(pi)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .build();
+
+        nm.notifyAsUser(null, com.android.internal.R.string.notify_battery_fully_charged_title,
+                notification, UserHandle.ALL);
+        mIsShowingBatteryFullyChargedNotification = true;
+    }
+
+    private boolean shouldClearBatteryFullyChargedNotificationLocked() {
+        return mIsShowingBatteryFullyChargedNotification &&
+                (mPlugType == 0 || mBatteryProps.batteryLevel < BATTERY_SCALE);
+    }
+
+    private void clearBatteryFullyChargedNotificationLocked() {
+        NotificationManager nm = mContext.getSystemService(NotificationManager.class);
+        nm.cancel(com.android.internal.R.string.notify_battery_fully_charged_title);
+        mIsShowingBatteryFullyChargedNotification = false;
     }
 
     private final class Led {
