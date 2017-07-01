@@ -51,4 +51,8 @@
     <string name="animation_random">Random</string>
     <string name="action_null">Blank</string>
 
+    <!-- Battery fully charged notification -->
+    <string name="notify_battery_fully_charged_title">Battery fully charged</string>
+    <string name="notify_battery_fully_charged_text">Disconnect your device from the charger to improve battery longevity.</string>
+
 </resources>
