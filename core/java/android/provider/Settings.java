@@ -4289,10 +4289,10 @@ public final class Settings {
          */
         public static final String SHOW_ALARM_FULLSCREEN = "show_alarm_fullscreen";
 
-        /**  
+        /**
          * Custom System Animations
          * @hide
-         */  
+         */
         public static final String[] ACTIVITY_ANIMATION_CONTROLS = new String[] {
                 "activity_open",
                 "activity_close",
@@ -4305,7 +4305,7 @@ public final class Settings {
                 "wallpaper_intra_open",
                 "wallpaper_intra_close",
                 "task_open_behind",
-        };  
+        };
         public static final String ANIMATION_CONTROLS_DURATION = "animation_controls_duration";
 
         /**
@@ -4488,6 +4488,12 @@ public final class Settings {
          * @hide
          */
         public static final String VOLUME_DIALOG_FORCE_EXPANDED = "volume_dialog_force_expanded";
+
+        /**
+         * Whether or not to allow quick settings expansion with one swipe on the fingerprint sensor.
+         * @hide
+         */
+        public static final String STATUS_BAR_QUICK_QS_PULLDOWN_FP = "status_bar_quick_qs_pulldown_fp";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
