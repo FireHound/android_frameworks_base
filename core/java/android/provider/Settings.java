@@ -8115,6 +8115,7 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
+        public static final String FORCE_AUTHORIZE_SUBSTRATUM_PACKAGES = "force_authorize_substratum_packages";
 
         /**
          * This are the settings to be backed up.
