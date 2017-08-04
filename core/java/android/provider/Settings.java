@@ -5083,6 +5083,12 @@ public final class Settings {
         public static final String FOD_ANIM = "fod_anim";
 
         /**
+         * Sensor block per-package
+         * @hide
+         */
+        public static final String SENSOR_BLOCK = "sensor_block";
+
+        /**
          * Screen stabilization parameters
          * @hide
          */
