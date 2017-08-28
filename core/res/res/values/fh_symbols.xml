@@ -62,8 +62,15 @@
     <java-symbol type="style" name="Animation.Toast.Translucent" />
     <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
     <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
-
+    
     <!-- Dynamic Navbar -->
-  <java-symbol type="color" name="input_method_navigation_guard_dynamic" />
+    <java-symbol type="color" name="input_method_navigation_guard_dynamic" />
 
+    <!-- Power menu strings -->
+    <java-symbol type="string" name="reboot_to_recovery_title" />
+    <java-symbol type="string" name="reboot_to_recovery_message" />
+    <java-symbol type="string" name="reboot_to_bootloader_title" />
+    <java-symbol type="string" name="reboot_to_bootloader_message" />
+    <java-symbol type="string" name="reboot_title" />
+    <java-symbol type="string" name="reboot_message" />
 </resources>
