@@ -18,5 +18,8 @@
     <!-- Dynamic Navbar -->
     <color name="input_method_navigation_guard_dynamic">@android:color/transparent</color>
 
+  <java-symbol type="integer" name="config_buttonBrightnessSettingDefault" />
+  <java-symbol type="bool" name="config_deviceHasVariableButtonBrightness" />
+
 </resources>
 
