@@ -133,4 +133,7 @@
     <string name="greenified_apps">Hibernated</string>
     <string name="greenify_not_installed">Greenify not installed. Please install Greenify to continue.</string>
 
+    <!-- Screenshot delete -->
+    <string name="delete_screenshot_toast">Screenshot Deleted</string>
+
 </resources>
