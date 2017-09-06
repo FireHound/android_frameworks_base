@@ -131,7 +131,7 @@ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.RegisterStatusBarResult;
 import com.android.internal.widget.LockPatternUtils;
-import com.android.internal.util.crdroid.Utils;
+import com.android.internal.util.fh.FhUtils;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.keyguard.ViewMediatorCallback;
@@ -4824,7 +4824,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                         mWindowManagerService == null)
                     return;
                 boolean mNavbarVisible =
-                        TunerService.parseIntegerSwitch(newValue, Utils.hasNavbarByDefault(mContext));
+                        TunerService.parseIntegerSwitch(newValue, FhUtils.hasNavbarByDefault(mContext));
                 boolean hasNavbar = getNavigationBarView() != null;
                 if (mNavbarVisible) {
                     if (!hasNavbar) {
