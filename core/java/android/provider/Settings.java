@@ -4283,6 +4283,18 @@ public final class Settings {
         public static final String FLASHLIGHT_ON_CALL = "flashlight_on_call";
 
         /**
+         * Disable dashboard conditions in settings
+         * @hide
+         */
+        public static final String ENABLE_CONDITIONS = "enable_conditions";
+
+        /**
+         * Disable dashboard suggestions in settings
+         * @hide
+         */
+        public static final String ENABLE_SUGGESTIONS = "enable_suggestions";
+
+        /**
          * @deprecated Use {@link android.provider.Settings.Global#POWER_SOUNDS_ENABLED}
          * instead
          * @hide
