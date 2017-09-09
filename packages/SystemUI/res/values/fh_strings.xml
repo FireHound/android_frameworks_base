@@ -37,4 +37,7 @@
     <!-- Statusbar tuner -->
     <string name="statusbar_items_title">Statusbar Icons</string>
 
+    <!-- PiP Tile -->
+    <string name="quick_settings_pip_label">PiP</string>
+
 </resources>
