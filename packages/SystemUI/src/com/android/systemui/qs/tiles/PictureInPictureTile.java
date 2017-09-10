@@ -24,7 +24,7 @@ import android.provider.Settings;
 import android.service.quicksettings.Tile;
 import android.widget.Toast;
 
-import com.android.internal.util.nitrogen.NitrogenUtils;
+import com.android.internal.util.fh.FhUtils;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.systemui.qs.QSHost;
 import com.android.systemui.plugins.qs.QSTile.BooleanState;
@@ -40,7 +40,7 @@ public class PictureInPictureTile extends QSTileImpl<BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return MetricsEvent.NITROGEN_SETTINGS;
+        return MetricsEvent.FH_SETTINGS;
     }
 
     @Override
@@ -55,13 +55,13 @@ public class PictureInPictureTile extends QSTileImpl<BooleanState> {
     @Override
     public void handleClick() {
         mHost.collapsePanels();
-        ActivityInfo ai = NitrogenUtils.getRunningActivityInfo(mContext);
+        ActivityInfo ai = FhUtils.getRunningActivityInfo(mContext);
         if (ai != null && !ai.supportsPictureInPicture()) {
             Toast.makeText(mContext, mContext.getString(
                     R.string.quick_settings_pip_tile_app_na), Toast.LENGTH_LONG).show();
             return;
         }
-        NitrogenUtils.sendKeycode(171);
+        FhUtils.sendKeycode(171);
     }
 
     @Override
