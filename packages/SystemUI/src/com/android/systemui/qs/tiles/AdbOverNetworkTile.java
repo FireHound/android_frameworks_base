@@ -35,6 +35,8 @@ import com.android.systemui.qs.tileimpl.QSTileImpl;
 
 import java.net.InetAddress;
 
+import lineageos.providers.LineageSettings;
+
 public class AdbOverNetworkTile extends QSTileImpl<BooleanState> {
 
     @Override
@@ -44,8 +46,8 @@ public class AdbOverNetworkTile extends QSTileImpl<BooleanState> {
 
     @Override
     protected void handleClick() {
-        Settings.Secure.putIntForUser(mContext.getContentResolver(),
-                Settings.Secure.ADB_PORT, getState().value ? -1 : 5555,
+        LineageSettings.Secure.putIntForUser(mContext.getContentResolver(),
+                LineageSettings.Secure.ADB_PORT, getState().value ? -1 : 5555,
                 UserHandle.USER_CURRENT);
     }
 
@@ -96,8 +98,8 @@ public class AdbOverNetworkTile extends QSTileImpl<BooleanState> {
     }
 
     private boolean isAdbNetworkEnabled() {
-        return Settings.Secure.getInt(mContext.getContentResolver(),
-                Settings.Secure.ADB_PORT, 0) > 0;
+        return LineageSettings.Secure.getInt(mContext.getContentResolver(),
+                LineageSettings.Secure.ADB_PORT, 0) > 0;
     }
 
     public AdbOverNetworkTile(QSHost host) {
@@ -120,7 +122,7 @@ public class AdbOverNetworkTile extends QSTileImpl<BooleanState> {
     public void handleSetListening(boolean listening) {
         if (listening) {
             mContext.getContentResolver().registerContentObserver(
-                    Settings.Secure.getUriFor(Settings.Secure.ADB_PORT),
+                    LineageSettings.Secure.getUriFor(LineageSettings.Secure.ADB_PORT),
                     false, mObserver);
             mContext.getContentResolver().registerContentObserver(
                     Settings.Global.getUriFor(Settings.Global.ADB_ENABLED),
