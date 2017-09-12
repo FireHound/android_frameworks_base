@@ -32,4 +32,7 @@
     <!-- Screenshot Delete Toast -->
     <string name="delete_screenshot_toast">Screenshot Deleted</string>
 
+    <!-- Screenshot QS tile -->
+    <string name="quick_settings_screenshot_label">Screenshot</string>
+    <string name="quick_settings_region_screenshot_label">Partial Screenshot</string>
 </resources>

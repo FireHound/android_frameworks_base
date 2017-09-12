@@ -45,6 +45,7 @@ import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
+import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.UserTile;
@@ -82,6 +83,7 @@ public class QSFactoryImpl implements QSFactory {
         else if (tileSpec.equals("saver")) return new DataSaverTile(mHost);
         else if (tileSpec.equals("night")) return new NightDisplayTile(mHost);
         else if (tileSpec.equals("nfc")) return new NfcTile(mHost);
+        else if (tileSpec.equals("screenshot")) return new ScreenshotTile(mHost);
         // Custom tiles.
         else if (tileSpec.equals("adb_network")) return new AdbOverNetworkTile(mHost);
         else if (tileSpec.equals("ambient_display")) return new AmbientDisplayTile(mHost);
