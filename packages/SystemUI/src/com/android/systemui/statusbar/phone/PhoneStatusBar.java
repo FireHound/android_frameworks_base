@@ -373,8 +373,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             "system:" + Settings.System.NAVBAR_DYNAMIC;
     private static final String STATUS_BAR_SHOW_CARRIER =
             "system:" + Settings.System.STATUS_BAR_SHOW_CARRIER;
-    private static final String STATUS_BAR_QUICK_QS_PULLDOWN_FP =
-            "system:" + Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN_FP;
 
     static {
         boolean onlyCoreApps;
@@ -439,7 +437,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mWakeUpComingFromTouch;
     private PointF mWakeUpTouchLocation;
     private boolean mScreenTurningOn;
-    private boolean mFingerprintQuickPulldown;
 
     int mPixelFormat;
     Object mQueueLock = new Object();
@@ -914,8 +911,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 BLUR_LIGHT_COLOR_PREFERENCE_KEY,
                 BLUR_MIXED_COLOR_PREFERENCE_KEY,
                 NAVBAR_DYNAMIC,
-                STATUS_BAR_SHOW_CARRIER,
-                STATUS_BAR_QUICK_QS_PULLDOWN_FP);
+                STATUS_BAR_SHOW_CARRIER);
 
 
         // Lastly, call to the icon policy to install/update all the icons.
@@ -3137,13 +3133,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         } else if (KeyEvent.KEYCODE_SYSTEM_NAVIGATION_DOWN == key) {
             MetricsLogger.action(mContext, MetricsEvent.ACTION_SYSTEM_NAVIGATION_KEY_DOWN);
             if (mNotificationPanel.isFullyCollapsed()) {
-                if (mFingerprintQuickPulldown) {
-                    mNotificationPanel.expandWithQs();
-                    MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN_QS, 1);
-                } else {
-                    mNotificationPanel.expand(true /* animate */);
-                    MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN, 1);
-                }
+                mNotificationPanel.expand(true /* animate */);
+                MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN, 1);
             } else if (!mNotificationPanel.isInSettings() && !mNotificationPanel.isExpanding()){
                 mNotificationPanel.flingSettings(0 /* velocity */, true /* expand */);
                 MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN_QS, 1);
@@ -5966,14 +5957,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 }
                 break;
             case STATUS_BAR_SHOW_CARRIER:
-                mShowCarrierLabel =
+                mShowCarrierLabel = 
                         newValue == null ? 1 : Integer.parseInt(newValue);
                 updateCarrier();
-                break;
-            case STATUS_BAR_QUICK_QS_PULLDOWN_FP:
-                mFingerprintQuickPulldown =
-                        newValue == null ? 1 : Integer.parseInt(newValue);
-                mNotificationPanel.expandWithQs();
                 break;
             default:
                 break;
