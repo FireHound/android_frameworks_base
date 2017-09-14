@@ -110,8 +110,9 @@ public class AmbientDisplayConfiguration {
     }
 
     public boolean alwaysOnAvailable() {
-        return (alwaysOnDisplayDebuggingEnabled() || alwaysOnDisplayAvailable())
-                && ambientDisplayAvailable();
+        boolean enableDozeAlwaysOn = mContext.getResources().
+                getBoolean(com.android.internal.R.bool.config_enableDozeAlwaysOn);
+        return enableDozeAlwaysOn;
     }
 
     public boolean alwaysOnAvailableForUser(int user) {

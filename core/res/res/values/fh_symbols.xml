@@ -75,4 +75,7 @@
   <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
   <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
 
+  <!-- Wheter to enable doze always on -->
+  <java-symbol type="bool" name="config_enableDozeAlwaysOn"/>
+
 </resources>
