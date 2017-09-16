@@ -167,4 +167,7 @@
     <!-- Screenrecord in power menu -->
     <string name="global_action_screenrecord">Screenrecord</string>
 
+    <!-- VoLte icon switch -->
+    <string name="status_bar_volte">VoLte</string>
+
 </resources>
