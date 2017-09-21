@@ -284,6 +284,11 @@ public class QuickQSPanel extends QSPanel {
         }
 
         @Override
+        public boolean isShowTitles() {
+            return false;
+        }
+
+        @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             // Measure each QS tile.
             for (TileRecord record : mRecords) {
