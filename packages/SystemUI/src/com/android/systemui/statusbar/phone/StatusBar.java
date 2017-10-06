@@ -213,6 +213,7 @@ import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.recents.events.EventBus;
 import com.android.systemui.recents.events.activity.AppTransitionFinishedEvent;
 import com.android.systemui.recents.events.activity.UndockingTaskEvent;
+import com.android.systemui.recents.misc.IconPackHelper;
 import com.android.systemui.recents.misc.SystemServicesProxy;
 import com.android.systemui.stackdivider.Divider;
 import com.android.systemui.stackdivider.WindowManagerProxy;
@@ -423,6 +424,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             "lineagesystem:" + LineageSettings.System.STATUS_BAR_BRIGHTNESS_CONTROL;
     private static final String LOCKSCREEN_MEDIA_METADATA =
             "lineagesecure:" + LineageSettings.Secure.LOCKSCREEN_MEDIA_METADATA;
+    private static final String RECENTS_ICON_PACK =
+            "system:" + Settings.System.RECENTS_ICON_PACK;
 
     static {
         boolean onlyCoreApps;
@@ -1152,7 +1155,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         Dependency.get(TunerService.class).addTunable(this,
                 SCREEN_BRIGHTNESS_MODE,
                 STATUS_BAR_BRIGHTNESS_CONTROL,
-                LOCKSCREEN_MEDIA_METADATA);
+                LOCKSCREEN_MEDIA_METADATA,
+                RECENTS_ICON_PACK);
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController);
@@ -8428,6 +8432,13 @@ public class StatusBar extends SystemUI implements DemoMode,
                 break;
             case LOCKSCREEN_MEDIA_METADATA:
                 mShowMediaMetadata = newValue == null || Integer.parseInt(newValue) == 1;
+                break;
+            case RECENTS_ICON_PACK:
+                if (newValue != null) {
+                    String currentIconPack = (String) newValue;
+                    IconPackHelper.getInstance(mContext).updatePrefs(currentIconPack);
+                }
+                mRecents.resetIconCache();
                 break;
             default:
                 break;
