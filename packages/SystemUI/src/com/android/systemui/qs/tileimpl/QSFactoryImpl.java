@@ -39,6 +39,7 @@ import com.android.systemui.qs.tiles.GreenifyTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
+import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.MusicTile;
@@ -94,6 +95,7 @@ public class QSFactoryImpl implements QSFactory {
         else if (tileSpec.equals("adb_network")) return new AdbOverNetworkTile(mHost);
         else if (tileSpec.equals("sound")) return new SoundTile(mHost);
         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(mHost);
+        else if (tileSpec.equals("livedisplay")) return new LiveDisplayTile(mHost);
         else if (tileSpec.equals("volume")) return new VolumeTile(mHost);
         else if (tileSpec.equals("compass")) return new CompassTile(mHost);
         else if (tileSpec.equals("usb_tether")) return new UsbTetherTile(mHost);
