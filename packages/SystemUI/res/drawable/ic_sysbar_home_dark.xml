@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--  Copyright (C) 2017 The Dirty Unicorns Project
+<!--  Copyright (C) 2017 FireHound
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,16 +14,11 @@
      limitations under the License.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="28.0dp"
-        android:height="28.0dp"
-        android:viewportWidth="96.0"
-        android:viewportHeight="96.0">
-    <path
-        android:fillColor="@color/icon_color_home_dark"
-        android:pathData="M 48 20 C 63.4639729953 20 76 32.5360270047 76 48 C 76 63.4639729953 63.4639729953 76 48 76 C 32.5360270047 76 20 63.4639729953 20 48 C 20 32.5360270047 32.5360270047 20 48 20 Z" />
-    <path
-        android:fillColor="@color/icon_color_home_dark"
-        android:pathData="M48,10c-21,0-38,17-38,38s17,38,38,38s38-17,38-38S69,10,48,10z
-M48,82c-18.8,0-34-15.2-34-34
-c0-18.8,15.2-34,34-34s34,15.2,34,34C82,66.8,66.8,82,48,82z" />
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path 
+	android:fillColor="#000" 
+        android:pathData="M11.71,19C9.93,19 8.5,17.59 8.5,15.86C8.5,14.24 9.53,13.1 11.3,12.74C13.07,12.38 14.9,11.53 15.92,10.16C16.31,11.45 16.5,12.81 16.5,14.2C16.5,16.84 14.36,19 11.71,19M13.5,0.67C13.5,0.67 14.24,3.32 14.24,5.47C14.24,7.53 12.89,9.2 10.83,9.2C8.76,9.2 7.2,7.53 7.2,5.47L7.23,5.1C5.21,7.5 4,10.61 4,14A8,8 0 0,0 12,22A8,8 0 0,0 20,14C20,8.6 17.41,3.8 13.5,0.67Z" />
 </vector>
