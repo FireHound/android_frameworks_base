@@ -170,4 +170,7 @@
     <!-- VoLte icon switch -->
     <string name="status_bar_volte">VoLte</string>
 
+    <!-- VPN switch -->
+    <string name="status_bar_vpn">VPN</string>
+
 </resources>
