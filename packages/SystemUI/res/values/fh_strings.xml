@@ -125,4 +125,9 @@
     <string name="quick_settings_expanded_navigation_off">Hide navbar</string>
     <string name="quick_settings_expanded_statusbar_off">Hide statusbar</string>
 
+    <!-- Greenify -->
+    <string name="quick_settings_greenify">Greenify</string>
+    <string name="greenified_apps">Greenified</string>
+    <string name="greenify_not_installed">Greenify not installed. Please install Greenify to continue.</string>
+
 </resources>
