@@ -35,6 +35,7 @@ import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.ExpandedDesktopTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
+import com.android.systemui.qs.tiles.GreenifyTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
@@ -97,6 +98,7 @@ public class QSFactoryImpl implements QSFactory {
         else if (tileSpec.equals("usb_tether")) return new UsbTetherTile(mHost);
         else if (tileSpec.equals("music")) return new MusicTile(mHost);
         else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(mHost);
+        else if (tileSpec.equals("greenify")) return new GreenifyTile(mHost);
         // Intent tiles.
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(mHost, tileSpec);
         else if (tileSpec.startsWith(CustomTile.PREFIX)) return CustomTile.create(mHost, tileSpec);

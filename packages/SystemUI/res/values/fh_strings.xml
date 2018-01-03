@@ -128,4 +128,9 @@
     <string name="accessibility_quick_settings_location_gps_only">Location reporting: sensors only mode.</string>
     <string name="accessibility_quick_settings_location_high_accuracy">Location reporting: high accuracy mode.</string>
 
+    <!-- Greenify -->
+    <string name="quick_settings_greenify">Greenify</string>
+    <string name="greenified_apps">Hibernated</string>
+    <string name="greenify_not_installed">Greenify not installed. Please install Greenify to continue.</string>
+
 </resources>
