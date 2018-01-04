@@ -43,4 +43,7 @@
 
     <!-- Whether to use scaled brightness (set -1 to disable) -->
     <integer name="config_useScaleBrightness">-1</integer>
+
+    <!-- Whether the device supports Smart Pixels -->
+    <bool name="config_enableSmartPixels">false</bool>
 </resources>
