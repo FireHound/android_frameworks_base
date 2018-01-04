@@ -64,9 +64,12 @@
     <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
 
     <!-- Dynamic Navbar -->
-   <java-symbol type="color" name="input_method_navigation_guard_dynamic" />
+    <java-symbol type="color" name="input_method_navigation_guard_dynamic" />
 
-   <!-- Themes -->
-   <java-symbol type="color" name="updater_snackbar_text_color" />
+    <!-- Themes -->
+    <java-symbol type="color" name="updater_snackbar_text_color" />
+
+    <!-- Whether the device supports Smart Pixels -->
+    <java-symbol type="bool" name="config_enableSmartPixels" />
 
 </resources>
