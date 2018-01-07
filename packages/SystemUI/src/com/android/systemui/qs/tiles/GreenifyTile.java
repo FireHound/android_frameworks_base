@@ -24,9 +24,11 @@ import android.widget.Toast;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.SysUIToast;
 import com.android.systemui.plugins.qs.QSIconView;
+import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.plugins.qs.QSTile.BooleanState;
 import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
@@ -39,9 +41,11 @@ public class GreenifyTile extends QSTileImpl<BooleanState> {
         private static final Intent HIBERNATE = new Intent().setComponent(new ComponentName(
             PACKAGE_NAME, "com.oasisfeng.greenify.GreenifyShortcut"));
         private boolean mListening;
+        private final ActivityStarter mActivityStarter;
 
     public GreenifyTile(QSHost host) {
         super(host);
+    mActivityStarter = Dependency.get(ActivityStarter.class);
     }
 
     @Override
@@ -115,11 +119,11 @@ public class GreenifyTile extends QSTileImpl<BooleanState> {
     }
 
     protected void hibernateApps() {
-        mHost.startActivityDismissingKeyguard(HIBERNATE);
+        mActivityStarter.postStartActivityDismissingKeyguard(HIBERNATE, 0);
     }
 
     protected void launchGreenify() {
-        mHost.startActivityDismissingKeyguard(GREENIFY);
+        mActivityStarter.postStartActivityDismissingKeyguard(GREENIFY, 0);
     }
 
     @Override
