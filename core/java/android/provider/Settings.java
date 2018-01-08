@@ -4355,6 +4355,12 @@ public final class Settings {
         public static final String QS_PANEL_BG_ALPHA = "qs_panel_bg_alpha";
 
         /**
+         * Force Volume panel in expanded mode
+         * @hide
+         */
+        public static final String VOLUME_DIALOG_FORCE_EXPANDED = "volume_dialog_force_expanded";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
