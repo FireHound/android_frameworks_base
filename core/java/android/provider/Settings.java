@@ -4154,6 +4154,7 @@ public final class Settings {
          * 1 = Statusbar only
          * 2 = Navbar only
          * 3 = Fullscreen
+         * @hide
          */
         public static final String IMMERSIVE_RECENTS = "immersive_recents";
 
