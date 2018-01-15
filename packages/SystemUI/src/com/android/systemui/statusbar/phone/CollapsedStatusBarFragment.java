@@ -84,9 +84,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mKeyguardMonitor = Dependency.get(KeyguardMonitor.class);
         mNetworkController = Dependency.get(NetworkController.class);
         mStatusBarComponent = SysUiServiceProvider.getComponent(getContext(), StatusBar.class);
-
-        Dependency.get(TunerService.class).addTunable(this,
-                STATUS_BAR_SHOW_TICKER);
     }
 
     @Override
@@ -124,7 +121,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         showSystemIconArea(false);
         initEmergencyCryptkeeperText();
 
-        initTickerView();
+        Dependency.get(TunerService.class).addTunable(this,
+                STATUS_BAR_SHOW_TICKER);
     }
 
     @Override
