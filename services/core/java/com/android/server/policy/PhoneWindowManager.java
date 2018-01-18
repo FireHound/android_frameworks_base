@@ -8982,6 +8982,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mHandler.removeCallbacks(mScreenshotRunnable);
                 mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
                 mHandler.post(mScreenshotRunnable);
+            } else if (FhUtils.INTENT_SPOOF_SCREENSHOT.equals(action)) {
+                mContext.enforceCallingOrSelfPermission(Manifest.permission.ACCESS_SURFACE_FLINGER,
+                        TAG + "sendCustomAction permission denied");
+                mHandler.removeCallbacks(mScreenshotRunnable);
+                mScreenshotRunnable.setScreenshotType(SPOOF_SCREENSHOT_FULLSCREEN);
+                mHandler.post(mScreenshotRunnable);
             } else if (ActionHandler.INTENT_SHOW_POWER_MENU.equals(action)) {
                 showGlobalActions();
             } else if (ActionHandler.INTENT_SCREENSHOT.equals(action)) {

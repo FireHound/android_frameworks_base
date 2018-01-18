@@ -54,6 +54,7 @@ public class FhUtils {
     private static final String TAG = "FhUtils";
     public static final String INTENT_SCREENSHOT = "action_take_screenshot";
     public static final String INTENT_REGION_SCREENSHOT = "action_take_region_screenshot";
+    public static final String INTENT_SPOOF_SCREENSHOT = "action_take_spoof_screenshot";
 
     public static boolean isChineseLanguage() {
        return Resources.getSystem().getConfiguration().locale.getLanguage().startsWith(
@@ -93,7 +94,7 @@ public class FhUtils {
     public static void takeScreenshot(boolean full) {
         IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
         try {
-            wm.sendCustomAction(new Intent(full? INTENT_SCREENSHOT : INTENT_REGION_SCREENSHOT));
+            wm.sendCustomAction(new Intent(full? INTENT_SCREENSHOT : INTENT_REGION_SCREENSHOT : INTENT_SPOOF_SCREENSHOT));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

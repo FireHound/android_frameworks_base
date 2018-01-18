@@ -159,6 +159,12 @@ public interface WindowManager extends ViewManager {
     final int TAKE_SCREENSHOT_SELECTED_REGION = 2;
 
     /**
+     * Message for taking full scren spoofed screenshot.
+     * @hide
+     */
+    final int SPOOF_SCREENSHOT_FULLSCREEN = 1001;
+
+    /**
      * @hide
      */
     public static final String PARCEL_KEY_SHORTCUTS_ARRAY = "shortcuts_array";

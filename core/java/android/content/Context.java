@@ -1036,8 +1036,9 @@ public abstract class Context {
      *            {@link android.os.Environment#DIRECTORY_RINGTONES},
      *            {@link android.os.Environment#DIRECTORY_ALARMS},
      *            {@link android.os.Environment#DIRECTORY_NOTIFICATIONS},
-     *            {@link android.os.Environment#DIRECTORY_PICTURES}, or
-     *            {@link android.os.Environment#DIRECTORY_MOVIES}.
+     *            {@link android.os.Environment#DIRECTORY_PICTURES},
+     *            {@link android.os.Environment#DIRECTORY_MOVIES}, or
+     *            {@link android.os.Environment#DIRECTORY_SPOOFED_IMAGES}.
      * @return the absolute path to application-specific directory. May return
      *         {@code null} if shared storage is not currently available.
      * @see #getFilesDir
@@ -1098,8 +1099,9 @@ public abstract class Context {
      *            {@link android.os.Environment#DIRECTORY_RINGTONES},
      *            {@link android.os.Environment#DIRECTORY_ALARMS},
      *            {@link android.os.Environment#DIRECTORY_NOTIFICATIONS},
-     *            {@link android.os.Environment#DIRECTORY_PICTURES}, or
-     *            {@link android.os.Environment#DIRECTORY_MOVIES}.
+     *            {@link android.os.Environment#DIRECTORY_PICTURES},
+     *            {@link android.os.Environment#DIRECTORY_MOVIES}, or
+     *            {@link android.os.Environment#DIRECTORY_SPOOFED_IMAGES}.
      * @return the absolute paths to application-specific directories. Some
      *         individual paths may be {@code null} if that shared storage is
      *         not currently available. The first path returned is the same as
