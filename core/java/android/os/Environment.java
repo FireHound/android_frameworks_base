@@ -566,6 +566,12 @@ public class Environment {
     public static String DIRECTORY_DOCUMENTS = "Documents";
 
     /**
+     * Spoof Images directory created for saving screenshots to a different directory
+     * under Internal Storage
+     */
+    public static String DIRECTORY_SPOOFED_IMAGES = "SpoofedImages";
+
+    /**
      * List of standard storage directories.
      * <p>
      * Each of its values have its own constant:
@@ -580,6 +586,7 @@ public class Environment {
      *   <li>{@link #DIRECTORY_DOWNLOADS}
      *   <li>{@link #DIRECTORY_DCIM}
      *   <li>{@link #DIRECTORY_DOCUMENTS}
+     *   <li>{@link #DIRECTORY_SPOOFED_IMAGES}
      * </ul>
      * @hide
      */
@@ -593,7 +600,8 @@ public class Environment {
             DIRECTORY_MOVIES,
             DIRECTORY_DOWNLOADS,
             DIRECTORY_DCIM,
-            DIRECTORY_DOCUMENTS
+            DIRECTORY_DOCUMENTS,
+            DIRECTORY_SPOOFED_IMAGES
     };
 
     /**
@@ -631,7 +639,8 @@ public class Environment {
      *            {@link #DIRECTORY_RINGTONES}, {@link #DIRECTORY_ALARMS},
      *            {@link #DIRECTORY_NOTIFICATIONS}, {@link #DIRECTORY_PICTURES},
      *            {@link #DIRECTORY_MOVIES}, {@link #DIRECTORY_DOWNLOADS},
-     *            {@link #DIRECTORY_DCIM}, or {@link #DIRECTORY_DOCUMENTS}. May not be null.
+     *            {@link #DIRECTORY_DCIM}, {@link #DIRECTORY_DOCUMENTS},
+     *            {@link #DIRECTORY_SPOOFED_IMAGES}. May not be null.
      * @return Returns the File path for the directory. Note that this directory
      *         may not yet exist, so you must make sure it exists before using
      *         it such as with {@link File#mkdirs File.mkdirs()}.
