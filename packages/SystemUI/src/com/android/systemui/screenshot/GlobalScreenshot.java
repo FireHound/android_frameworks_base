@@ -118,6 +118,8 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SaveImageInBackgroundTask";
 
     private static final String SCREENSHOTS_DIR_NAME = "Screenshots";
+    private static final String SPOOF_SCREENSHOTS_DIR_NAME = "SpoofedImages";
+    private static final String SPOOF_SCREENSHOT_FILE_NAME_TEMPLATE = "SpoofedImages_%s.png";
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE = "Screenshot_%s.png";
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE_APPNAME = "Screenshot_%s_%s.png";
     private static final String SCREENSHOT_SHARE_SUBJECT_TEMPLATE = "Screenshot (%s)";
@@ -132,6 +134,8 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
     private final BigPictureStyle mNotificationStyle;
     private final int mImageWidth;
     private final int mImageHeight;
+
+    private Context mContext;
 
     // WORKAROUND: We want the same notification across screenshots that we update so that we don't
     // spam a user's notification drawer.  However, we only show the ticker for the saving state
@@ -148,7 +152,12 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
         mParams = data;
         mImageTime = System.currentTimeMillis();
         String imageDate = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date(mImageTime));
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.SCREENSHOT_SPOOF, 0, UserHandle.USER_CURRENT) == 1) {
+        mImageFileName = String.format(SPOOF_SCREENSHOT_FILE_NAME_TEMPLATE, imageDate);
+        } else {
         mImageFileName = String.format(SCREENSHOT_FILE_NAME_TEMPLATE, imageDate);
+        }
         final PackageManager pm = context.getPackageManager();
         ActivityInfo info = FhUtils.getRunningActivityInfo(context);
         if (info != null) {
@@ -160,9 +169,17 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
             }
         }
 
+        // Screenshot spoof directory
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.SCREENSHOT_SPOOF, 0, UserHandle.USER_CURRENT) == 1) {
+        mScreenshotDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), SPOOF_SCREENSHOTS_DIR_NAME);
+        mImageFilePath = new File(mScreenshotDir, mImageFileName).getAbsolutePath();
+        } else {
         mScreenshotDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), SCREENSHOTS_DIR_NAME);
         mImageFilePath = new File(mScreenshotDir, mImageFileName).getAbsolutePath();
+        }
 
         // Create the large notification icon
         mImageWidth = data.image.getWidth();
