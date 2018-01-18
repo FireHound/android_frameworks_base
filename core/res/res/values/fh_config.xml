@@ -62,4 +62,11 @@
     <!-- Whether the device has hardware keys present -->
     <bool name="config_hardwareKeysPresent">true</bool>
 
+    <!-- test -->
+    <string-array name="config_screenshotSpoofApps">
+        <item>com.snapchat.android</item>
+        <item>com.gbinsta.android</item>
+        <item>com.instagram.android</item>
+    </string-array>
+
 </resources>

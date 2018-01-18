@@ -1821,10 +1821,20 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS) {
                 mScreenshotChordVolumeDownKeyConsumed = true;
                 cancelPendingPowerKeyAction();
-                mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                boolean shouldDisable = (new FhUtils.ForegroundCheckTask(this)).execute().get();
+                if(isScreenshotSpoof() && shouldDisable){
+                    mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
+                } else {
+                    mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                }
                 mHandler.postDelayed(mScreenshotRunnable, getScreenshotChordLongPressDelay());
             }
         }
+    }
+
+    private boolean isScreenshotSpoof() {
+        return Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.SCREENSHOT_SPOOF, 0) == 1;
     }
 
     private void interceptScreenrecordChord() {
