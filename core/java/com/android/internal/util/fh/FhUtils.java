@@ -17,6 +17,9 @@
 package com.android.internal.util.fh;
 
 import android.app.ActivityManager;
+import android.app.ActivityManagerNative;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.IActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -28,9 +31,11 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.input.InputManager;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.os.Process;
 import android.os.UserHandle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -42,6 +47,7 @@ import android.os.RemoteException;
 import android.view.IWindowManager;
 import android.view.WindowManagerGlobal;
 
+import java.util.Arrays;
 import java.util.List;
 
 import java.util.Locale;
@@ -372,5 +378,29 @@ public class FhUtils {
                 }
             }
         }
+    }
+
+    public static boolean isSpoofApp(Context context)
+            throws RemoteException {
+        IActivityManager am = ActivityManagerNative.getDefault();
+            List<ActivityManager.RunningAppProcessInfo> apps = am.getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo appInfo : apps) {
+                int uid = appInfo.uid;
+                // Make sure it's a foreground user application (not system,
+                // root, phone, etc.)
+                if (uid >= Process.FIRST_APPLICATION_UID && uid <= Process.LAST_APPLICATION_UID
+                        && appInfo.importance ==
+                        ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    if (appInfo.pkgList != null && (appInfo.pkgList.length > 0)) {
+                        String pkgName = context.getPackageName();
+                        for (String pkg : context.getResources().getStringArray(
+                                com.android.internal.R.array.config_screenshotSpoofApps)) {
+                            if (pkgName.equals(pkg)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            } return false;
     }
 }
