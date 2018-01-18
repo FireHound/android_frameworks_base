@@ -127,6 +127,7 @@ import android.app.ActivityManagerInternal;
 import android.app.ActivityManagerInternal.SleepToken;
 import android.app.ActivityThread;
 import android.app.AppOpsManager;
+import android.app.IActivityManager;
 import android.app.IUiModeManager;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -1832,6 +1833,28 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
     }
+
+    private Void isSpoofApp() {
+         try {
+                ActivityManager am =
+                        (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+                for (ActivityManager.RunningAppProcessInfo appProcess: am.getRunningAppProcesses()) {
+                    List<RunningAppProcessInfo> appProcesses = am.getRunningAppProcesses();
+                    if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.SCREENSHOT_SPOOF, 0, UserHandle.USER_CURRENT) == 1) {
+                         if ("com.snapchat.android".equals(appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND)) {
+                             mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
+                         } else {
+                             mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                          break;
+                         }
+                    }
+                }
+        } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 
     private void interceptScreenrecordChord() {
         if (mScreenrecordChordEnabled && mScreenrecordChordVolumeUpKeyTriggered

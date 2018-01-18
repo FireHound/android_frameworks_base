@@ -118,6 +118,8 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SaveImageInBackgroundTask";
 
     private static final String SCREENSHOTS_DIR_NAME = "Screenshots";
+    private static final String SPOOF_IMAGES_DIR_NAME = "SpoofedImages";
+    private static final String SPOOF_IMAGES_FILE_NAME_TEMPLATE_APPNAME = "SpoofedImage_%s_%s.png";
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE = "Screenshot_%s.png";
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE_APPNAME = "Screenshot_%s_%s.png";
     private static final String SCREENSHOT_SHARE_SUBJECT_TEMPLATE = "Screenshot (%s)";
@@ -155,14 +157,28 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
             CharSequence appName = pm.getApplicationLabel(info.applicationInfo);
             if (appName != null) {
                 // replace all spaces and special chars with an underscore
+                if (Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.SCREENSHOT_SPOOF, 0, UserHandle.USER_CURRENT) == 1) {
+                String appNameString = appName.toString().replaceAll("[\\\\/:*?\"<>|]", "_");
+                mImageFileName = String.format(SPOOF_IMAGES_FILE_NAME_TEMPLATE_APPNAME, appNameString, imageDate);
+                } else {
                 String appNameString = appName.toString().replaceAll("[\\\\/:*?\"<>|]", "_");
                 mImageFileName = String.format(SCREENSHOT_FILE_NAME_TEMPLATE_APPNAME, appNameString, imageDate);
+                }
             }
         }
 
+        // Screenshot spoof directory
+        if (Settings.System.getIntForUser(context.getContentResolver(),
+            Settings.System.SCREENSHOT_SPOOF, 0, UserHandle.USER_CURRENT) == 1) {
+        mScreenshotDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_SPOOFED_IMAGES), SPOOF_IMAGES_DIR_NAME);
+        mImageFilePath = new File(mScreenshotDir, mImageFileName).getAbsolutePath();
+        } else {
         mScreenshotDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), SCREENSHOTS_DIR_NAME);
         mImageFilePath = new File(mScreenshotDir, mImageFileName).getAbsolutePath();
+        }
 
         // Create the large notification icon
         mImageWidth = data.image.getWidth();
