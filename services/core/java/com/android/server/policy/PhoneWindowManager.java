@@ -127,6 +127,7 @@ import android.app.ActivityManagerInternal;
 import android.app.ActivityManagerInternal.SleepToken;
 import android.app.ActivityThread;
 import android.app.AppOpsManager;
+import android.app.IActivityManager;
 import android.app.IUiModeManager;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -384,6 +385,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             "com.android.systemui.screenshot.TakeScreenshotService";
     private static final String SYSUI_SCREENSHOT_ERROR_RECEIVER =
             "com.android.systemui.screenshot.ScreenshotServiceErrorReceiver";
+
+    private static final String SNAPCHAT = "com.snapchat.android";
 
     /**
      * Keyguard stuff
@@ -1832,6 +1835,23 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
     }
+
+    private Void isSpoofApp() {
+         try {
+                ActivityManager am =
+                        (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+                IActivityManager ams = ActivityManager.getService();
+                for (ActivityManager.RunningAppProcessInfo app: am.getRunningAppProcesses()) {
+                    if ("com.snapchat.android".equals(app.processName)) {
+                        mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
+                        break;
+                    }
+                }
+        } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 
     private void interceptScreenrecordChord() {
         if (mScreenrecordChordEnabled && mScreenrecordChordVolumeUpKeyTriggered
