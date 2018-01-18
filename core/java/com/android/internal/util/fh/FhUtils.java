@@ -17,6 +17,7 @@
 package com.android.internal.util.fh;
 
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -28,6 +29,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.input.InputManager;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
@@ -42,6 +44,7 @@ import android.os.RemoteException;
 import android.view.IWindowManager;
 import android.view.WindowManagerGlobal;
 
+import java.util.Arrays;
 import java.util.List;
 
 import java.util.Locale;
@@ -371,6 +374,38 @@ public class FhUtils {
                     // do nothing.
                 }
             }
+        }
+    }
+
+   public class ForegroundCheckTask extends AsyncTask<Void, Void, Boolean> {
+
+        private ActivityManager activityManager;
+        private Context ctx;
+        private List<String> packagesList;
+
+        public ForegroundCheckTask(Context ctx) {
+            this.ctx = ctx;
+            activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+            packagesList = Arrays.asList(ctx.getResources().getStringArray(com.android.internal.R.array.config_screenshotSpoofApps));
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return isAppOnForeground();
+        }
+
+        private boolean isAppOnForeground() {
+            List<RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+            if (appProcesses == null) {
+                return false;
+            }
+            final String packageName = ctx.getPackageName();
+            for (RunningAppProcessInfo appProcess : appProcesses) {
+                if (appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND && packagesList.contains(appProcess.processName)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
