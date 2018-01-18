@@ -118,6 +118,8 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SaveImageInBackgroundTask";
 
     private static final String SCREENSHOTS_DIR_NAME = "Screenshots";
+    private static final String SPOOF_SCREENSHOTS_DIR_NAME = "CustomScreenshots";
+    private static final String SPOOF_SCREENSHOT_FILE_NAME_TEMPLATE = "CustomScreenshot_%s.png";
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE = "Screenshot_%s.png";
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE_APPNAME = "Screenshot_%s_%s.png";
     private static final String SCREENSHOT_SHARE_SUBJECT_TEMPLATE = "Screenshot (%s)";
@@ -160,9 +162,17 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
             }
         }
 
+        // Screenshot spoof directory
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.SCREENSHOT_SPOOF, 0, UserHandle.USER_CURRENT) == 1) {
+        mScreenshotDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), SPOOF_SCREENSHOTS_DIR_NAME);
+        mImageFilePath = new File(mScreenshotDir, mImageFileName).getAbsolutePath();
+        } else {
         mScreenshotDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), SCREENSHOTS_DIR_NAME);
         mImageFilePath = new File(mScreenshotDir, mImageFileName).getAbsolutePath();
+        }
 
         // Create the large notification icon
         mImageWidth = data.image.getWidth();
