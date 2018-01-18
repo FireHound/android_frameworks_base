@@ -4642,6 +4642,13 @@ public final class Settings {
         public static final String FLASHLIGHT_ON_CALL = "flashlight_on_call";
 
         /**
+         * Whether to fool apps which void our users privacy by broadcasting screenshot taken by them in certain
+         * apps like Snapchat.
+         * @hide
+         */
+        public static final String SCREENSHOT_SPOOF = "screenshot_spoof";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
