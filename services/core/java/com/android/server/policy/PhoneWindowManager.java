@@ -458,6 +458,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mHasFeatureWatch;
     private boolean mHasFeatureLeanback;
 
+    private boolean spoofScreenshot;
+
     // Assigned on main thread, accessed on UI thread
     volatile VrManagerInternal mVrManagerInternal;
 
@@ -1821,10 +1823,25 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS) {
                 mScreenshotChordVolumeDownKeyConsumed = true;
                 cancelPendingPowerKeyAction();
-                mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                spoofScreenshot = isScreenshotSpoof();
+            try {
+                if(spoofScreenshot && FhUtils.isSpoofApp(mContext)){
+                    mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
+                } else {
+                    mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                }
                 mHandler.postDelayed(mScreenshotRunnable, getScreenshotChordLongPressDelay());
+            } catch (RemoteException remoteException) {
+            // Do nothing; just let it go.
             }
-        }
+         }
+       }
+    }
+
+    private boolean isScreenshotSpoof() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                   Settings.System.SCREENSHOT_SPOOF, 0,
+                   UserHandle.USER_CURRENT) == 1;
     }
 
     private void interceptScreenrecordChord() {
