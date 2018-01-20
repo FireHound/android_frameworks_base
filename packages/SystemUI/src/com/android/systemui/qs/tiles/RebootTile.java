@@ -58,18 +58,12 @@ public class RebootTile extends QSTileImpl<BooleanState> {
     @Override
     protected void handleLongClick() {
         mHost.collapsePanels();
-        mBarService = IStatusBarService.Stub.asInterface(
-                ServiceManager.getService(Context.STATUS_BAR_SERVICE));
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                try {
-                    if(mRebootToRecovery)
-                        mBarService.advancedReboot(PowerManager.REBOOT_RECOVERY);
-                    else
-                        mBarService.reboot(false);
-                } catch (RemoteException e) {
-                }
+                PowerManager pm =
+                    (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+                pm.reboot(mRebootToRecovery ? "recovery" : "");
             }
         }, 500);
     }

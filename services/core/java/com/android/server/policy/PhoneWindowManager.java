@@ -257,7 +257,6 @@ import com.android.server.vr.VrManagerInternal;
 import com.android.server.wm.AppTransition;
 
 import lineageos.providers.LineageSettings;
-import org.lineageos.internal.util.ActionUtils;
 
 import java.io.File;
 import java.io.FileReader;

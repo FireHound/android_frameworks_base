@@ -749,11 +749,11 @@ final class DefaultPermissionGrantPolicy {
             }
 
             // Essentials
-            PackageParser.Package essentials = getSystemPackageLpr("org.firehound.essentials");
-            if (essentials != null && doesPackageSupportRuntimePermissions(essentials)) {
-            grantRuntimePermissionsLPw(essentials, PHONE_PERMISSIONS, true, userId);
-            grantRuntimePermissionsLPw(essentials, STORAGE_PERMISSIONS, userId);
-            grantRuntimePermissionsLPw(essentials, LOCATION_PERMISSIONS, userId);
+            PackageParser.Package ess = getSystemPackageLPr("org.firehound.essentials");
+            if (ess != null && doesPackageSupportRuntimePermissions(ess)) {
+            grantRuntimePermissionsLPw(ess, PHONE_PERMISSIONS, userId);
+            grantRuntimePermissionsLPw(ess, STORAGE_PERMISSIONS, userId);
+            grantRuntimePermissionsLPw(ess, LOCATION_PERMISSIONS, userId);
             }
 
             // Chromium Sign-in
