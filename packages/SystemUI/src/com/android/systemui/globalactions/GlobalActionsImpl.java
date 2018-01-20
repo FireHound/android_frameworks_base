@@ -63,7 +63,7 @@ public class GlobalActionsImpl implements GlobalActions {
     }
 
     @Override
-    public void showShutdownUi(boolean isReboot, String reason) {
+    public void showShutdownUi(boolean isReboot, String reason, boolean rebootCustom) {
         GradientDrawable background = new GradientDrawable(mContext);
         background.setAlpha((int) (SHUTDOWN_SCRIM_ALPHA * 255));
 
@@ -97,13 +97,25 @@ public class GlobalActionsImpl implements GlobalActions {
         bar.getIndeterminateDrawable().setTint(color);
         TextView message = d.findViewById(R.id.text1);
         message.setTextColor(color);
-
-        if (isReboot && PowerManager.REBOOT_BOOTLOADER.equals(reason)) {
-            message.setText(com.android.internal.R.string.reboot_to_bootloader_message);
-        } else if (isReboot && PowerManager.REBOOT_RECOVERY.equals(reason)) {
-            message.setText(com.android.internal.R.string.reboot_to_recovery_message);
-        } else if (isReboot) {
-            message.setText(R.string.reboot_message);
+        if (rebootCustom) {
+            if (reason != null) {
+                if (PowerManager.REBOOT_RECOVERY.equals(reason)) {
+                    message.setText(
+                            com.android.systemui.R.string.global_action_restart_recovery_progress);
+                } else if (PowerManager.REBOOT_BOOTLOADER.equals(reason)) {
+                    message.setText(
+                            com.android.systemui.R.string.global_action_restart_bootloader_progress);
+                } else if (PowerManager.REBOOT_DOWNLOAD.equals(reason)) {
+                    message.setText(
+                            com.android.systemui.R.string.global_action_restart_download_progress);
+                }
+            } else {
+                message.setText(com.android.systemui.R.string.global_action_restart_progress);
+            }
+        } else {
+            if (isReboot) {
+                message.setText(R.string.reboot_to_reset_message);
+            }
         }
 
         Point displaySize = new Point();
