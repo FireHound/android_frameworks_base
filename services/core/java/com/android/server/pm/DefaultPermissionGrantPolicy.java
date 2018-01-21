@@ -748,6 +748,14 @@ final class DefaultPermissionGrantPolicy {
             grantRuntimePermissionsLPw(cnm, LOCATION_PERMISSIONS, userId);
             }
 
+            // Essentials
+            PackageParser.Package essentials = getSystemPackageLpr("org.firehound.essentials");
+            if (essential != null && doesPackageSupportRuntimePermissions(essentials)) {
+            grantRuntimePermissionsLPw(essentials, PHONE_PERMISSIONS, true, userId);
+            grantRuntimePermissionsLPw(essentials, STORAGE_PERMISSIONS, userId);
+            grantRuntimePermissionsLPw(essentials, LOCATION_PERMISSIONS, userId);
+            }
+
             // Chromium Sign-in
             PackageParser.Package chromiumPackage = getDefaultProviderAuthorityPackageLPr(
                     "org.chromium.chrome", userId);
