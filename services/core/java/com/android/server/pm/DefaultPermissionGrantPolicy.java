@@ -749,6 +749,14 @@ final class DefaultPermissionGrantPolicy {
             grantRuntimePermissionsLPw(cnm, LOCATION_PERMISSIONS, userId);
             }
 
+            // Essentials
+            PackageParser.Package ess = getSystemPackageLPr("org.firehound.essentials");
+            if (ess != null && doesPackageSupportRuntimePermissions(ess)) {
+            grantRuntimePermissionsLPw(ess, PHONE_PERMISSIONS, userId);
+            grantRuntimePermissionsLPw(ess, STORAGE_PERMISSIONS, userId);
+            grantRuntimePermissionsLPw(ess, LOCATION_PERMISSIONS, userId);
+            }
+
             mService.mSettings.onDefaultRuntimePermissionsGrantedLPr(userId);
 
             // Google Account
