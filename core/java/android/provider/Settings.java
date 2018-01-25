@@ -4559,6 +4559,15 @@ public final class Settings {
         public static final Validator STATUSBAR_CLOCK_DATE_STYLE_VALIDATOR =
                 new InclusiveIntegerRangeValidator(0, 2);
 
+       /**
+        * Wheter to play notification sound and vibration if screen is ON
+        * 0 - never
+        * 1 - always
+        * 2 - if media playing
+        * @hide
+        */
+       public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
+
         /**
          * Stores the java DateFormat string for the date
          * @hide
