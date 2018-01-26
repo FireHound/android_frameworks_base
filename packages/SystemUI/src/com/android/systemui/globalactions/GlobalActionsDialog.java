@@ -60,7 +60,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemProperties;
@@ -127,8 +126,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
     private static final String GLOBAL_ACTION_KEY_VOICEASSIST = "voiceassist";
     private static final String GLOBAL_ACTION_KEY_ASSIST = "assist";
     private static final String GLOBAL_ACTION_KEY_RESTART = "restart";
-    private static final String GLOBAL_ACTION_KEY_RESTART_RECOVERY = "recovery";
-    private static final String GLOBAL_ACTION_KEY_SCREENSHOT = "screenshot";
     private static final String GLOBAL_ACTION_KEY_SCREENRECORD = "screenrecord";
     private static final String GLOBAL_ACTION_KEY_TORCH = "torch";
 
@@ -142,12 +139,12 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
 
     private Action mSilentModeAction;
     private ToggleAction mAirplaneModeOn;
-    private ToggleAction.State mAirplaneState = ToggleAction.State.Off;
 
     private MyAdapter mAdapter;
 
     private boolean mKeyguardShowing = false;
     private boolean mDeviceProvisioned = false;
+    private ToggleAction.State mAirplaneState = ToggleAction.State.Off;
     private boolean mIsWaitingForEcmExit = false;
     private boolean mHasTelephony;
     private boolean mHasVibrator;
@@ -416,16 +413,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
                         Settings.System.POWERMENU_RESTART, 1) == 1) {
                     mItems.add(new RestartAction());
                 }
-            } else if (GLOBAL_ACTION_KEY_RESTART_RECOVERY.equals(actionKey)) {
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.POWERMENU_RESTART_RECOVERY, 1) == 1) {
-                    mItems.add(new AdvancedRestartAction());
-                }
-            } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.POWERMENU_SCREENSHOT, 0) == 1) {
-                    mItems.add(new ScreenshotAction());
-                }
             } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.POWERMENU_SCREENRECORD, 0) == 1) {
@@ -526,73 +513,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
         @Override
         public void onPress() {
             mWindowManagerFuncs.reboot(false);
-        }
-    }
-
-
-    private final class AdvancedRestartAction extends SinglePressAction implements LongPressAction {
-        private AdvancedRestartAction() {
-            super(com.android.systemui.R.drawable.ic_restart_advanced, com.android.systemui.R.string.global_action_restart_advanced);
-        }
-
-        @Override
-        public boolean onLongPress() {
-            mWindowManagerFuncs.advancedReboot(PowerManager.REBOOT_BOOTLOADER);
-            return true;
-        }
-
-        @Override
-        public boolean showDuringKeyguard() {
-            return true;
-        }
-
-        @Override
-        public boolean showBeforeProvisioning() {
-            return true;
-        }
-
-        @Override
-        public void onPress() {
-            mWindowManagerFuncs.advancedReboot(PowerManager.REBOOT_RECOVERY);
-        }
-    }
-
-    private final class ScreenshotAction extends SinglePressAction implements LongPressAction {
-
-        private ScreenshotAction() {
-            super(com.android.systemui.R.drawable.ic_lock_screenshot,
-                    com.android.systemui.R.string.quick_settings_screenshot_label);
-        }
-
-        @Override
-        public void onPress() {
-            /* wait for the dialog box to close */
-            try {
-                 Thread.sleep(1000); //1s
-            } catch (InterruptedException ie) {}
-            FhUtils.takeScreenshot(true);
-        }
-
-
-        @Override
-        public boolean onLongPress() {
-            mHandler.sendEmptyMessage(MESSAGE_DISMISS);
-            /* wait for the dialog box to close */
-            try {
-                 Thread.sleep(1000); //1s
-            } catch (InterruptedException ie) {}
-            FhUtils.takeScreenshot(false);
-            return true;
-        }
-
-        @Override
-        public boolean showDuringKeyguard() {
-            return true;
-        }
-
-        @Override
-        public boolean showBeforeProvisioning() {
-            return true;
         }
     }
 
