@@ -4196,13 +4196,6 @@ public final class Settings {
         public static final String POWERMENU_SOUNDPANEL = "powermenu_soundpanel";
 
         /**
-         * Whether to display screenshot in the power menu
-         *
-         * @hide
-         */
-        public static final String POWERMENU_SCREENSHOT = "powermenu_screenshot";
-
-        /**
          * Whether to display settings in the power menu
          *
          * @hide
