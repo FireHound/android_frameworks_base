@@ -4248,6 +4248,13 @@ public final class Settings {
         public static final String LOCK_QS_DISABLED = "lockscreen_qs_disabled";
 
         /**
+         * Enable face auto unlock on secure lock screens
+         *
+         * @hide
+         */
+        public static final String FACE_AUTO_UNLOCK = "face_auto_unlock";
+
+        /**
          * Force an Ambient notification when a new media track is being played
          * 0 - disabled
          * 1 - show track info within normal Ambient Display notifications
