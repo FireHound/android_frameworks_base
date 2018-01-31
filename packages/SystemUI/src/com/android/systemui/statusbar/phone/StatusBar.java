@@ -8020,7 +8020,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         if(isPackageBlacklisted(sbn.getPackageName())) {
             return false;
         }
-        if ((!mUseHeadsUp || isDeviceInVrMode()) && !isDozing()) {
+        if ((!isDozing() && !mUseHeadsUp) || isDeviceInVrMode()) {
             if (DEBUG) Log.d(TAG, "No peeking: no huns or vr mode");
             return false;
         }
