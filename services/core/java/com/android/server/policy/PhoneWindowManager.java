@@ -2242,8 +2242,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         mLongPressOnBackBehavior = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_longPressOnBackBehavior);
-        mPanicPressOnBackBehavior = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_backPanicBehavior);
+
+        mPanicPressOnBackBehavior = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.PANIC_MODE, 0, UserHandle.USER_CURRENT);
 
         mShortPressOnPowerBehavior = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_shortPressOnPowerBehavior);
