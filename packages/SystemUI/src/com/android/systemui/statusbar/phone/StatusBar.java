@@ -3992,7 +3992,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         @Override
         public void tickerDone() {
-            if (mTicker == null || mTickerEnabled == 0) return;
+            if (mTicker == null) return;
             mStatusBarContent.setVisibility(View.VISIBLE);
             mStatusBarContent.startAnimation(loadAnim(false, null));
             if (mTickerView != null) {
