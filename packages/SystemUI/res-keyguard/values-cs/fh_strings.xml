@@ -16,5 +16,5 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Lockscreen weather -->
-  <string name="weather_info_not_available">Weather informations is not available</string>
+  <string name="weather_info_not_available">Informace o počasí nejsou k dispozici</string>
 </resources>
