@@ -3182,7 +3182,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     public boolean isUsingDarkTheme() {
         OverlayInfo themeInfo = null;
         try {
-            themeInfo = mOverlayManager.getOverlayInfo("com.android.system.theme.dark",
+            themeInfo = mOverlayManager.getOverlayInfo("com.android.systemui.theme.dark",
                     mCurrentUserId);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -5270,23 +5270,14 @@ public class StatusBar extends SystemUI implements DemoMode,
     protected void updateTheme() {
         final boolean inflated = mStackScroller != null;
 
-        int userThemeSetting = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.SYSTEM_THEME_STYLE, 0, mCurrentUserId);
-        boolean useDarkTheme = false;
-        if (userThemeSetting == 0) {
-            // The system wallpaper defines if QS should be light or dark.
-            WallpaperColors systemColors = mColorExtractor
-                    .getWallpaperColors(WallpaperManager.FLAG_SYSTEM);
-            useDarkTheme = systemColors != null
-                    && (systemColors.getColorHints() & WallpaperColors.HINT_SUPPORTS_DARK_THEME) != 0;
-        } else {
-            useDarkTheme = userThemeSetting == 2;
-        }
+        // The system wallpaper defines if QS should be light or dark.
+        WallpaperColors systemColors = mColorExtractor
+                .getWallpaperColors(WallpaperManager.FLAG_SYSTEM);
+        final boolean useDarkTheme = systemColors != null
+                && (systemColors.getColorHints() & WallpaperColors.HINT_SUPPORTS_DARK_THEME) != 0;
         if (isUsingDarkTheme() != useDarkTheme) {
             try {
-                mOverlayManager.setEnabled("com.android.system.theme.dark",
-                        useDarkTheme, mCurrentUserId);
-                mOverlayManager.setEnabled("com.android.settings.theme.dark",
+                mOverlayManager.setEnabled("com.android.systemui.theme.dark",
                         useDarkTheme, mCurrentUserId);
             } catch (RemoteException e) {
                 Log.w(TAG, "Can't change theme", e);
@@ -6515,9 +6506,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_BLACKLIST_VALUES), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.SYSTEM_THEME_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_TILE_TITLE_VISIBILITY),
                     false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
@@ -6551,7 +6539,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         setBatterySaverWarning();
         setHeadsUpStoplist();
         setHeadsUpBlacklist();
-        updateTheme();
         setForceAmbient();
         updateBatterySettings();
         }
