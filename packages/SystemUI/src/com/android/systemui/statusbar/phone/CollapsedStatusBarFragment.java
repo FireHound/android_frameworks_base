@@ -71,8 +71,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     private int mTickerEnabled;
     private View mTickerViewFromStub;
+    private View mLeftClock;
     private View mCustomCarrierLabel;
     private int mShowCarrierLabel;
+    private int mClockStyle;
     private View mWeatherImageView;
     private View mWeatherTextView;
     private int mShowWeather;
@@ -91,6 +93,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                     false, this, UserHandle.USER_ALL);
             getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP),
+                    false, this, UserHandle.USER_ALL);
+            getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUSBAR_CLOCK_STYLE),
                     false, this, UserHandle.USER_ALL);
         }
 
@@ -148,6 +153,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mSystemIconArea = mStatusBar.findViewById(R.id.system_icon_area);
         mSignalClusterView = mStatusBar.findViewById(R.id.signal_cluster);
         mCenterClockLayout = (LinearLayout) mStatusBar.findViewById(R.id.center_clock_layout);
+        mLeftClock = mStatusBar.findViewById(R.id.left_clock);
         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mSignalClusterView);
         mCustomCarrierLabel = mStatusBar.findViewById(R.id.statusbar_carrier_text);
         mWeatherTextView = mStatusBar.findViewById(R.id.weather_temp);
@@ -221,9 +227,11 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             if ((state1 & DISABLE_NOTIFICATION_ICONS) != 0) {
                 hideNotificationIconArea(animate);
                 hideCarrierName(animate);
+                hideLeftClock(animate);
             } else {
                 showNotificationIconArea(animate);
                 showCarrierName(animate);
+                showLeftClock(animate);
             }
         }
     }
@@ -286,6 +294,16 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         if (mCustomCarrierLabel != null) {
             setCarrierLabel(animate);
         }
+    }
+
+    public void hideLeftClock(boolean animate) {
+        if (mLeftClock != null) {
+            animateHide(mLeftClock, animate, false);
+        }
+    }
+
+    public void showLeftClock(boolean animate) {
+        updateClockStyle(animate);
     }
 
     /**
@@ -358,6 +376,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                 getContext().getContentResolver(), Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP, 0,
                 UserHandle.USER_CURRENT);
         setCarrierLabel(animate);
+        mClockStyle = Settings.System.getIntForUser(mContentResolver,
+                Settings.System.STATUSBAR_CLOCK_STYLE, 0,
+                UserHandle.USER_CURRENT);
+        updateClockStyle(animate);
     }
 
     private void initTickerView() {
@@ -380,6 +402,14 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             animateShow(mCustomCarrierLabel, animate);
         } else {
             animateHide(mCustomCarrierLabel, animate, false);
+        }
+    }
+
+    private void updateClockStyle(boolean animate) {
+        if (mClockStyle == 0 || mClockStyle == 1) {
+            animateHide(mLeftClock, animate, false);
+        } else {
+            animateShow(mLeftClock, animate);
         }
     }
 }
