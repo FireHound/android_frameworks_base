@@ -397,15 +397,23 @@ public class BatteryMeterView extends LinearLayout implements
     }
 
     private void setPercentTextAtCurrentLevel() {
+        // Use the high voltage symbol ⚡ (u26A1 unicode) but prevent the system
+        // to load its emoji colored variant with the uFE0E flag
+        String bolt = "\u26A1\uFE0E";
+        CharSequence mChargeIndicator =
+                mCharging && (mBatteryStyle == BATTERY_STYLE_TEXT
+                || mBatteryStyle == BATTERY_STYLE_HIDDEN)
+                ? (bolt + " ") : "";
+
         String text = NumberFormat.getPercentInstance().format(mLevel / 100f);
 
         if (mShowBatteryEstimate != 0 && !mCharging) {
             mBatteryController.getEstimatedTimeRemainingString((String estimate) -> {
                 if (estimate != null) {
                     if (mShowPercentMode == MODE_ON || mShowBatteryPercent == 2) {
-                        mBatteryPercentView.setText(text + " · " + estimate);
+                        mBatteryPercentView.setText(mChargeIndicator + text + " · " + estimate);
                     } else {
-                        mBatteryPercentView.setText(estimate);
+                        mBatteryPercentView.setText(mChargeIndicator + estimate);
                     }
                     setContentDescription(getContext().getString(
                             R.string.accessibility_battery_level_with_estimate,
@@ -413,7 +421,7 @@ public class BatteryMeterView extends LinearLayout implements
                 }
             });
         } else {
-            mBatteryPercentView.setText(text);
+            mBatteryPercentView.setText(mChargeIndicator + text);
             setContentDescription(
                     getContext().getString(mCharging ? R.string.accessibility_battery_level_charging
                     : R.string.accessibility_battery_level, mLevel));
@@ -438,6 +446,7 @@ public class BatteryMeterView extends LinearLayout implements
 
         mDrawable.setShowPercent(drawPercentInside);
         mXDrawable.setShowPercent(drawPercentInside);
+        updatePercentText();
 
         if (addPecentView) {
             if (!showing) {
