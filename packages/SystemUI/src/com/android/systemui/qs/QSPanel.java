@@ -790,14 +790,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         }
     }
 
-    public void updateSettings() {
-        if (mTileLayout != null) {
-            for (TileRecord r : mRecords) {
-                configureTile(r.tile, r.tileView);
-            }
-        }
-    }
-
     static boolean isAdaptiveBrightness(Context context) {
         int currentBrightnessMode = Settings.System.getInt(context.getContentResolver(),
                 Settings.System.SCREEN_BRIGHTNESS_MODE,
@@ -828,6 +820,11 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     public void updateSettings() {
         if (mFooter != null) {
             mFooter.updateSettings();
+        }
+        if (mTileLayout != null) {
+            for (TileRecord r : mRecords) {
+                configureTile(r.tile, r.tileView);
+            }
         }
     }
 }

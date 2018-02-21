@@ -4239,20 +4239,6 @@ public final class Settings {
         public static final String QS_SHOW_BRIGHTNESS_ICON = "qs_show_brightness_icon";
 
         /**
-         * Disable expanding quick settings on secure lock screens
-         *
-         * @hide
-         */
-        public static final String LOCK_QS_DISABLED = "lockscreen_qs_disabled";
-
-        /**
-         * Enable face auto unlock on secure lock screens
-         *
-         * @hide
-         */
-        public static final String FACE_AUTO_UNLOCK = "face_auto_unlock";
-
-        /**
          * Force an Ambient notification when a new media track is being played
          * 0 - disabled
          * 1 - show track info within normal Ambient Display notifications
@@ -4560,22 +4546,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUSBAR_CLOCK_DATE_POSITION = "statusbar_clock_date_position";
-
-        /**
-         * Display style of the status bar battery information
-         * 0: Display the battery an icon in portrait mode
-         * 1: Display the battery an icon in landscape mode
-         * 2: Display the battery as a circle
-         * 3: Display the battery as a dotted circle
-         * 4: Display the battery as a big circle and show level into the icon
-         * 5: Display the battery as a big dotted circle and show level into the icon
-         * 6: Display the battery as a square
-         * 7: Display the battery as text
-         * 8: Do not display the battery
-         * default: 0
-         * @hide
-         */
-        public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
 
         /**
          * @hide
@@ -8114,6 +8084,29 @@ public final class Settings {
          * @hide
          */
         public static final String LOCK_QS_DISABLED = "lockscreen_qs_disabled";
+
+        /**
+         * Display style of the status bar battery information
+         * 0: Display the battery an icon in portrait mode
+         * 1: Display the battery an icon in landscape mode
+         * 2: Display the battery as a circle
+         * 3: Display the battery as a dotted circle
+         * 4: Display the battery as a big circle and show level into the icon
+         * 5: Display the battery as a big dotted circle and show level into the icon
+         * 6: Display the battery as a square
+         * 7: Display the battery as text
+         * 8: Do not display the battery
+         * default: 0
+         * @hide
+         */
+        public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
+
+        /**
+         * Enable face auto unlock on secure lock screens
+         *
+         * @hide
+         */
+        public static final String FACE_AUTO_UNLOCK = "face_auto_unlock";
 
         /**
          * This are the settings to be backed up.
