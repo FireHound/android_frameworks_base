@@ -40,4 +40,7 @@
     <!-- App permission tint -->
     <color name="app_permission_icon_tint">@android:color/black</color>
 
+    <!-- Notification info -->
+    <color name="updater_snackbar_text_color">@android:color/white</color>
+
 </resources>
