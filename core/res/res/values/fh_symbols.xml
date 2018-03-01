@@ -75,4 +75,8 @@
   <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
   <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
 
+  <!-- Notification info -->
+  <java-symbol type="color" name="notification_info_button_text" />
+
+  <java-symbol type="color" name="updater_snackbar_text_color" />
 </resources>
