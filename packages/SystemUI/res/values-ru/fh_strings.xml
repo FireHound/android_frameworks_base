@@ -140,4 +140,10 @@
   <string name="omnijaws_current_text">Сейчас</string>
   <string name="omnijaws_package_not_available">OmniJaws недоступен</string>
   <string name="omnijaws_service_last_update">Последнее обновление:</string>
+  <!-- Sync QS Tile -->
+  <string name="quick_settings_sync_label">Sync</string>
+  <string name="accessibility_quick_settings_sync_off">Sync off</string>
+  <string name="accessibility_quick_settings_sync_on">Sync on</string>
+  <string name="accessibility_quick_settings_sync_changed_off">Sync turned off</string>
+  <string name="accessibility_quick_settings_sync_changed_on">Sync turned on</string>
 </resources>
