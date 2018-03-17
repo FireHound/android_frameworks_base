@@ -8151,6 +8151,13 @@ public final class Settings {
         public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
 
         /**
+         * Boolean value whether to allow untrusted overlays to be installed
+         *
+         * @hide
+         */
+        public static final String UNTRUSTED_OVERLAY_TOGGLE = "untrusted_overlay_toggle";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
