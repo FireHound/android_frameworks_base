@@ -588,7 +588,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mDoublePressOnPowerBehavior;
     int mTriplePressOnPowerBehavior;
     int mLongPressOnBackBehavior;
-    int mPanicPressOnBackBehavior;
+    boolean mPanicPressOnBackBehavior;
     int mShortPressOnSleepBehavior;
     int mShortPressWindowBehavior;
     volatile boolean mAwake;
@@ -2242,8 +2242,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         mLongPressOnBackBehavior = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_longPressOnBackBehavior);
-        mPanicPressOnBackBehavior = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_backPanicBehavior);
+        mPanicPressOnBackBehavior = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.PANIC_MODE_ENABLE, 0) == 1;
 
         mShortPressOnPowerBehavior = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_shortPressOnPowerBehavior);
