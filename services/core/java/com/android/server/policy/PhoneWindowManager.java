@@ -588,7 +588,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mDoublePressOnPowerBehavior;
     int mTriplePressOnPowerBehavior;
     int mLongPressOnBackBehavior;
-    int mPanicPressOnBackBehavior;
+    boolean mPanicPressOnBackBehavior;
     int mShortPressOnSleepBehavior;
     int mShortPressWindowBehavior;
     volatile boolean mAwake;
@@ -1586,12 +1586,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private void backMultiPressAction(long eventTime, int count) {
         if (count >= PANIC_PRESS_BACK_COUNT) {
-            switch (mPanicPressOnBackBehavior) {
-                case PANIC_PRESS_BACK_NOTHING:
-                    break;
-                case PANIC_PRESS_BACK_HOME:
-                    launchHomeFromHotKey();
-                    break;
+            if (mPanicPressOnBackBehavior){
+                launchHomeFromHotKey();
             }
         }
     }
@@ -1814,7 +1810,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private boolean hasPanicPressOnBackBehavior() {
-        return mPanicPressOnBackBehavior != PANIC_PRESS_BACK_NOTHING;
+        return mPanicPressOnBackBehavior;
     }
 
     private void interceptScreenshotChord() {
@@ -2242,8 +2238,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         mLongPressOnBackBehavior = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_longPressOnBackBehavior);
-        mPanicPressOnBackBehavior = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_backPanicBehavior);
+        mPanicPressOnBackBehavior = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.PANIC_MODE_ENABLE, 0, UserHandle.USER_CURRENT) == 1;
 
         mShortPressOnPowerBehavior = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_shortPressOnPowerBehavior);
