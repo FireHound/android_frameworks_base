@@ -4644,6 +4644,30 @@ public final class Settings {
         public static final String SHOW_LOCKSCREEN_ALARM = "show_lockscreen_alarm";
 
         /**
+         * Show QS Settings icon
+         * @hide
+         */
+        public static final String QS_SETTINGS_ICON_ENABLE = "qs_settings_icon_enable";
+
+        /**
+         * Show QS User icon
+         * @hide
+         */
+        public static final String QS_USER_ICON_ENABLE = "qs_user_icon_enable";
+
+        /**
+         * Show QS edit icon
+         * @hide
+         */
+        public static final String QS_EDIT_ICON_ENABLE = "qs_edit_icon_enable";
+
+        /**
+         * Show QS expand icon
+         * @hide
+         */
+        public static final String QS_EXPAND_ICON_ENABLE = "qs_expand_icon_enable";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
