@@ -22,6 +22,7 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -30,6 +31,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.UserManager;
 import android.provider.AlarmClock;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
@@ -105,6 +107,11 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     private View mDateTimeGroup;
     private boolean mKeyguardShowing;
     private TouchAnimator mAlarmAnimator;
+
+    private boolean showSettingsIcon;
+    private boolean showUserIcon;
+    private boolean showEditIcon;
+    private boolean showExpandIcon;
 
     public QSFooterImpl(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -315,10 +322,22 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
                 TunerService.isTunerEnabled(mContext) ? View.VISIBLE : View.INVISIBLE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
 
-        mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers() && !isDemo
-                ? View.VISIBLE : View.INVISIBLE);
+        showSettingsIcon = isSettingsIconEnabled();
+        mSettingsButton.setVisibility(mExpanded || showSettingsIcon
+                ? View.VISIBLE : View.GONE);
 
-        mEdit.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
+        showExpandIcon = isExpandIconEnabled();
+        mExpandIndicator.setVisibility(showExpandIcon ? View.VISIBLE : View.GONE);
+
+        mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers() && !isDemo
+                ? View.VISIBLE : View.GONE);
+
+        showEditIcon = isEditIconEnabled();
+        mEdit.setVisibility(!showEditIcon || isDemo || !mExpanded ? View.GONE : View.VISIBLE);
+
+        showUserIcon = isUserIconEnabled();
+        mMultiUserSwitch.setVisibility(showUserIcon ? View.VISIBLE : View.GONE);
+        mMultiUserAvatar.setVisibility(showUserIcon ? View.VISIBLE : View.GONE);
     }
 
     private void updateListeners() {
@@ -411,5 +430,25 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
                     Mode.SRC_IN);
         }
         mMultiUserAvatar.setImageDrawable(picture);
+    }
+
+    public boolean isSettingsIconEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_SETTINGS_ICON_ENABLE, 1) == 1;
+    }
+
+    public boolean isUserIconEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_USER_ICON_ENABLE, 1) == 1;
+    }
+
+    public boolean isEditIconEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_EDIT_ICON_ENABLE, 1) == 1;
+    }
+
+    public boolean isExpandIconEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_EXPAND_ICON_ENABLE, 1) == 1;
     }
 }
