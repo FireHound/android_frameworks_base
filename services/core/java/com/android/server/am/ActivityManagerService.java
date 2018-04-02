@@ -11557,7 +11557,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                 // pending on the process even though we managed to update its
                 // adj level.  Not sure what to do about this, but at least
                 // the race is now smaller.
-                if (!success) {
+                if (!success || cpr.proc.killedByAm) {
                     // Uh oh...  it looks like the provider's process
                     // has been killed on us.  We need to wait for a new
                     // process to be started, and make sure its death
@@ -18493,7 +18493,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         IPackageManager pm = AppGlobals.getPackageManager();
         ApplicationInfo app = null;
         try {
-            app = pm.getApplicationInfo(packageName, 0, userId);
+            app = pm.getApplicationInfo(packageName, STOCK_PM_FLAGS, userId);
         } catch (RemoteException e) {
             // can't happen; package manager is process-local
         }
