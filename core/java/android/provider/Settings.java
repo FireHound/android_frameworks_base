@@ -4601,6 +4601,13 @@ public final class Settings {
         public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
 
         /**
+         * Whether to show the two buttons besides the brightness slider
+         * Enabled by default
+         * @hide
+         */
+        public static final String SHOW_BRIGHTNESS_BUTTONS = "show_brightness_buttons";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *

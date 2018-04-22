@@ -83,7 +83,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     protected final Context mContext;
     protected final ArrayList<TileRecord> mRecords = new ArrayList<TileRecord>();
     protected final View mBrightnessView;
-    protected final ImageView mBrightnessIcon;
+    protected final ImageView mBrightnessIcon, mMinBrightness , mMaxBrightness;
     private final H mHandler = new H();
     private final View mPageIndicator;
     private final MetricsLogger mMetricsLogger = Dependency.get(MetricsLogger.class);
@@ -130,7 +130,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
                 mBrightnessIcon,
                 mBrightnessView.findViewById(R.id.brightness_slider));
 
-        ImageView mMinBrightness = mBrightnessView.findViewById(R.id.brightness_left);
+        mMinBrightness =(ImageView) mBrightnessView.findViewById(R.id.brightness_left);
         mMinBrightness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +163,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             }
         });
 
-        ImageView mMaxBrightness = mBrightnessView.findViewById(R.id.brightness_right);
+        mMaxBrightness = (ImageView) mBrightnessView.findViewById(R.id.brightness_right);
         mMaxBrightness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,6 +311,15 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         updateResources();
     }
 
+    private void showButtons() {
+        boolean showButtonsEnabled = Settings.System.getIntForUser(
+            mContext.getContentResolver(), Settings.System.SHOW_BRIGHTNESS_BUTTONS,
+                1, UserHandle.USER_CURRENT) == 1;
+        mMinBrightness.setVisibility(showButtonsEnabled ? View.VISIBLE : View.GONE);
+        mMaxBrightness.setVisibility(showButtonsEnabled ? View.VISIBLE : View.GONE);
+        updateResources();
+    }
+
     public void setBrightnessMirror(BrightnessMirrorController c) {
         if (mBrightnessMirrorController != null) {
             mBrightnessMirrorController.removeCallback(this);
@@ -429,6 +438,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             }
         }
         setBrightnessIcon();
+        showButtons();
     }
 
     public void refreshAllTiles() {
