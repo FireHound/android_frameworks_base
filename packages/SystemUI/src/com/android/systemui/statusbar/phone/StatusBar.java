@@ -6632,6 +6632,10 @@ public class StatusBar extends SystemUI implements DemoMode,
             update();
         }
 
+        @Override
+            public void onChange(boolean selfChange) {
+        }
+
         public void update() {
             updateQsPanelResources();
             setHeadsUpStoplist();
