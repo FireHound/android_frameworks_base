@@ -27,15 +27,24 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Handler;
+import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.UserHandle;
+import android.provider.Settings;
+import android.provider.Settings.Global;
+import android.service.dreams.DreamService;
+import android.service.dreams.IDreamManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
 import com.android.internal.hardware.AmbientDisplayConfiguration;
 import com.android.internal.util.Preconditions;
+import com.android.systemui.Dependency;
 import com.android.systemui.statusbar.phone.DozeParameters;
+import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.util.Assert;
 import com.android.systemui.util.wakelock.WakeLock;
 
@@ -69,6 +78,9 @@ public class DozeTriggers implements DozeMachine.Part {
     private long mNotificationPulseTime;
     private boolean mPulsePending;
 
+    private boolean shushEnabled;
+    private final ZenModeController mZenController;
+    private final AudioManager mAudioManager;
 
     public DozeTriggers(Context context, DozeMachine machine, DozeHost dozeHost,
             AlarmManager alarmManager, AmbientDisplayConfiguration config,
@@ -87,14 +99,59 @@ public class DozeTriggers implements DozeMachine.Part {
                 config, wakeLock, this::onSensor, this::onProximityFar,
                 new AlwaysOnDisplayPolicy(context));
         mUiModeManager = mContext.getSystemService(UiModeManager.class);
+        mZenController = Dependency.get(ZenModeController.class);
+        mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
     private void onNotification() {
         if (DozeMachine.DEBUG) Log.d(TAG, "requestNotificationPulse");
         mNotificationPulseTime = SystemClock.elapsedRealtime();
         if (!mConfig.pulseOnNotificationEnabled(UserHandle.USER_CURRENT)) return;
-        requestPulse(DozeLog.PULSE_REASON_NOTIFICATION, false /* performedProxCheck */);
+        requestPulse(DozeLog.PULSE_REASON_NOTIFICATION, true /* performedProxCheck */);
         DozeLog.traceNotificationPulse(mContext);
+        shushEnabled = isShushEnabled();
+        if(isDozeMode() || shushEnabled) {
+            int oldState = mAudioManager.getRingerModeInternal();
+            int newState = oldState;
+            switch (oldState) {
+                case AudioManager.RINGER_MODE_NORMAL:
+                    newState = AudioManager.RINGER_MODE_SILENT;
+                    mZenController.setZen(Global.ZEN_MODE_NO_INTERRUPTIONS, null, TAG);
+                    break;
+                case AudioManager.RINGER_MODE_VIBRATE:
+                    newState = AudioManager.RINGER_MODE_SILENT;
+                    mZenController.setZen(Global.ZEN_MODE_NO_INTERRUPTIONS, null, TAG);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            Log.w(TAG, "No need to enter DND");
+            requestPulse(DozeLog.PULSE_REASON_NOTIFICATION, false /* performedProxCheck */);
+            DozeLog.traceNotificationPulse(mContext);
+        }
+    }
+
+    private boolean isDozeMode() {
+        IDreamManager dreamManager = getDreamManager();
+        try {
+            if (dreamManager != null && dreamManager.isDozing()) {
+                return true;
+            }
+        } catch (RemoteException e) {
+            return false;
+        }
+        return false;
+    }
+
+    static IDreamManager getDreamManager() {
+        return IDreamManager.Stub.asInterface(
+                ServiceManager.checkService(DreamService.DREAM_SERVICE));
+    }
+
+    public boolean isShushEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.SHUSH_ENABLE, 0) == 1;
     }
 
     private void onNotificationForced() {
@@ -375,6 +432,7 @@ public class DozeTriggers implements DozeMachine.Part {
             IntentFilter filter = new IntentFilter(PULSE_ACTION);
             filter.addAction(UiModeManager.ACTION_ENTER_CAR_MODE);
             filter.addAction(Intent.ACTION_USER_SWITCHED);
+            filter.addAction(AudioManager.INTERNAL_RINGER_MODE_CHANGED_ACTION);
             context.registerReceiver(this, filter);
             mRegistered = true;
         }
