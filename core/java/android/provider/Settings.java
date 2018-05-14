@@ -4608,6 +4608,14 @@ public final class Settings {
         public static final String SHOW_BRIGHTNESS_BUTTONS = "show_brightness_buttons";
 
         /**
+         * Shush
+         * Whether to enter DND mode if the device is flipped on the screen
+         * or proximity sensor gets a positive input
+         * @hide
+         */
+        public static final String SHUSH_ENABLE = "shush_enable";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
