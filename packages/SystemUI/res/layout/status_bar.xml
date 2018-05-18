@@ -50,15 +50,15 @@
         >
 
         <com.android.systemui.statusbar.policy.ClockLeft
-                android:id="@+id/left_clock"
-                android:textAppearance="@style/TextAppearance.StatusBar.Clock"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:singleLine="true"
-                android:paddingStart="@dimen/status_bar_clock_starting_padding"
-                android:paddingEnd="@dimen/status_bar_clock_end_padding"
-                android:gravity="center_vertical|start"
-                />
+            android:id="@+id/left_clock"
+            android:textAppearance="@style/TextAppearance.StatusBar.Clock"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingStart="@dimen/status_bar_clock_end_padding"
+            android:paddingEnd="@dimen/status_bar_clock_starting_padding"
+            android:visibility="gone"
+            android:singleLine="true" />
 
         <com.android.systemui.fh.carrierlabel.CarrierLabel
             android:id="@+id/statusbar_carrier_text"
