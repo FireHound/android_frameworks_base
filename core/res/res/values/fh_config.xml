@@ -59,4 +59,7 @@
     <!-- Whether the device supports Smart Pixels -->
     <bool name="config_enableSmartPixels">false</bool>
 
+    <!-- Whether the device has hardware keys present -->
+    <bool name="config_hardwareKeysPresent">true</bool>
+
 </resources>
