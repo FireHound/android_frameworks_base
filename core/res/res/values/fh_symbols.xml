@@ -75,4 +75,7 @@
     <!-- Whether the device supports hardware keys -->
     <java-symbol type="bool" name="config_hardwareKeysPresent" />
 
+  <!-- Settings icon tint color -->
+  <java-symbol type="color" name="settings_icon_tint_color" />
+
 </resources>
