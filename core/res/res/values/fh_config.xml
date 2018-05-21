@@ -56,4 +56,7 @@
     <!-- Ambient music ticker -->
     <bool name="config_canForceDozeNotifications">true</bool>
 
+    <!-- Settings icon tint color -->
+    <color name="settings_icon_tint_color">#737373</color>
+
 </resources>
