@@ -23,6 +23,7 @@
   <!-- Reboot/Recovery QS Tile -->
   <string name="quick_settings_reboot_label">Restart</string>
   <string name="quick_settings_reboot_recovery_label">Recovery</string>
+  <string name="quick_settings_poweroff_label">Power off</string>
   <!-- Statusbar tuner -->
   <string name="statusbar_items_title">Ikony ve stavové liště</string>
   <!-- Screenshot Delete Toast -->
@@ -38,17 +39,17 @@
   <string name="quick_settings_sound_vibrate">Vibrace</string>
   <string name="quick_settings_sound_dnd">Nerušit</string>
   <!-- Heads up snooze toast -->
-  <string name="heads_up_snooze_message_one_minute"><xliff:g id="string">%s</xliff:g> - Plovoucí oznámení bylo odloženo na dobu 1 minuty.</string>
+  <string name="heads_up_snooze_message_one_minute"><xliff:g id="string">%s</xliff:g> - Plovoucí oznámení jsou odložena na dobu 1 minuty.</string>
   <string name="heads_up_snooze_message"><xliff:g id="string">%s </xliff:g> - Plovoucí oznámení jsou odložena na dobu <xliff:g id="number">%d </xliff:g> minut.</string>
   <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
-  <string name="keyguard_indication_dash_charging_time">Rychlé nabíjení (plně nabito za <xliff:g id="CHARGING_TIME_LEFT">%s</xliff:g>)</string>
-  <string name="keyguard_plugged_in_dash_charging">Rychlé nabíjení</string>
+  <string name="keyguard_indication_dash_charging_time">DASH nabíjení (plně nabito za <xliff:g id="CHARGING_TIME_LEFT">%s</xliff:g>)</string>
+  <string name="keyguard_plugged_in_dash_charging">DASH nabíjení</string>
   <!-- Screenrecord Notification Ticker -->
-  <string name="screenrecord_notif_ticker">Obrazovka je nahrávána</string>
+  <string name="screenrecord_notif_ticker">Obrazovka je zaznamenávána</string>
   <!-- Screenrecord notification title -->
   <string name="screenrecord_notif_title">Záznam obrazovky</string>
   <!-- Screenrecord notification action: Stop -->
-  <string name="screenrecord_notif_stop">Ukončit</string>
+  <string name="screenrecord_notif_stop">Zastavit</string>
   <!-- Screenrecord notification action: show/hide pointer -->
   <string name="screenrecord_notif_pointer_on">Zobrazit ukazatel</string>
   <string name="screenrecord_notif_pointer_off">Skrýt ukazatel</string>
@@ -59,9 +60,9 @@
   <string name="quick_settings_screenrecord">Záznam obrazovky</string>
   <!-- Lockscreen shortcuts -->
   <string name="lockscreen_default">Výchozí</string>
-  <string name="lockscreen_hidden">Žádný</string>
+  <string name="lockscreen_hidden">Nic</string>
   <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
-  <string name="custom_hint">Spustit přejetím prstem od ikony</string>
+  <string name="custom_hint">Spustit přejetím prstu od ikony</string>
   <!-- Tuner hide icons -->
   <string name="status_bar_vpn">Síť VPN</string>
   <string name="status_bar_roaming">Roaming</string>
@@ -75,4 +76,7 @@
   <string name="omnijaws_current_text">Nyní</string>
   <string name="omnijaws_package_not_available">OmniJaws není k dispozici</string>
   <string name="omnijaws_service_last_update">Poslední aktualizace:</string>
+  <!-- Smart pixels QS tile -->
+  <string name="quick_settings_smart_pixels">Smart pixels</string>
+  <string name="quick_settings_smart_pixels_on_power_save">Auto-enabled smart pixels</string>
 </resources>

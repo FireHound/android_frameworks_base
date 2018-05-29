@@ -23,6 +23,7 @@
   <!-- Reboot/Recovery QS Tile -->
   <string name="quick_settings_reboot_label">Reiniciar</string>
   <string name="quick_settings_reboot_recovery_label">Recuperação</string>
+  <string name="quick_settings_poweroff_label">Power off</string>
   <!-- Statusbar tuner -->
   <string name="statusbar_items_title">Ícones da barra de status</string>
   <!-- Screenshot Delete Toast -->
@@ -75,4 +76,7 @@
   <string name="omnijaws_current_text">Agora</string>
   <string name="omnijaws_package_not_available">OmniJaws não está disponível</string>
   <string name="omnijaws_service_last_update">Última atualização:</string>
+  <!-- Smart pixels QS tile -->
+  <string name="quick_settings_smart_pixels">Smart pixels</string>
+  <string name="quick_settings_smart_pixels_on_power_save">Auto-enabled smart pixels</string>
 </resources>

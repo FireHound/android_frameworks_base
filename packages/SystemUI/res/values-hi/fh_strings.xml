@@ -17,12 +17,13 @@
  -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- LTE QS Tile -->
-  <string name="qs_lte_label">LTE</string>
-  <string name="lte_on">LTE ON </string>
-  <string name="lte_off">LTE OFF</string>
+  <string name="qs_lte_label">एलटीई</string>
+  <string name="lte_on">एलटीई पर </string>
+  <string name="lte_off">एलटीई पर</string>
   <!-- Reboot/Recovery QS Tile -->
-  <string name="quick_settings_reboot_label">Reboot</string>
-  <string name="quick_settings_reboot_recovery_label">Recovery</string>
+  <string name="quick_settings_reboot_label">रिबूट</string>
+  <string name="quick_settings_reboot_recovery_label">रिकवरी</string>
+  <string name="quick_settings_poweroff_label">Power off</string>
   <!-- Statusbar tuner -->
   <string name="statusbar_items_title">Statusbar Icons</string>
   <!-- Screenshot Delete Toast -->
@@ -75,4 +76,7 @@
   <string name="omnijaws_current_text">Now</string>
   <string name="omnijaws_package_not_available">OmniJaws not available</string>
   <string name="omnijaws_service_last_update">Last update:</string>
+  <!-- Smart pixels QS tile -->
+  <string name="quick_settings_smart_pixels">Smart pixels</string>
+  <string name="quick_settings_smart_pixels_on_power_save">Auto-enabled smart pixels</string>
 </resources>
