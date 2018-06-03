@@ -53,8 +53,9 @@ public class BatteryMeterDrawableBase extends Drawable {
     public static final int BATTERY_STYLE_BIG_CIRCLE = 4;
     public static final int BATTERY_STYLE_BIG_DOTTED_CIRCLE = 5;
     public static final int BATTERY_STYLE_SQUARE = 6;
-    public static final int BATTERY_STYLE_TEXT = 7;
-    public static final int BATTERY_STYLE_HIDDEN = 8;
+    public static final int BATTERY_STYLE_DOTTED_SQUARE = 7;
+    public static final int BATTERY_STYLE_TEXT = 8;
+    public static final int BATTERY_STYLE_HIDDEN = 9;
 
     protected final Context mContext;
     protected final Paint mFramePaint;
@@ -108,7 +109,7 @@ public class BatteryMeterDrawableBase extends Drawable {
     private final Path mClipPath = new Path();
     private final Path mTextPath = new Path();
 
-    private DashPathEffect mPathEffect;
+    private DashPathEffect mPathEffect, mSquarePathEffect;
 
     private boolean mCircleShowPercentInside;
 
@@ -171,6 +172,7 @@ public class BatteryMeterDrawableBase extends Drawable {
         mPlusPoints = loadPoints(res, R.array.batterymeter_plus_points);
 
         mPathEffect = new DashPathEffect(new float[]{3,2}, 0);
+        mSquarePathEffect = new DashPathEffect(new float[]{3,3}, 3);
 
         mIntrinsicWidth = context.getResources().getDimensionPixelSize(R.dimen.battery_width);
         mIntrinsicHeight = context.getResources().getDimensionPixelSize(R.dimen.battery_height);
@@ -356,6 +358,7 @@ public class BatteryMeterDrawableBase extends Drawable {
                 drawCircle(c, true);
                 break;
             case BATTERY_STYLE_SQUARE:
+            case BATTERY_STYLE_DOTTED_SQUARE:
                 drawSquare(c);
                 break;
             default:
@@ -590,6 +593,12 @@ public class BatteryMeterDrawableBase extends Drawable {
         mBatteryPaint.setStrokeWidth(strokeWidth);
         mBatteryPaint.setStyle(Paint.Style.STROKE);
         mBatteryPaint.setPathEffect(null);
+
+        if (mMeterStyle == BATTERY_STYLE_DOTTED_SQUARE) {
+            mBatteryPaint.setPathEffect(mSquarePathEffect);
+        } else {
+            mBatteryPaint.setPathEffect(null);
+        }
 
         mFrame.set(
                 strokeWidth/2,
