@@ -4273,6 +4273,16 @@ public final class Settings {
         public static final String FORCE_EXPANDED_NOTIFICATIONS = "force_expanded_notifications";
 
         /**
+         * Whether to blink flashlight for incoming calls
+         * 0 = Disabled (Default)
+         * 1 = Blink flashlight only in Ringer mode
+         * 2 = Blink flashlight only in DND mode
+         * 3 = Blink flashlight always regardless of ringer mode
+         * @hide
+         */
+        public static final String FLASHLIGHT_ON_CALL = "flashlight_on_call";
+
+        /**
          * @deprecated Use {@link android.provider.Settings.Global#POWER_SOUNDS_ENABLED}
          * instead
          * @hide
