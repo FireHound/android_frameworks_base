@@ -440,9 +440,14 @@ public class StatusBar extends SystemUI implements DemoMode,
     private static final int DYNAMIC_STYLE = 1;
     private static final int LIGHT_STYLE = 2;
     private static final int DARK_STYLE = 3;
+    private static final int BLACK_STYLE = 4;
 
     private static final String[] DARK_OVERLAYS = {
             "org.lineageos.overlay.dark",
+    };
+
+    private static final String[] BLACK_OVERLAYS = {
+            "org.lineageos.overlay.black",
     };
 
     static {
@@ -3268,6 +3273,10 @@ public class StatusBar extends SystemUI implements DemoMode,
         return isUsingTheme(DARK_OVERLAYS[0]);
     }
 
+    public boolean isUsingBlackTheme() {
+        return isUsingTheme(BLACK_OVERLAYS[0]);
+    }
+
     private boolean isLiveDisplayNightModeOn() {
         // SystemUI is initialized before LiveDisplay, so the service may not
         // be ready when this is called the first time
@@ -4233,6 +4242,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             pw.println("    overlay manager not initialized!");
         } else {
             pw.println("    dark overlay on: " + isUsingDarkTheme());
+            pw.println("    black overlay on: " + isUsingBlackTheme());
         }
         final boolean lightWpTheme = mContext.getThemeResId() == R.style.Theme_SystemUI_Light;
         pw.println("    light wallpaper theme: " + lightWpTheme);
@@ -5370,6 +5380,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         int activeStyle = LIGHT_STYLE;
         if (isUsingDarkTheme()) {
             activeStyle = DARK_STYLE;
+        } else if (isUsingBlackTheme()) {
+            activeStyle = BLACK_STYLE;
         }
         return activeStyle;
     }
@@ -5378,6 +5390,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         switch (style) {
             case DARK_STYLE:
                 return DARK_OVERLAYS;
+            case BLACK_STYLE:
+                return BLACK_OVERLAYS;
             default:
                 return null;
         }
@@ -5399,7 +5413,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     private boolean isNightStyle(int style) {
-        return style == DARK_STYLE;
+        return style == DARK_STYLE || style == BLACK_STYLE;
     }
 
     private void updateStyle(int style) {
@@ -5423,7 +5437,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     protected void updateTheme() {
         final boolean inflated = mStackScroller != null;
 
-        // 0 = auto, 1 = time-based, 2 = light, 3 = dark
+        // 0 = auto, 1 = time-based, 2 = light, 3 = dark, 4 = black
         final int globalStyleSetting = LineageSettings.System.getInt(mContext.getContentResolver(),
                 LineageSettings.System.BERRY_GLOBAL_STYLE, 0);
         WallpaperColors systemColors = mColorExtractor
@@ -5438,6 +5452,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                 break;
             case LIGHT_STYLE:
             case DARK_STYLE:
+            case BLACK_STYLE:
                 actualStyle = globalStyleSetting;
                 break;
             default:
