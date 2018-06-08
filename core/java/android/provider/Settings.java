@@ -4642,6 +4642,12 @@ public final class Settings {
         public static final String FLASHLIGHT_ON_CALL = "flashlight_on_call";
 
         /**
+         * Custom flashlight flicker interval for incoming calls
+         *
+         */
+        public static final String FLASHLIGHT_ON_CALL_INTERVAL = "flashlight_on_call_interval";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
