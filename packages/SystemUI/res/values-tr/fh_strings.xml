@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (C) 2018 FireHound
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- LTE QS Tile -->
+    <string name="qs_lte_label">LTE</string>
+    <string name="lte_on">LTE AÇIK</string>
+    <string name="lte_off">LTE KAPALI</string>
+
+    <!-- Reboot/Recovery QS Tile -->
+    <string name="quick_settings_reboot_label">Yeniden başlat</string>
+    <string name="quick_settings_reboot_recovery_label">Kurtarma modu (Recovery)</string>
+    <string name="quick_settings_poweroff_label">Kapat</string>
+
+    <!-- Statusbar tuner -->
+    <string name="statusbar_items_title">Durum çubuğu simgeleri</string>
+
+    <!-- Screenshot Delete Toast -->
+    <string name="delete_screenshot_toast">Ekran görüntüsü silindi</string>
+
+    <!-- Screenshot QS tile -->
+    <string name="quick_settings_screenshot_label">Ekran görüntüsü</string>
+    <string name="quick_settings_region_screenshot_label">Kısmi ekran görüntüsü</string>
+
+    <!-- VoLte icon switch -->
+    <string name="status_bar_volte">VoLte</string>
+
+    <!-- Sound QS Tile -->
+    <string name="quick_settings_sound_label">Ses</string>
+    <string name="quick_settings_sound_ring">Zil sesi</string>
+    <string name="quick_settings_sound_vibrate">Titreşim</string>
+    <string name="quick_settings_sound_dnd">Rahatsız etmeyin</string>
+
+    <!-- Heads up snooze toast -->
+    <string name="heads_up_snooze_message_one_minute"><xliff:g id="string">%s</xliff:g> - Bildirim pencereleri 1 dakikalığına erteleniyor.</string>
+    <string name="heads_up_snooze_message"><xliff:g id="string">%s</xliff:g> - Bildirim pencereleri <xliff:g id="number">%d</xliff:g> dakika kadar erteleniyor.</string>
+
+    <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
+    <string name="keyguard_indication_dash_charging_time">Hızlı şarj oluyor (tam dolmasına <xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g> kaldı)</string>
+    <string name="keyguard_plugged_in_dash_charging">Hızlı şarj oluyor</string>
+
+    <!-- Screenrecord Notification Ticker -->
+    <string name="screenrecord_notif_ticker">Ekran kaydediliyor</string>
+    <!-- Screenrecord notification title -->
+    <string name="screenrecord_notif_title">Ekran kaydediliyor</string>
+    <!-- Screenrecord notification action: Stop -->
+    <string name="screenrecord_notif_stop">Durdur</string>
+    <!-- Screenrecord notification action: show/hide pointer -->
+    <string name="screenrecord_notif_pointer_on">İşaretçiyi göster</string>
+    <string name="screenrecord_notif_pointer_off">İşaretçiyi gizle</string>
+    <!-- Screen record notification error title -->
+    <string name="screenrecord_notif_error">Ekran kaydedilemiyor</string>
+    <string name="notification_channel_screenrecord">Ekran kayıtları</string>
+
+    <!-- Screenrecord Tile -->
+    <string name="quick_settings_screenrecord">Ekran kaydı</string>
+
+    <!-- Lockscreen shortcuts -->
+    <string name="lockscreen_default">Varsayılan</string>
+    <string name="lockscreen_hidden">Yok</string>
+
+    <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
+    <string name="custom_hint">Başlatmak için simgeyi hızlıca kaydır</string>
+
+    <!-- Tuner hide icons -->
+    <string name="status_bar_vpn">VPN</string>
+    <string name="status_bar_roaming">Dolaşım</string>
+
+    <!-- OmniJaws -->
+    <string name="omnijaws_service_error">Hata</string>
+    <string name="omnijaws_service_unkown">Hava durumu verileri yok</string>
+    <string name="omnijaws_service_error_long">Hava durumu verileri yüklenirken hata oluştu</string>
+    <string name="omnijaws_service_disabled">Servis devre dışı</string>
+    <string name="omnijaws_detail_header">Hava durumu</string>
+    <string name="omnijaws_label_default">Hava durumu</string>
+    <string name="omnijaws_current_text">Şimdi</string>
+    <string name="omnijaws_package_not_available">OmniJaws mevcut değil</string>
+    <string name="omnijaws_service_last_update">Son güncelleme:</string>
+
+    <!-- Smart pixels QS tile -->
+    <string name="quick_settings_smart_pixels">Akıllı piksel</string>
+    <string name="quick_settings_smart_pixels_on_power_save">Otomatik olarak akıllı pikseli etkinleştir</string>
+
+</resources>
