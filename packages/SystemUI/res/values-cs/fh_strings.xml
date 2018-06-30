@@ -23,7 +23,7 @@
   <!-- Reboot/Recovery QS Tile -->
   <string name="quick_settings_reboot_label">Restart</string>
   <string name="quick_settings_reboot_recovery_label">Recovery</string>
-  <string name="quick_settings_poweroff_label">Power off</string>
+  <string name="quick_settings_poweroff_label">Vypnout</string>
   <!-- Statusbar tuner -->
   <string name="statusbar_items_title">Ikony ve stavové liště</string>
   <!-- Screenshot Delete Toast -->
@@ -77,6 +77,6 @@
   <string name="omnijaws_package_not_available">OmniJaws není k dispozici</string>
   <string name="omnijaws_service_last_update">Poslední aktualizace:</string>
   <!-- Smart pixels QS tile -->
-  <string name="quick_settings_smart_pixels">Smart pixels</string>
-  <string name="quick_settings_smart_pixels_on_power_save">Auto-enabled smart pixels</string>
+  <string name="quick_settings_smart_pixels">Smart Pixels</string>
+  <string name="quick_settings_smart_pixels_on_power_save">Automaticky povolit Smart Pixels</string>
 </resources>
