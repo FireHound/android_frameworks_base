@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "292bc2dc_24086509",
+        "filename": "core/res/res/values/fh_config.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2018-06-30T10:42:31Z",
+      "side": 1,
+      "message": "Change it to false and add an overlay for supported devices in device trees.",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 43
+      },
+      "revId": "db333429411dddb93a14d1ee9d9f132799f4b78d",
+      "serverId": "5bf4f870-1441-472c-8c96-12edbcdcabf3",
+      "unresolved": false
+    }
+  ]
+}
