@@ -665,9 +665,7 @@ public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable {
             return true;
         }
 
-        return mExpanded || mForceExpanded && row.view.getVisibility() == View.VISIBLE
-                || (mExpanded && (row.important || isActive))
-                || !mExpanded && isActive;
+        return mExpanded || mForceExpanded && row.view.getVisibility() == View.VISIBLE || (mExpanded || mForceExpanded && (row.important || isActive)) || !mExpanded || !mForceExpanded && isActive;
     }
 
     private void updateRowsH(final VolumeRow activeRow) {
