@@ -44,6 +44,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.transition.AutoTransition;
@@ -180,6 +181,7 @@ public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable {
 
         final Configuration currentConfig = mContext.getResources().getConfiguration();
         mDensity = currentConfig.densityDpi;
+        updateForceExpanded();
     }
 
     @Override
@@ -665,9 +667,14 @@ public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable {
             return true;
         }
 
-        return mExpanded || mForceExpanded && row.view.getVisibility() == View.VISIBLE
-                || (mExpanded && (row.important || isActive))
-                || !mExpanded && isActive;
+        boolean isNotForced = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 0, UserHandle.USER_CURRENT) == 1;
+        updateForceExpanded();
+        if (isNotForced) {
+            return mExpanded && row.view.getVisibility() == View.VISIBLE || (mExpanded && (row.important || isActive)) || !mExpanded && isActive;
+        } else {
+            return mExpanded && row.view.getVisibility() == View.VISIBLE || (mForceExpanded && (row.important || isActive)) || !mExpanded && isActive;
+        }
     }
 
     private void updateRowsH(final VolumeRow activeRow) {
@@ -1079,11 +1086,13 @@ public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable {
                 mDialog.dismiss();
                 mZenFooter.cleanup();
                 initDialog();
+                updateForceExpanded();
                 mDensity = density;
             }
             updateWindowWidthH();
             mConfigurableTexts.update();
             mZenFooter.onConfigurationChanged();
+            updateForceExpanded();
         }
 
         @Override
