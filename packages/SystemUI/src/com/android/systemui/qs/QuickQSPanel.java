@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.res.Configuration;
 import android.os.UserHandle;
 import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -46,7 +47,7 @@ import java.util.Collection;
  */
 public class QuickQSPanel extends QSPanel {
 
-    public static final String NUM_QUICK_TILES = "sysui_qqs_count";
+    public static final String NUM_QUICK_TILES = Secure.QQS_COUNT;
     public static int NUM_QUICK_TILES_DEFAULT = 6;
     public static final int NUM_QUICK_TILES_ALL = 666;
 
@@ -145,14 +146,17 @@ public class QuickQSPanel extends QSPanel {
             }
         }
         super.setTiles(quickTiles, true);
-        ((HeaderTileLayout) mTileLayout).updateTileGaps();
+        ((HeaderTileLayout) mTileLayout).updateTileGaps(mHost.getTiles().size());
     }
 
     private final Tunable mNumTiles = new Tunable() {
         @Override
         public void onTuningChanged(String key, String newValue) {
             NUM_QUICK_TILES_DEFAULT = getNumQuickTiles(mContext);
-            ((HeaderTileLayout) mTileLayout).updateTileGaps();
+            if (mHost == null) {
+                return;
+            }
+            ((HeaderTileLayout) mTileLayout).updateTileGaps(mHost.getTiles().size());
             updateSettings();
         }
     };
@@ -173,7 +177,7 @@ public class QuickQSPanel extends QSPanel {
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ((HeaderTileLayout) mTileLayout).updateTileGaps();
+        ((HeaderTileLayout) mTileLayout).updateTileGaps(mHost.getTiles().size());
     }
 
     public void updateSettings() {
@@ -203,6 +207,7 @@ public class QuickQSPanel extends QSPanel {
         private int mTileSize;
         private int mScreenWidth;
         private int mStartMargin;
+        private int mMinTileGap;
 
         public HeaderTileLayout(Context context) {
             super(context);
@@ -216,6 +221,7 @@ public class QuickQSPanel extends QSPanel {
                     mContext.getResources()
                             .getDimensionPixelSize(R.dimen.rounded_corner_content_padding);
             mScreenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
+            mMinTileGap = mContext.getResources().getDimensionPixelSize(R.dimen.qs_scroller_min_tile_gap);
         }
 
         @Override
@@ -315,15 +321,16 @@ public class QuickQSPanel extends QSPanel {
             return false;
         }
 
-        public void updateTileGaps() {
+        private void updateTileGaps(int numTiles) {
             int panelWidth = mContext.getResources()
                     .getDimensionPixelSize(R.dimen.notification_panel_width);
             if (panelWidth == -1) {
                 panelWidth = mScreenWidth;
             }
             panelWidth -= 2 * mStartMargin;
-            int tileGap = (panelWidth - mTileSize * NUM_QUICK_TILES_DEFAULT) /
-                    (NUM_QUICK_TILES_DEFAULT - 1);
+            int maxNumTiles = panelWidth / (mTileSize + 2 * mMinTileGap);
+            int layoutNumTiles = Math.max(Math.min(maxNumTiles, numTiles), 2);
+            int tileGap = (panelWidth - mTileSize * layoutNumTiles) / (layoutNumTiles - 1);
             final int N = getChildCount();
             for (int i = 0; i < N; i++) {
                 if (getChildAt(i) instanceof Space) {
