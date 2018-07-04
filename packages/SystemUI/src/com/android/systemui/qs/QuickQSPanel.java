@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.res.Configuration;
 import android.os.UserHandle;
 import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -46,7 +47,7 @@ import java.util.Collection;
  */
 public class QuickQSPanel extends QSPanel {
 
-    public static final String NUM_QUICK_TILES = "sysui_qqs_count";
+    public static final String NUM_QUICK_TILES = Secure.QQS_COUNT;
     public static int NUM_QUICK_TILES_DEFAULT = 6;
     public static final int NUM_QUICK_TILES_ALL = 666;
 
@@ -152,6 +153,9 @@ public class QuickQSPanel extends QSPanel {
         @Override
         public void onTuningChanged(String key, String newValue) {
             NUM_QUICK_TILES_DEFAULT = getNumQuickTiles(mContext);
+            if (mHost == null) {
+                return;
+            }
             ((HeaderTileLayout) mTileLayout).updateTileGaps();
             updateSettings();
         }
@@ -315,15 +319,24 @@ public class QuickQSPanel extends QSPanel {
             return false;
         }
 
-        public void updateTileGaps() {
+        private void updateTileGaps() {
+
             int panelWidth = mContext.getResources()
                     .getDimensionPixelSize(R.dimen.notification_panel_width);
             if (panelWidth == -1) {
                 panelWidth = mScreenWidth;
             }
             panelWidth -= 2 * mStartMargin;
-            int tileGap = (panelWidth - mTileSize * NUM_QUICK_TILES_DEFAULT) /
+
+            int tileGap;
+            if (NUM_QUICK_TILES_DEFAULT == 1) {
+                tileGap = (panelWidth - mTileSize * NUM_QUICK_TILES_DEFAULT) /
+                    (NUM_QUICK_TILES_DEFAULT);
+            } else {
+                tileGap = (panelWidth - mTileSize * NUM_QUICK_TILES_DEFAULT) /
                     (NUM_QUICK_TILES_DEFAULT - 1);
+            }
+
             final int N = getChildCount();
             for (int i = 0; i < N; i++) {
                 if (getChildAt(i) instanceof Space) {
