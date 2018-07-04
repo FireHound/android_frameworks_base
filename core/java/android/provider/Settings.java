@@ -8283,6 +8283,12 @@ public final class Settings {
         public static final String FACE_AUTO_UNLOCK = "face_auto_unlock";
 
         /**
+         * Count of small QS tiles.
+         * @hide
+         */
+        public static final String QQS_COUNT = "sysui_qqs_count";
+
+        /**
          * Force authorize Substratum (or equivalent) frontend calling packages by ThemeInterfacer
          * The value is boolean (1 or 0).
          * @hide
