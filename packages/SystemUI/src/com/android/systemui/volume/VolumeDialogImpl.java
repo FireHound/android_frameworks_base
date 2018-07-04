@@ -670,7 +670,7 @@ public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable {
                 Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 1) == 1;
         updateForceExpanded();
         if (isForced) {
-            return mForceExpanded && row.view.getVisibility() == View.VISIBLE || (mForceExpanded && (row.important || isActive)) || !mForceExpanded && isActive;
+            return mExpanded && row.view.getVisibility() == View.VISIBLE || (mForceExpanded && (row.important || isActive)) || !mForceExpanded && isActive;
         } else {
             return mExpanded && row.view.getVisibility() == View.VISIBLE || (mExpanded && (row.important || isActive)) || !mExpanded && isActive;
         }
