@@ -104,7 +104,7 @@ public class TakeScreenrecordService extends Service {
         mScreenrecord.stopScreenrecord();
 
         // Turn off pointer only if it was disabled by user
-        boolean showTaps = Settings.System.getIntForUser(mContext.getContentResolver(),
+        boolean showTaps = Settings.System.getIntForUser(getContentResolver(),
                 Settings.System.SHOW_TOUCHES, 1, UserHandle.USER_CURRENT) == 1;
         if (showTaps) {
             Settings.System.putIntForUser(getContentResolver(), Settings.System.SHOW_TOUCHES,
