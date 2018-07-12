@@ -665,6 +665,14 @@ public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable {
             return true;
         }
 
+        final boolean isForceExpanded = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 1) == 1;
+        if (isForceExpanded) {
+                    return mExpanded && row.view.getVisibility() == View.VISIBLE
+                        || (mForceExpanded && (row.important || isActive))
+                        || !mForceExpanded && isActive;
+        }
+
         return mExpanded && row.view.getVisibility() == View.VISIBLE
                 || (mExpanded && (row.important || isActive))
                 || !mExpanded && isActive;
@@ -1361,6 +1369,6 @@ public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable {
 
     private void updateForceExpanded() {
         mForceExpanded = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 0) == 1;
+                Settings.System.VOLUME_DIALOG_FORCE_EXPANDED, 1) == 1;
     }
 }
