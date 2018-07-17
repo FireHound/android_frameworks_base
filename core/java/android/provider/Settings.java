@@ -4684,6 +4684,13 @@ public final class Settings {
         public static final String ENABLE_GAMING_MODE = "enable_gaming_mode";
 
         /**
+         * Whether to show media volume is muted icon in the status bar.
+         *
+         * @hide
+         */
+        public static final String SHOW_MEDIA_MUTED = "show_media_muted";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
