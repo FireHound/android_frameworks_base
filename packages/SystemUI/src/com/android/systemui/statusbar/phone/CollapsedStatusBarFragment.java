@@ -86,6 +86,11 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     private class FhSettingsObserver extends ContentObserver {
         FhSettingsObserver(Handler handler) {
+
+        private View mMediaMutedLogo;
+        private boolean mShowMediaMute;
+        private final Handler mHandler = new Handler();
+
             super(handler);
         }
 
@@ -95,6 +100,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                     false, this, UserHandle.USER_ALL);
             getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUSBAR_CLOCK_STYLE),
+                    false, this, UserHandle.USER_ALL);
+            getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SHOW_MEDIA_MUTED),
                     false, this, UserHandle.USER_ALL);
         }
 
@@ -159,6 +167,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mSignalClusterView = mStatusBar.findViewById(R.id.signal_cluster);
         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mSignalClusterView);
         mCustomCarrierLabel = mStatusBar.findViewById(R.id.statusbar_carrier_text);
+        mMediaMutedLogo = mStatusBar.findViewById(R.id.media_volume_mute);
         updateSettings(false);
         // Default to showing until we know otherwise.
         showSystemIconArea(false);
@@ -279,10 +288,16 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     public void hideNotificationIconArea(boolean animate) {
         animateHide(mNotificationIconAreaInner, animate, true);
+        if (mShowMediaMute) {
+            animateHide(mMediaMutedLogo, animate, true);
+        }
     }
 
     public void showNotificationIconArea(boolean animate) {
         animateShow(mNotificationIconAreaInner, animate);
+        if (mShowMediaMute) {
+            animateShow(mMediaMutedLogo, animate);
+        }
     }
 
     public void hideCarrierName(boolean animate) {
@@ -378,6 +393,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                 Settings.System.STATUSBAR_CLOCK_STYLE, 0,
                 UserHandle.USER_CURRENT);
         updateClockStyle(animate);
+        mShowMediaMute = Settings.System.getIntForUser(mContentResolver,
+                Settings.System.SHOW_MEDIA_MUTED, 0,
+                UserHandle.USER_CURRENT) == 1;
+        updateMediaLogo();
     }
 
     private void initTickerView() {
@@ -408,6 +427,18 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             animateHide(mLeftClock, animate, false);
         } else {
             animateShow(mLeftClock, animate);
+        }
+    }
+
+    private void updateMediaLogo(boolean animate) {
+        if (mNotificationIconAreaInner != null) {
+            if (mShowMediaMute) {
+                if (mNotificationIconAreaInner.getVisibility() == View.VISIBLE) {
+                    animateShow(mMediaMutedLogo, animate);
+                }
+            } else {
+                animateHide(mMediaMutedLoo, animate, false);
+            }
         }
     }
 }
