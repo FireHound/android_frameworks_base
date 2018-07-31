@@ -4358,12 +4358,6 @@ public final class Settings {
         public static final String FP_UNLOCK_KEYSTORE = "fp_unlock_keystore";
 
         /**
-         * Three Finger Gesture from Oppo
-         * @hide
-         */
-        public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
-
-        /**
          * MediaScanner behavior on boot.
          * 0 = enabled
          * 1 = ask (notification)
