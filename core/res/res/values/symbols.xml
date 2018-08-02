@@ -2593,6 +2593,7 @@
   <java-symbol type="string" name="status_bar_zen" />
   <java-symbol type="string" name="status_bar_mute" />
   <java-symbol type="string" name="status_bar_volume" />
+  <java-symbol type="string" name="status_bar_media_volume" />
   <java-symbol type="string" name="status_bar_wifi" />
   <java-symbol type="string" name="status_bar_cdma_eri" />
   <java-symbol type="string" name="status_bar_data_connection" />
