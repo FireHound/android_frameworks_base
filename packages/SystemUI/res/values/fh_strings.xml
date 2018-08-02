@@ -161,4 +161,7 @@
     <!-- Reset Message QS tiles -->
     <string name="reset_qs_tiles_message">Do you want to reset all Quick Settings tiles to defaults? This cannot be undone.</string>
 
+    <!-- Media volume muted -->
+    <string name="accessibility_media_muted">Media Muted.</string>
+
 </resources>

@@ -75,6 +75,10 @@
         android:title="@*android:string/volume_unknown" />
 
     <com.android.systemui.tuner.StatusBarSwitch
+        android:key="media_volume"
+        android:title="@*android:string/media_volume_mute" />
+
+    <com.android.systemui.tuner.StatusBarSwitch
         android:key="wifi"
         android:title="@string/quick_settings_wifi_label" />
 

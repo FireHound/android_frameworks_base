@@ -106,6 +106,7 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
     private final String mSlotTty;
     private final String mSlotZen;
     private final String mSlotVolume;
+    private final String mSlotMediaVolume;
     private final String mSlotAlarmClock;
     private final String mSlotManagedProfile;
     private final String mSlotRotate;
@@ -139,6 +140,7 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
     private boolean mVolumeVisible;
     private boolean mCurrentUserSetup;
     private boolean mDockedStackExists;
+    private boolean mMediaVolumeVisible;
 
     private boolean mManagedProfileIconVisible = false;
     private boolean mManagedProfileInQuietMode = false;
@@ -168,6 +170,7 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
         mSlotTty = context.getString(com.android.internal.R.string.status_bar_tty);
         mSlotZen = context.getString(com.android.internal.R.string.status_bar_zen);
         mSlotVolume = context.getString(com.android.internal.R.string.status_bar_volume);
+        mSlotMediaVolume = context.getString(com.android.internal.R.string.status_bar_media_volume);
         mSlotAlarmClock = context.getString(com.android.internal.R.string.status_bar_alarm_clock);
         mSlotManagedProfile = context.getString(
                 com.android.internal.R.string.status_bar_managed_profile);
@@ -212,6 +215,11 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
         // volume
         mIconController.setIcon(mSlotVolume, R.drawable.stat_sys_ringer_vibrate, null);
         mIconController.setIconVisibility(mSlotVolume, false);
+        updateVolumeZen();
+
+        // media volume
+        mIconController.setIcon(mSlotMediaVolume, R.drawable.ic_media_volume_off, null);
+        mIconController.setIconVisibility(mSlotMediaVolume, false);
         updateVolumeZen();
 
         // cast
@@ -346,6 +354,10 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
         String volumeDescription = null;
         int zen = mZenController.getZen();
 
+        boolean mediaVolumeVisible = false;
+        int mediaVolumeIconId = 0;
+        String mediaVolumeDescription = null;
+
         if (DndTile.isVisible(mContext) || DndTile.isCombinedIcon(mContext)) {
             zenVisible = zen != Global.ZEN_MODE_OFF;
 			if (zen == Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS) {
@@ -378,6 +390,12 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
             volumeDescription = mContext.getString(R.string.accessibility_ringer_vibrate);
         }
 
+        if (audioManager.isStreamMute(AudioManager.STREAM_MUSIC) && zen != Global.ZEN_MODE_NO_INTERRUPTIONS) {
+            mediaVolumeVisible = true;
+            mediaVolumeIconId = R.drawable.ic_media_volume_off;
+            mediaVolumeDescription = mContext.getString(R.string.accessibility_media_muted);
+        }
+
         if (zenVisible) {
             mIconController.setIcon(mSlotZen, zenIconId, zenDescription);
         }
@@ -392,6 +410,14 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
         if (volumeVisible != mVolumeVisible) {
             mIconController.setIconVisibility(mSlotVolume, volumeVisible);
             mVolumeVisible = volumeVisible;
+        }
+
+        if (mediaVolumeVisible) {
+            mIconController.setIcon(mSlotMediaVolume, mediaVolumeIconId, mediaVolumeDescription);
+        }
+        if (mediaVolumeVisible != mMediaVolumeVisible) {
+            mIconController.setIconVisibility(mSlotMediaVolume, mediaVolumeVisible);
+            mMediaVolumeVisible = mediaVolumeVisible;
         }
         updateAlarm();
     }
