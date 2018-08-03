@@ -24,6 +24,7 @@ import android.app.Fragment;
 import android.app.StatusBarManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -80,10 +81,12 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private View mLeftClock;
     private int mClockStyle;
 
+    //private AudioManager mAudioManager;
     private View mCustomCarrierLabel;
     private int mShowCarrierLabel;
     private ImageView mMediaMutedLogo;
     private boolean mShowMediaMute;
+    private boolean mMusicStreamMuted;
     private final Handler mHandler = new Handler();
 
     private static final String STATUS_BAR_SHOW_TICKER =
@@ -442,10 +445,38 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         }
     }
 
-    private void updateMediaLogo(boolean animate) {
+    public void onReceive(Intent intent) {
+        if (AudioManager.STREAM_MUTE_CHANGED_ACTION.equals(intent.getAction())
+                || (AudioManager.VOLUME_CHANGED_ACTION.equals(intent.getAction()))) {
+            int streamType = intent.getIntExtra(AudioManager.EXTRA_VOLUME_STREAM_TYPE, -1);
+            if (streamType == AudioManager.STREAM_MUSIC) {
+                boolean muted = isMusicMuted(streamType);
+                if (mMusicStreamMuted != muted) {
+                    mMusicStreamMuted = muted;
+                    Handler mHandler = new Handler();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateMediaLogo(true);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    private boolean isMusicMuted(int streamType) {
         AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        return streamType == AudioManager.STREAM_MUSIC &&
+                (audioManager.isStreamMute(streamType) ||
+               audioManager.getStreamVolume(streamType ) == 0);
+    }
+
+    private void updateMediaLogo(boolean animate) {
+        //AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        //mMusicStreamMuted = isMusicMuted(AudioManager.STREAM_MUSIC);
         if (mSystemIconArea != null) {
-            if (mShowMediaMute && audioManager != null && audioManager.isStreamMute(AudioManager.STREAM_MUSIC)) {
+            if (mShowMediaMute && isMusicMuted(AudioManager.STREAM_MUSIC)) {
                 if (mSystemIconArea.getVisibility() == View.VISIBLE) {
                     animateShow(mMediaMutedLogo, animate);
                 }
