@@ -470,6 +470,7 @@ status_t ResStringPool::setTo(const void* data, size_t size, bool copyData)
     if (validate_chunk(reinterpret_cast<const ResChunk_header*>(data), sizeof(ResStringPool_header),
                        reinterpret_cast<const uint8_t*>(data) + size,
                        "ResStringPool_header") != NO_ERROR) {
+
         LOG_ALWAYS_FATAL("Bad string block: malformed block dimensions");
         return (mError=BAD_TYPE);
     }
@@ -6581,8 +6582,16 @@ status_t ResTable::parsePackage(const ResTable_package* const pkg,
             }
 
         } else if (ctype == RES_TABLE_LIBRARY_TYPE) {
+
             if (group->dynamicRefTable.entries().size() == 0) {
-                status_t err = group->dynamicRefTable.load((const ResTable_lib_header*) chunk);
+                const ResTable_lib_header* lib = (const ResTable_lib_header*) chunk;
+                status_t err = validate_chunk(&lib->header, sizeof(*lib),
+                                              endPos, "ResTable_lib_header");
+                if (err != NO_ERROR) {
+                    return (mError=err);
+                }
+
+                err = group->dynamicRefTable.load(lib);
                 if (err != NO_ERROR) {
                     return (mError=err);
                 }
