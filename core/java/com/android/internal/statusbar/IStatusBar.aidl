@@ -136,4 +136,9 @@ oneway interface IStatusBar
      * FireHound
      */
     void toggleCameraFlash();
+
+    /**
+     * Notifies the status bar that a new rotation suggestion is available.
+     */
+    void onProposedRotationChanged(int rotation, boolean isValid);
 }
