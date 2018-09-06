@@ -2753,10 +2753,11 @@ public class NotificationPanelView extends PanelView implements
         } else {
             if (mKeyguardBottomArea.isLeftVoiceAssist()) {
                 mStatusBar.onVoiceAssistHintStarted();
-            } else if ((mKeyguardBottomArea.getLeftIntent() == KeyguardBottomAreaView.PHONE_INTENT) {
+            } else if (mKeyguardBottomArea.getLeftIntent() == KeyguardBottomAreaView.PHONE_INTENT) {
                 mStatusBar.onPhoneHintStarted();
             } else {
                 mStatusBar.onCustomHintStarted();
+            }
         }
     }
 
