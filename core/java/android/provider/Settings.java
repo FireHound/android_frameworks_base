@@ -5011,10 +5011,10 @@ public final class Settings {
         public static final String QS_PANEL_BG_ALPHA = "qs_panel_bg_alpha";
 
         /**
-         * Whether to show charging animation
+         * Whether to show wireless charging animation
          * @hide
          */
-        public static final String CHARGING_ANIMATION = "charging_animation";
+        public static final String WIRELESS_CHARGING_ANIMATION = "wireless_charging_animation";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
