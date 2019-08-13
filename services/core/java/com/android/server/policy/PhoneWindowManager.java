@@ -6831,4 +6831,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
+    @Override
+    public void takeAlternativeScreenshot() {
+        takeScreenshot(TAKE_SCREENSHOT_FULLSCREEN);
+    }
+
 }

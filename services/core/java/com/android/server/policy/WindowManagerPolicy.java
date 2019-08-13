@@ -1511,4 +1511,10 @@ public interface WindowManagerPolicy extends WindowManagerPolicyConstants {
      * Send some ActionHandler commands to WindowManager.
      */
     void sendCustomAction(Intent intent);
+
+    /**
+     * Long screenshot
+     * @hide
+     */
+    void takeAlternativeScreenshot();
 }
