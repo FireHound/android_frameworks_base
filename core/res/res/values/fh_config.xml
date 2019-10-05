@@ -22,4 +22,7 @@
     <!-- Whether device has warp charging support -->
     <bool name="config_hasWarpCharger">false</bool>
 
+    <!-- -1 means use same as config_screenBrightnessDoze -->
+    <integer name="config_screenBrightnessPulse">-1</integer>
+
 </resources>
