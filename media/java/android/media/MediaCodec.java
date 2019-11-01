@@ -62,7 +62,6 @@ import java.util.concurrent.locks.ReentrantLock;
  processing. The codec uses up the data and transforms it into one of its empty output buffers.
  Finally, you request (or receive) a filled output buffer, consume its contents and release it
  back to the codec.
-
  <h3>Data Types</h3>
  <p>
  Codecs operate on three kinds of data: compressed data, raw audio data and raw video data.
@@ -75,7 +74,6 @@ import java.util.concurrent.locks.ReentrantLock;
  ByteBuffer#isDirect direct} ByteBuffers. When using ByteBuffer mode, you can access raw video
  frames using the {@link Image} class and {@link #getInputImage getInput}/{@link #getOutputImage
  OutputImage(int)}.
-
  <h4>Compressed Buffers</h4>
  <p>
  Input buffers (for decoders) and output buffers (for encoders) contain compressed data according
@@ -85,7 +83,6 @@ import java.util.concurrent.locks.ReentrantLock;
  this requirement is slightly relaxed in that a buffer may contain multiple encoded access units
  of audio. In either case, buffers do not start or end on arbitrary byte boundaries, but rather on
  frame/access unit boundaries unless they are flagged with {@link #BUFFER_FLAG_PARTIAL_FRAME}.
-
  <h4>Raw Audio Buffers</h4>
  <p>
  Raw audio buffers contain entire frames of PCM audio data, which is one sample for each channel
@@ -98,17 +95,14 @@ import java.util.concurrent.locks.ReentrantLock;
  and confirmed by {@link #getOutputFormat} for decoders
  or {@link #getInputFormat} for encoders.
  A sample method to check for float PCM in the MediaFormat is as follows:
-
  <pre class=prettyprint>
  static boolean isPcmFloat(MediaFormat format) {
    return format.getInteger(MediaFormat.KEY_PCM_ENCODING, AudioFormat.ENCODING_PCM_16BIT)
        == AudioFormat.ENCODING_PCM_FLOAT;
  }</pre>
-
  In order to extract, in a short array,
  one channel of a buffer containing 16 bit signed integer audio data,
  the following code may be used:
-
  <pre class=prettyprint>
  // Assumes the buffer PCM encoding is 16 bit.
  short[] getSamplesForChannel(MediaCodec codec, int bufferId, int channelIx) {
@@ -125,7 +119,6 @@ import java.util.concurrent.locks.ReentrantLock;
    }
    return res;
  }</pre>
-
  <h4>Raw Video Buffers</h4>
  <p>
  In ByteBuffer mode video buffers are laid out according to their {@linkplain
@@ -148,7 +141,6 @@ import java.util.concurrent.locks.ReentrantLock;
  <p>
  All video codecs support flexible YUV 4:2:0 buffers since {@link
  android.os.Build.VERSION_CODES#LOLLIPOP_MR1}.
-
  <h4>Accessing Raw Video ByteBuffers on Older Devices</h4>
  <p>
  Prior to {@link android.os.Build.VERSION_CODES#LOLLIPOP} and {@link Image} support, you need to
@@ -220,7 +212,6 @@ import java.util.concurrent.locks.ReentrantLock;
  Also note that the meaning of {@link BufferInfo#offset BufferInfo.offset} was not consistent across
  devices. On some devices the offset pointed to the top-left pixel of the crop rectangle, while on
  most devices it pointed to the top-left pixel of the entire frame.
-
  <h3>States</h3>
  <p>
  During its life a codec conceptually exists in one of three states: Stopped, Executing or
@@ -255,7 +246,6 @@ import java.util.concurrent.locks.ReentrantLock;
  exception. Call {@link #reset} to make the codec usable again. You can call it from any state to
  move the codec back to the Uninitialized state. Otherwise, call {@link #release} to move to the
  terminal Released state.
-
  <h3>Creation</h3>
  <p>
  Use {@link MediaCodecList} to create a MediaCodec for a specific {@link MediaFormat}. When
@@ -276,7 +266,6 @@ import java.util.concurrent.locks.ReentrantLock;
  #createDecoderByType createDecoder}/{@link #createEncoderByType EncoderByType(String)}.
  This, however, cannot be used to inject features, and may create a codec that cannot handle the
  specific desired media format.
-
  <h4>Creating secure decoders</h4>
  <p>
  On versions {@link android.os.Build.VERSION_CODES#KITKAT_WATCH} and earlier, secure codecs might
@@ -287,7 +276,6 @@ import java.util.concurrent.locks.ReentrantLock;
  <p>
  From {@link android.os.Build.VERSION_CODES#LOLLIPOP} onwards, you should use the {@link
  CodecCapabilities#FEATURE_SecurePlayback} feature in the media format to create a secure decoder.
-
  <h3>Initialization</h3>
  <p>
  After creating the codec, you can set a callback using {@link #setCallback setCallback} if you
@@ -307,7 +295,6 @@ import java.util.concurrent.locks.ReentrantLock;
  your input data using {@link #createInputSurface} after configuration. Alternately, set up the
  codec to use a previously created {@linkplain #createPersistentInputSurface persistent input
  surface} by calling {@link #setInputSurface}.
-
  <h4 id=CSD><a name="CSD"></a>Codec-specific Data</h4>
  <p>
  Some formats, notably AAC audio and MPEG4, H.264 and H.265 video formats require the actual data
@@ -397,7 +384,6 @@ import java.util.concurrent.locks.ReentrantLock;
    </tr>
   </tbody>
  </table>
-
  <p class=note>
  <strong>Note:</strong> care must be taken if the codec is flushed immediately or shortly
  after start, before any output buffer or output format change has been returned, as the codec
@@ -408,7 +394,6 @@ import java.util.concurrent.locks.ReentrantLock;
  before any valid output buffer in output buffers marked with the {@linkplain
  #BUFFER_FLAG_CODEC_CONFIG codec-config flag}. Buffers containing codec-specific-data have no
  meaningful timestamps.
-
  <h3>Data Processing</h3>
  <p>
  Each codec maintains a set of input and output buffers that are referred to by a buffer-ID in
@@ -463,7 +448,6 @@ import java.util.concurrent.locks.ReentrantLock;
    </tr>
   </tbody>
  </table>
-
  <h4>Asynchronous Processing using Buffers</h4>
  <p>
  Since {@link android.os.Build.VERSION_CODES#LOLLIPOP}, the preferred method is to process data
@@ -490,7 +474,6 @@ import java.util.concurrent.locks.ReentrantLock;
      &hellip;
      codec.queueInputBuffer(inputBufferId, &hellip;);
    }
-
    {@literal @Override}
    void onOutputBufferAvailable(MediaCodec mc, int outputBufferId, &hellip;) {
      ByteBuffer outputBuffer = codec.getOutputBuffer(outputBufferId);
@@ -500,14 +483,12 @@ import java.util.concurrent.locks.ReentrantLock;
      &hellip;
      codec.releaseOutputBuffer(outputBufferId, &hellip;);
    }
-
    {@literal @Override}
    void onOutputFormatChanged(MediaCodec mc, MediaFormat format) {
      // Subsequent data will conform to new format.
      // Can ignore if using getOutputFormat(outputBufferId)
      mOutputFormat = format; // option B
    }
-
    {@literal @Override}
    void onError(&hellip;) {
      &hellip;
@@ -519,7 +500,6 @@ import java.util.concurrent.locks.ReentrantLock;
  // wait for processing to complete
  codec.stop();
  codec.release();</pre>
-
  <h4>Synchronous Processing using Buffers</h4>
  <p>
  Since {@link android.os.Build.VERSION_CODES#LOLLIPOP}, you should retrieve input and output
@@ -528,7 +508,6 @@ import java.util.concurrent.locks.ReentrantLock;
  codec in synchronous mode. This allows certain optimizations by the framework, e.g. when
  processing dynamic content. This optimization is disabled if you call {@link #getInputBuffers
  getInput}/{@link #getOutputBuffers OutputBuffers()}.
-
  <p class=note>
  <strong>Note:</strong> do not mix the methods of using buffers and buffer arrays at the same
  time. Specifically, only call {@code getInput}/{@code OutputBuffers} directly after {@link
@@ -565,7 +544,6 @@ import java.util.concurrent.locks.ReentrantLock;
  }
  codec.stop();
  codec.release();</pre>
-
  <h4>Synchronous Processing using Buffer Arrays (deprecated)</h4>
  <p>
  In versions {@link android.os.Build.VERSION_CODES#KITKAT_WATCH} and before, the set of input and
@@ -602,7 +580,6 @@ import java.util.concurrent.locks.ReentrantLock;
  }
  codec.stop();
  codec.release();</pre>
-
  <h4>End-of-stream Handling</h4>
  <p>
  When you reach the end of the input data, you must signal it to the codec by specifying the
@@ -619,7 +596,6 @@ import java.util.concurrent.locks.ReentrantLock;
  <p>
  Do not submit additional input buffers after signaling the end of the input stream, unless the
  codec has been flushed, or stopped and restarted.
-
  <h4>Using an Output Surface</h4>
  <p>
  The data processing is nearly identical to the ByteBuffer mode when using an output {@link
@@ -655,9 +631,7 @@ import java.util.concurrent.locks.ReentrantLock;
  excessive frames. Applications can opt out of this behavior for non-View surfaces (such as
  ImageReader or SurfaceTexture) by targeting SDK {@link android.os.Build.VERSION_CODES#Q} and
  setting the key {@code "allow-frame-drop"} to {@code 0} in their configure format.
-
  <h4>Transformations When Rendering onto Surface</h4>
-
  If the codec is configured into Surface mode, any crop rectangle, {@linkplain
  MediaFormat#KEY_ROTATION rotation} and {@linkplain #setVideoScalingMode video scaling
  mode} will be automatically applied with one exception:
@@ -682,7 +656,6 @@ import java.util.concurrent.locks.ReentrantLock;
  When setting the video scaling mode, note that it must be reset after each time the output
  buffers change. Since the {@link #INFO_OUTPUT_BUFFERS_CHANGED} event is deprecated, you can
  do this after each time the output format changes.
-
  <h4>Using an Input Surface</h4>
  <p>
  When using an input Surface, there are no accessible input buffers, as buffers are automatically
@@ -693,7 +666,6 @@ import java.util.concurrent.locks.ReentrantLock;
  Call {@link #signalEndOfInputStream} to signal end-of-stream. The input surface will stop
  submitting data to the codec immediately after this call.
  <p>
-
  <h3>Seeking &amp; Adaptive Playback Support</h3>
  <p>
  Video decoders (and in general codecs that consume compressed video data) behave differently
@@ -703,7 +675,6 @@ import java.util.concurrent.locks.ReentrantLock;
  CodecCapabilities#isFeatureSupported CodecCapabilities.isFeatureSupported(String)}. Adaptive
  playback support for video decoders is only activated if you configure the codec to decode onto a
  {@link Surface}.
-
  <h4 id=KeyFrames><a name="KeyFrames"></a>Stream Boundary and Key Frames</h4>
  <p>
  It is important that the input data after {@link #start} or {@link #flush} starts at a suitable
@@ -740,7 +711,6 @@ import java.util.concurrent.locks.ReentrantLock;
    </tr>
   </tbody>
  </table>
-
  <h4>For decoders that do not support adaptive playback (including when not decoding onto a
  Surface)</h4>
  <p>
@@ -753,13 +723,11 @@ import java.util.concurrent.locks.ReentrantLock;
  <strong>Note:</strong> the format of the data submitted after a flush must not change; {@link
  #flush} does not support format discontinuities; for that, a full {@link #stop} - {@link
  #configure configure(&hellip;)} - {@link #start} cycle is necessary.
-
  <p class=note>
  <strong>Also note:</strong> if you flush the codec too soon after {@link #start} &ndash;
  generally, before the first output buffer or output format change is received &ndash; you
  will need to resubmit the codec-specific-data to the codec. See the <a
  href="#CSD">codec-specific-data section</a> for more info.
-
  <h4>For decoders that support and are configured for adaptive playback</h4>
  <p>
  In order to start decoding data that is not adjacent to previously submitted data (i.e. after a
@@ -780,7 +748,6 @@ import java.util.concurrent.locks.ReentrantLock;
  {@link #flush} shortly after you have changed the picture size. If you have not received
  confirmation of the picture size change, you will need to repeat the request for the new picture
  size.
-
  <h3>Error handling</h3>
  <p>
  The factory methods {@link #createByCodecName createByCodecName} and {@link #createDecoderByType
@@ -807,12 +774,10 @@ import java.util.concurrent.locks.ReentrantLock;
  </ul>
  <p>
  Both {@code isRecoverable()} and {@code isTransient()} do not return true at the same time.
-
  <h2 id=History><a name="History"></a>Valid API Calls and API History</h2>
  <p>
  This sections summarizes the valid API calls in each state and the API history of the MediaCodec
  class. For API version numbers, see {@link android.os.Build.VERSION_CODES}.
-
  <style>
  .api > tr > th, .api > tr > td { text-align: center; padding: 4px 4px; }
  .api > tr > th     { vertical-align: bottom; }
@@ -832,7 +797,6 @@ import java.util.concurrent.locks.ReentrantLock;
  .deg45 > div > div { border: 1px solid #ddd; background: #999; height: 90px; width: 42px; }
  .deg45 > div > div > div { transform: skew(45deg, 0deg) translate(-55px, 55px) rotate(-45deg); }
  </style>
-
  <table align="right" style="width: 0%">
   <thead>
    <tr><th>Symbol</th><th>Meaning</th></tr>
@@ -850,7 +814,6 @@ import java.util.concurrent.locks.ReentrantLock;
    <tr><td>( )</td><td>Can be called, but shouldn't</td></tr>
   </tbody>
  </table>
-
  <table style="width: 100%;">
   <thead class=api>
    <tr>
@@ -1703,21 +1666,20 @@ final public class MediaCodec {
                     break;
                 }
                 case EVENT_FRAME_RENDERED:
-                    OnFrameRenderedListener onFrameRenderedListener = null;
-                    synchronized (mListenerLock) {
-                        onFrameRenderedListener = mOnFrameRenderedListener;
-                    }
-                    if (onFrameRenderedListener != null) {
-                        Map<String, Object> map = (Map<String, Object>)msg.obj;
-                        for (int i = 0; ; ++i) {
-                            Object mediaTimeUs = map.get(i + "-media-time-us");
-                            Object systemNano = map.get(i + "-system-nano");
-                            if (mediaTimeUs == null || systemNano == null) {
-                                break;
-                            }
-                            onFrameRenderedListener.onFrameRendered(
-                                    mCodec, (long)mediaTimeUs, (long)systemNano);
+                    Map<String, Object> map = (Map<String, Object>)msg.obj;
+                    for (int i = 0; ; ++i) {
+                        Object mediaTimeUs = map.get(i + "-media-time-us");
+                        Object systemNano = map.get(i + "-system-nano");
+                        OnFrameRenderedListener onFrameRenderedListener;
+                        synchronized (mListenerLock) {
+                            onFrameRenderedListener = mOnFrameRenderedListener;
                         }
+                        if (mediaTimeUs == null || systemNano == null
+                                || onFrameRenderedListener == null) {
+                            break;
+                        }
+                        onFrameRenderedListener.onFrameRendered(
+                                mCodec, (long)mediaTimeUs, (long)systemNano);
                     }
                     break;
                 default:
