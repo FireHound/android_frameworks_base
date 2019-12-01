@@ -187,6 +187,7 @@ import com.android.systemui.plugins.statusbar.NotificationSwipeActionHelper.Snoo
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.qs.QSFragment;
 import com.android.systemui.qs.QSPanel;
+import com.android.systemui.qs.QuickQSPanel;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.shared.system.WindowManagerWrapper;
@@ -452,6 +453,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     // settings
     private QSPanel mQSPanel;
+    private QuickQSPanel mQuickQSPanel;
 
     KeyguardIndicationController mKeyguardIndicationController;
 
@@ -1342,6 +1344,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                 if (qs instanceof QSFragment) {
                     mQSPanel = ((QSFragment) qs).getQsPanel();
                     mQSPanel.setBrightnessMirror(mBrightnessMirrorController);
+                    mQuickQSPanel = ((QSFragment) qs).getQuickQsPanel();
                 }
             });
         }
@@ -3079,7 +3082,9 @@ public class StatusBar extends SystemUI implements DemoMode,
         if (mQSPanel != null) {
             mQSPanel.updateResources();
         }
-
+        if (mQuickQSPanel != null) {
+            mQuickQSPanel.updateResources();
+        }
         loadDimens();
 
         if (mStatusBarView != null) {
@@ -4194,6 +4199,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_OFF_FOD),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_QUICKBAR_COLUMNS),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -4204,6 +4212,13 @@ public class StatusBar extends SystemUI implements DemoMode,
                 mAODDimView.setEnabled(Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.SCREEN_OFF_FOD, 0, UserHandle.USER_CURRENT) != 0);
                 return;
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_QUICKBAR_COLUMNS))) {
+                if (mQSPanel != null) {
+                    mQSPanel.updateResources();
+                }
+                if (mQuickQSPanel != null) {
+                    mQuickQSPanel.updateSettings();
+                }
             }
             update();
         }
