@@ -35,4 +35,9 @@
     <!-- Whether device supports sensor based doze customizations -->
     <bool name="config_dozePulseTilt">false</bool>
     <bool name="config_dozePulseProximity">false</bool>
+
+    <string-array translatable="false" name="config_customPermissionsList">
+        <item>com.google.android.apps.wellbeing</item>
+        <!-- <item>more packages</item>-->
+    </string-array>
 </resources>
