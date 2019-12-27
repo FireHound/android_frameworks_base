@@ -4765,43 +4765,6 @@ public final class Settings {
          */
         public static final String POCKET_JUDGE = "pocket_judge";
 
-        /**
-         * Display style of the status bar battery information
-         *    0: Display the battery as portrait icon (default)
-         *    1: Display the battery as dotted circle
-         *    2: Display the battery as circle
-         *    3: Display the battery as text
-         *    4: Do not display the battery
-         *    default: 0
-         * @hide
-         */
-        public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
-
-        /**
-         * Display style of the battery information in the quick status bar header
-         *    0: Hide the battery percentage (default)
-         *    1: Display the battery percentage next to the icon
-         *    2: Display the battery percentage inside the icon
-         *    3: Display the battery estimates
-         * @hide
-         */
-        public static final String QS_BATTERY_MODE = "qs_battery_mode";
-
-        /**
-         * Whether or not to show the battery percentage in the status bar
-         *    0: Hide the battery percentage (default)
-         *    1: Display the battery percentage inside the icon
-         *    2: Display the battery percentage next to the icon
-         * @hide
-         */
-        public static final String STATUS_BAR_SHOW_BATTERY_PERCENT = "status_bar_show_battery_percent";
-
-        /**
-         * Whether or not to show battery percentage when charging
-         * @hide
-         */
-        public static final String STATUS_BAR_BATTERY_TEXT_CHARGING = "status_bar_battery_text_charging";
-
         /** @hide */
         public static final String AUDIO_PANEL_VIEW_MEDIA = "audio_panel_view_media";
 
@@ -4819,16 +4782,6 @@ public final class Settings {
 
         /** @hide */
         public static final String AUDIO_PANEL_VIEW_BT_SCO = "audio_panel_view_bt_sco";
-
-        /**
-         * Whether to change the transparency of the qs panel
-         * @hide
-         */
-        public static final String QS_PANEL_BG_ALPHA = "qs_panel_bg_alpha";
-
-        /** @hide */
-        private static final Validator QS_PANEL_BG_ALPHA_VALIDATOR =
-                ANY_INTEGER_VALIDATOR;
 
         /**
          * Three Finger Gesture from Oppo
