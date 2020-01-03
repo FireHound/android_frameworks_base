@@ -38,4 +38,7 @@
 
     <!-- Screen recorder -->
     <dimen name="screenrecord_dot_size">48dp</dimen>
+
+    <!-- Allow devices to use unordinary cutout overlays -->
+    <bool name="config_customCutout">false</bool>
 </resources>
