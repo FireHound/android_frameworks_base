@@ -73,12 +73,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.display.DisplayManager;
 import android.media.AudioAttributes;
 import android.metrics.LogMaker;
@@ -123,6 +126,7 @@ import android.view.WindowManagerGlobal;
 import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.DateTimeView;
+import android.widget.ImageView;
 
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.colorextraction.ColorExtractor;
@@ -156,6 +160,7 @@ import com.android.systemui.bubbles.BubbleController;
 import com.android.systemui.charging.WirelessChargingAnimation;
 import com.android.systemui.classifier.FalsingLog;
 import com.android.systemui.colorextraction.SysuiColorExtractor;
+import com.android.systemui.fh.ImageUtilities;
 import com.android.systemui.doze.DozeHost;
 import com.android.systemui.doze.DozeLog;
 import com.android.systemui.doze.DozeReceiver;
@@ -300,6 +305,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             Settings.Secure.PULSE_ON_NEW_TRACKS;
     private static final String SHOW_BACK_ARROW_GESTURE =
             Settings.Secure.SHOW_BACK_ARROW_GESTURE;
+    private static final String QS_BACKGROUND_BLUR =
+            "system:" + Settings.System.QS_BACKGROUND_BLUR;
 
     private static final String BANNER_ACTION_CANCEL =
             "com.android.systemui.statusbar.banner_action_cancel";
@@ -489,6 +496,10 @@ public class StatusBar extends SystemUI implements DemoMode,
     private final DisplayMetrics mDisplayMetrics = Dependency.get(DisplayMetrics.class);
 
     private boolean mSysuiRoundedFwvals;
+
+    private ImageView mQSBlurView;
+    private boolean mQSBlurEnabled;
+    private boolean mQSBlurred;
 
     // XXX: gesture research
     private final GestureRecorder mGestureRec = DEBUG_GESTURES
@@ -737,19 +748,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         mStatusBarStateController.addCallback(this,
                 SysuiStatusBarStateController.RANK_STATUS_BAR);
 
-        final TunerService tunerService = Dependency.get(TunerService.class);
-        tunerService.addTunable(this, SCREEN_BRIGHTNESS_MODE);
-        tunerService.addTunable(this, STATUS_BAR_BRIGHTNESS_CONTROL);
-        tunerService.addTunable(this, FORCE_SHOW_NAVBAR);
-        tunerService.addTunable(this, QS_TILE_TITLE_VISIBILITY);
-        tunerService.addTunable(this, SYSUI_ROUNDED_FWVALS);
-        tunerService.addTunable(this, QS_ROWS_PORTRAIT);
-        tunerService.addTunable(this, QS_ROWS_LANDSCAPE);
-        tunerService.addTunable(this, QS_COLUMNS_PORTRAIT);
-        tunerService.addTunable(this, QS_COLUMNS_LANDSCAPE);
-        tunerService.addTunable(this, PULSE_ON_NEW_TRACKS);
-        tunerService.addTunable(this, SHOW_BACK_ARROW_GESTURE);
-
         mDisplayManager = mContext.getSystemService(DisplayManager.class);
 
         mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
@@ -879,6 +877,20 @@ public class StatusBar extends SystemUI implements DemoMode,
         int disabledFlags2 = result.mDisabledFlags2;
         Dependency.get(InitController.class).addPostInitTask(
                 () -> setUpDisableFlags(disabledFlags1, disabledFlags2));
+
+        final TunerService tunerService = Dependency.get(TunerService.class);
+        tunerService.addTunable(this, SCREEN_BRIGHTNESS_MODE);
+        tunerService.addTunable(this, STATUS_BAR_BRIGHTNESS_CONTROL);
+        tunerService.addTunable(this, FORCE_SHOW_NAVBAR);
+        tunerService.addTunable(this, QS_TILE_TITLE_VISIBILITY);
+        tunerService.addTunable(this, SYSUI_ROUNDED_FWVALS);
+        tunerService.addTunable(this, QS_ROWS_PORTRAIT);
+        tunerService.addTunable(this, QS_ROWS_LANDSCAPE);
+        tunerService.addTunable(this, QS_COLUMNS_PORTRAIT);
+        tunerService.addTunable(this, QS_COLUMNS_LANDSCAPE);
+        tunerService.addTunable(this, PULSE_ON_NEW_TRACKS);
+        tunerService.addTunable(this, SHOW_BACK_ARROW_GESTURE);
+        tunerService.addTunable(this, QS_BACKGROUND_BLUR);
     }
 
     // ================================================================================
@@ -903,6 +915,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mNotificationPanel = mStatusBarWindow.findViewById(R.id.notification_panel);
         mStackScroller = mStatusBarWindow.findViewById(R.id.notification_stack_scroller);
         mZenController.addCallback(this);
+        mQSBlurView = mStatusBarWindow.findViewById(R.id.qs_blur);
         NotificationListContainer notifListContainer = (NotificationListContainer) mStackScroller;
         mNotificationLogger.setUpWithContainer(notifListContainer);
 
@@ -3319,6 +3332,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public void showKeyguardImpl() {
         mIsKeyguard = true;
+        updateBlurVisibility();
         if (mKeyguardMonitor != null && mKeyguardMonitor.isLaunchTransitionFadingAway()) {
             mNotificationPanel.animate().cancel();
             onLaunchTransitionFadingEnded();
@@ -4916,6 +4930,27 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
 
+    public void updateBlurVisibility() {
+        if (!mQSBlurEnabled) return;
+
+        int QSBlurAlpha = Math.round(255.0f * mNotificationPanel.getExpandedFraction());
+
+        if (QSBlurAlpha > 0 && !mIsKeyguard) {
+            if (!mQSBlurred) {
+                mQSBlurred = true;
+                Bitmap bittemp = ImageUtilities.blurImage(mContext, ImageUtilities.screenshotSurface(mContext));
+                Drawable qsBlurBackground = new BitmapDrawable(mContext.getResources(), bittemp);
+                mQSBlurView.setVisibility(View.VISIBLE);
+                mQSBlurView.setBackgroundDrawable(qsBlurBackground);
+            }
+            mQSBlurView.setAlpha(QSBlurAlpha);
+            mQSBlurView.getBackground().setAlpha(QSBlurAlpha);
+        } else if (QSBlurAlpha == 0 || mIsKeyguard) {
+            mQSBlurView.setVisibility(View.GONE);
+            mQSBlurred = false;
+        }
+    }
+
     @Override
     public void onTuningChanged(String key, String newValue) {
         switch (key) {
@@ -4974,6 +5009,15 @@ public class StatusBar extends SystemUI implements DemoMode,
             case SHOW_BACK_ARROW_GESTURE:
                 if (getNavigationBarView() != null) {
                     getNavigationBarView().updateBackArrowForGesture();
+                }
+                break;
+            case QS_BACKGROUND_BLUR:
+                mQSBlurEnabled =
+                        TunerService.parseIntegerSwitch(newValue, false);
+                if (!mQSBlurEnabled) {
+                    mQSBlurView.setVisibility(View.GONE);
+                } else {
+                    updateBlurVisibility();
                 }
                 break;
             default:
