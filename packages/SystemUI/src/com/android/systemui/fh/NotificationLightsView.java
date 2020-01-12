@@ -92,7 +92,7 @@ public class NotificationLightsView extends RelativeLayout {
         leftView.setColorFilter(color);
         rightView.setColorFilter(color);
         mLightAnimator = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
-        mLightAnimator.setDuration(2000);
+        mLightAnimator.setDuration(3500);
         mLightAnimator.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 Log.e("NotificationLightsView", "onAnimationUpdate");
