@@ -473,7 +473,7 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         }
 
         if (mEmergencyAffordanceManager.needsEmergencyAffordance() && !mIsRestartMenu) {
-            mItems.add(new EmergencyAffordanceAction());
+            //mItems.add(new EmergencyAffordanceAction());
         }
 
         mAdapter = new MyAdapter();
