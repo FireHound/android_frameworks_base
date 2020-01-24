@@ -78,7 +78,7 @@ final class UiModeManagerService extends SystemService {
     private int mDockState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
 
     private int mLastBroadcastState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
-    private int mNightMode = UiModeManager.MODE_NIGHT_NO;
+    private int mNightMode = UiModeManager.MODE_NIGHT_YES;
 
     private boolean mCarModeEnabled = false;
     private boolean mCharging = false;
