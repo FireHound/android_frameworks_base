@@ -314,7 +314,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             Settings.Secure.SHOW_BACK_ARROW_GESTURE;
     private static final String QS_BACKGROUND_BLUR =
             "system:" + Settings.System.QS_BACKGROUND_BLUR;
-    private static final String ACCENT_COLOR_PROP = "persist.sys.evolution.accent_color";
 
     private static final String BANNER_ACTION_CANCEL =
             "com.android.systemui.statusbar.banner_action_cancel";
@@ -4135,9 +4134,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_OFF_FOD),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.ACCENT_COLOR),
-                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -4148,30 +4144,11 @@ public class StatusBar extends SystemUI implements DemoMode,
                 mAODDimView.setEnabled(Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.SCREEN_OFF_FOD, 0, UserHandle.USER_CURRENT) != 0);
                 return;
-            } else if (uri.equals(Settings.System.getUriFor(Settings.System.ACCENT_COLOR))) {
-                applyAccentColor();
             }
             update();
         }
 
         public void update() {
-            applyAccentColor();
-        }
-    }
-
-    private void applyAccentColor() {
-        int intColor = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.ACCENT_COLOR, 0xFF1A73E8,
-                UserHandle.USER_CURRENT);
-        String colorHex = String.format("%08x", (0xFFFFFFFF & intColor));
-        String accentVal = SystemProperties.get(ACCENT_COLOR_PROP);
-        if (!accentVal.equals(colorHex)) {
-            SystemProperties.set(ACCENT_COLOR_PROP, colorHex);
-            try {
-                mOverlayManager.reloadAndroidAssets(UserHandle.USER_CURRENT);
-                mOverlayManager.reloadAssets("com.android.settings", UserHandle.USER_CURRENT);
-                mOverlayManager.reloadAssets("com.android.systemui", UserHandle.USER_CURRENT);
-            } catch (Exception e) { }
         }
     }
 
