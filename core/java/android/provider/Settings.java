@@ -5077,6 +5077,12 @@ public final class Settings {
         public static final String GESTURE_PILL_TOGGLE = "gesture_pill_toggle";
 
         /**
+         * FOD recognizing animation picker
+         * @hide
+         */
+        public static final String FOD_ANIM = "fod_anim";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *

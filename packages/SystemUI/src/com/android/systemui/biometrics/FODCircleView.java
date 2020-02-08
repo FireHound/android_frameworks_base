@@ -320,6 +320,10 @@ public class FODCircleView extends ImageView {
 
         mPaintFingerprint.setColor(mColorBackground);
         setImageResource(R.drawable.fod_icon_default);
+
+        if (mFODAnimation != null) {
+            mFODAnimation.setFODAnim();
+        }
         invalidate();
 
         dispatchRelease();
@@ -451,7 +455,7 @@ public class FODCircleView extends ImageView {
     private WindowManager mWindowManager;
     private boolean mShowing = false;
     private boolean mIsKeyguard;
-    private final AnimationDrawable recognizingAnim;
+    private AnimationDrawable recognizingAnim;
     private final WindowManager.LayoutParams mAnimParams = new WindowManager.LayoutParams();
 
     public FODAnimation(Context context, int mPositionX, int mPositionY) {
@@ -475,8 +479,35 @@ public class FODCircleView extends ImageView {
 
         this.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         this.setBackgroundResource(R.drawable.fodunlockanim);
+        setFODAnim();
         recognizingAnim = (AnimationDrawable) this.getBackground();
 
+    }
+
+    public int getFODAnim() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FOD_ANIM, 0);
+    }
+
+    public void setFODAnim() {
+        int fodanim = getFODAnim();
+
+        if (fodanim == 0) {
+            this.setBackgroundResource(R.drawable.fod_miui_normal_recognizing_anim);
+        } else if (fodanim == 1) {
+            this.setBackgroundResource(R.drawable.fod_miui_aod_recognizing_anim);
+        } else if (fodanim == 2) {
+            this.setBackgroundResource(R.drawable.fod_miui_light_recognizing_anim);
+        } else if (fodanim == 3) {
+            this.setBackgroundResource(R.drawable.fod_miui_pop_recognizing_anim);
+        } else if (fodanim == 4) {
+            this.setBackgroundResource(R.drawable.fod_miui_pulse_recognizing_anim);
+        } else if (fodanim == 5) {
+            this.setBackgroundResource(R.drawable.fod_miui_pulse_recognizing_white_anim);
+        } else if (fodanim == 6) {
+            this.setBackgroundResource(R.drawable.fod_miui_rhythm_recognizing_anim);
+        }
+        recognizingAnim = (AnimationDrawable) this.getBackground();
     }
 
     public void updateParams(int mDreamingOffsetY) {
