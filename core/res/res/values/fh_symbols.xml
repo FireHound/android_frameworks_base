@@ -140,4 +140,8 @@
   <!-- Screen recorder -->
   <java-symbol type="drawable" name="ic_screenrecord" />
   <java-symbol type="string" name="global_action_screenrecord" />
+
+  <!-- Whether to use base rounded corner radius for window animations instead
+          of min between top and bottom radius-->
+  <java-symbol type="bool" name="config_useDefaultRoundedCornerRadius" />
 </resources>
