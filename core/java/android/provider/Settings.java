@@ -5095,6 +5095,12 @@ public final class Settings {
         public static final String SCREEN_OFF_FOD = "screen_off_fod";
 
         /**
+         * Whether to use new QS panel bg tint or not
+         * @hide
+         */
+        public static final String QS_PANEL_BG_USE_NEW_TINT = "qs_panel_bg_use_new_tint";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
