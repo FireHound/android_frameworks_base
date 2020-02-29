@@ -7432,5 +7432,8 @@ message MetricsEvent {
 
     //FireHound Settings Constant
     FH_SETTINGS = 4200;
+
+    // Panel for Mobile Data
+    PANEL_MOBILE_DATA = 2002;
   }
 }
