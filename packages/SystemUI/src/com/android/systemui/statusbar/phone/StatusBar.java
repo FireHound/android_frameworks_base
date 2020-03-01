@@ -127,6 +127,10 @@ import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
 import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.AlphaAnimation;
 import android.widget.DateTimeView;
 import android.widget.ImageView;
 
@@ -203,6 +207,7 @@ import com.android.systemui.statusbar.NotificationShelf;
 import com.android.systemui.statusbar.NotificationViewHierarchyManager;
 import com.android.systemui.statusbar.PulseExpansionHandler;
 import com.android.systemui.statusbar.ScrimView;
+import com.android.systemui.statusbar.AODdimView;
 import com.android.systemui.statusbar.StatusBarState;
 import com.android.systemui.statusbar.SysuiStatusBarStateController;
 import com.android.systemui.statusbar.VibratorHelper;
@@ -521,6 +526,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     };
 
+    private AODdimView mAODDimView;
+
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     @VisibleForTesting
     protected boolean mUserSetup = false;
@@ -675,6 +682,10 @@ public class StatusBar extends SystemUI implements DemoMode,
                     if (dreaming) {
                         maybeEscalateHeadsUp();
                     }
+                    if (mAODDimView != null) {
+                        if (dreaming) mAODDimView.setVisible(true, true);
+                        if (!dreaming) mAODDimView.setVisible(false);
+                    }
                 }
 
                 @Override
@@ -804,6 +815,9 @@ public class StatusBar extends SystemUI implements DemoMode,
         mFhSettingsObserver.observe();
         mFhSettingsObserver.update();
 
+        mAODDimView.setEnabled(Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.SCREEN_OFF_FOD, 0, UserHandle.USER_CURRENT) != 0);
+
         if (mWallpaperSupported) {
             // Make sure we always have the most current wallpaper info.
             IntentFilter wallpaperChangedFilter = new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED);
@@ -921,6 +935,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mStackScroller = mStatusBarWindow.findViewById(R.id.notification_stack_scroller);
         mZenController.addCallback(this);
         mQSBlurView = mStatusBarWindow.findViewById(R.id.qs_blur);
+        mAODDimView = mStatusBarWindow.findViewById(R.id.aod_screen_dim);
         NotificationListContainer notifListContainer = (NotificationListContainer) mStackScroller;
         mNotificationLogger.setUpWithContainer(notifListContainer);
 
@@ -4117,12 +4132,19 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SCREEN_OFF_FOD),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             if (uri.equals(Settings.System.getUriFor(Settings.System.QS_PANEL_BG_USE_NEW_TINT))) {
                 mQSPanel.getHost().reloadAllTiles();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.SCREEN_OFF_FOD)) && mAODDimView != null) {
+                mAODDimView.setEnabled(Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.SCREEN_OFF_FOD, 0, UserHandle.USER_CURRENT) != 0);
+                return;
             }
             update();
         }
@@ -4403,6 +4425,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                 public void onPulseStarted() {
                     callback.onPulseStarted();
                     updateNotificationPanelTouchState();
+                    mAODDimView.setVisible(false);
                     setPulsing(true);
                 }
 
@@ -4415,6 +4438,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                     if (mStatusBarWindow != null) {
                         mStatusBarWindow.suppressWakeUpGesture(false);
                     }
+                    mAODDimView.setVisible(true);
                     setPulsing(false);
                 }
 
