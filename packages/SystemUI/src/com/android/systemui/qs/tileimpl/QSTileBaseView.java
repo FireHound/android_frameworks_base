@@ -155,12 +155,12 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         setBackground(mTileBackground);
 
-        mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
+/*        mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
         boolean setQsUseNewTint = Settings.System.getIntForUser(context.getContentResolver(),
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT) == 1;
         if (setQsUseNewTint) {
             mColorActive = mColorActiveAlpha;
-        }
+        } */
 
         setPadding(0, 0, 0, 0);
         setClipChildren(false);
