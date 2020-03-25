@@ -1774,6 +1774,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mPowerManager.userActivity(SystemClock.uptimeMillis(), false);
     }
 
+    public void takeScreenshot(int type) {
+        mScreenshotRunnable.setScreenshotType(type);
+        mHandler.post(mScreenshotRunnable);
+    }
+
     boolean isDeviceProvisioned() {
         return Settings.Global.getInt(
                 mContext.getContentResolver(), Settings.Global.DEVICE_PROVISIONED, 0) != 0;
