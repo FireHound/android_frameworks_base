@@ -128,4 +128,7 @@
 
     <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
     <string name="custom_hint">Swipe from icon to launch</string>
+
+    <!-- Samsung highlight clock -->
+    <string name="clock_title_samsung_accent" translatable="false">Samsung (colored)</string>
 </resources>
