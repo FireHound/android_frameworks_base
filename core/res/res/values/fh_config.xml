@@ -95,6 +95,6 @@
         <item>com.truecaller</item>
         <item>com.gaana</item>
         <item>com.facebook.katana.LoginActivity</item>
-        <item>com.UCMobile.intl</string>
+        <item>com.UCMobile.intl</item>
     </string-array>
 </resources>
