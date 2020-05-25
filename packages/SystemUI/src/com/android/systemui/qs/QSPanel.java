@@ -123,7 +123,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     private Record mDetailRecord;
 
     private BrightnessMirrorController mBrightnessMirrorController;
-    private ImageView mMirrorAutoBrightnessView;
     private View mDivider;
 
     private int mBrightnessSlider = 1;
@@ -277,7 +276,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         } else if (QS_SHOW_BRIGHTNESS_SLIDER.equals(key)) {
             mBrightnessSlider = TunerService.parseInteger(newValue, 1);
             mBrightnessView.setVisibility(mBrightnessSlider != 0 ? VISIBLE : GONE);
-            updateViewVisibilityForBrightnessMirrorIcon(newValue);
             restartQSPanel();
         } else if (ANIM_TILE_STYLE.equals(key)) {
             animStyle = TunerService.parseInteger(newValue, 0);
@@ -299,18 +297,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
     private void updateViewVisibilityForTuningValue(View view, @Nullable String newValue) {
         view.setVisibility(TunerService.parseIntegerSwitch(newValue, true) ? VISIBLE : GONE);
-    }
-
-    private void updateViewVisibilityForBrightnessMirrorIcon(@Nullable String newValue) {
-        if (mMirrorAutoBrightnessView != null) {
-            mMirrorAutoBrightnessView.setVisibility(
-                    TunerService.parseIntegerSwitch(newValue, true) ? INVISIBLE : GONE);
-        } else if (mBrightnessMirrorController != null) {
-            mMirrorAutoBrightnessView = mBrightnessMirrorController.getMirror()
-                    .findViewById(R.id.brightness_icon);
-            mMirrorAutoBrightnessView.setVisibility(mAutoBrightnessView.getVisibility()
-                    == VISIBLE ? INVISIBLE : GONE);
-        }
     }
 
     public void openDetails(String subPanel) {
@@ -340,7 +326,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             mBrightnessMirrorController.addCallback(this);
         }
         updateBrightnessMirror();
-        updateViewVisibilityForBrightnessMirrorIcon(null);
     }
 
     @Override
