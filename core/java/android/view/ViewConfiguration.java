@@ -65,7 +65,7 @@ public class ViewConfiguration {
      * Defines the default duration in milliseconds before a press turns into
      * a long press
      */
-    private static final int DEFAULT_LONG_PRESS_TIMEOUT = 250;
+    public static final int DEFAULT_LONG_PRESS_TIMEOUT = 250;
 
     /**
      * Defines the default duration in milliseconds between the first tap's up event and the second

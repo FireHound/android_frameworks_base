@@ -31,13 +31,10 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.AlarmClock;
-import android.provider.CalendarContract;
 import android.provider.DeviceConfig;
-import android.provider.CalendarContract;
 import android.provider.Settings;
 import android.service.notification.ZenModeConfig;
 import android.text.format.DateUtils;
@@ -115,6 +112,20 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             "lineagesecure:" + LineageSettings.Secure.QS_SHOW_AUTO_BRIGHTNESS;
     private static final String QS_SHOW_BRIGHTNESS_SLIDER =
             "lineagesecure:" + LineageSettings.Secure.QS_SHOW_BRIGHTNESS_SLIDER;
+    private static final String SHOW_QS_CLOCK =
+            "system:" + Settings.System.SHOW_QS_CLOCK;
+    private static final String QS_SHOW_BATTERY_PERCENT =
+            "system:" + Settings.System.QS_SHOW_BATTERY_PERCENT;
+    private static final String QS_SHOW_BATTERY_ESTIMATE =
+            "system:" + Settings.System.QS_SHOW_BATTERY_ESTIMATE;
+    public static final String STATUS_BAR_BATTERY_STYLE =
+            "system:" + Settings.System.STATUS_BAR_BATTERY_STYLE;
+    public static final String QS_BATTERY_STYLE =
+            "system:" + Settings.System.QS_BATTERY_STYLE;
+    public static final String QS_BATTERY_LOCATION =
+            "system:" + Settings.System.QS_BATTERY_LOCATION;
+    public static final String STATUS_BAR_CUSTOM_HEADER =
+            "system:" + Settings.System.STATUS_BAR_CUSTOM_HEADER;
 
     private final Handler mHandler = new Handler();
     private final NextAlarmController mAlarmController;
@@ -160,32 +171,17 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private BatteryMeterView mBatteryIcon;
     private boolean mPermissionsHubEnabled;
 
+    private int mStatusBarBatteryStyle, mQSBatteryStyle;
+
+    private boolean mLandscape;
+    private boolean mHeaderImageEnabled;
+
     private View mQuickQsBrightness;
     private BrightnessController mBrightnessController;
     private boolean mIsQuickQsBrightnessEnabled;
     private boolean mIsQsAutoBrightnessEnabled;
 
     private PrivacyItemController mPrivacyItemController;
-
-    private int mStatusBarBatteryStyle, mQSBatteryStyle;
-
-    private boolean mLandscape;
-    private boolean mHeaderImageEnabled;
-
-    private static final String SHOW_QS_CLOCK =
-            "system:" + Settings.System.SHOW_QS_CLOCK;
-    private static final String QS_SHOW_BATTERY_PERCENT =
-            "system:" + Settings.System.QS_SHOW_BATTERY_PERCENT;
-    private static final String QS_SHOW_BATTERY_ESTIMATE =
-            "system:" + Settings.System.QS_SHOW_BATTERY_ESTIMATE;
-    public static final String STATUS_BAR_BATTERY_STYLE =
-            "system:" + Settings.System.STATUS_BAR_BATTERY_STYLE;
-    public static final String QS_BATTERY_STYLE =
-            "system:" + Settings.System.QS_BATTERY_STYLE;
-    public static final String QS_BATTERY_LOCATION =
-            "system:" + Settings.System.QS_BATTERY_LOCATION;
-    public static final String STATUS_BAR_CUSTOM_HEADER =
-            "system:" + Settings.System.STATUS_BAR_CUSTOM_HEADER;
 
     private final BroadcastReceiver mRingerReceiver = new BroadcastReceiver() {
         @Override
@@ -288,9 +284,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mClockView.setOnClickListener(this);
         mClockView.setQsHeader();
         mDateView = findViewById(R.id.date);
-        mDateView.setOnClickListener(this);
         mSpace = findViewById(R.id.space);
-        mDateView.setOnClickListener(this);
 
         // Tint for the battery icons are handled in setupHost()
         mBatteryRemainingIcon = findViewById(R.id.batteryRemainingIcon);
@@ -308,15 +302,15 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 mContext.getMainExecutor(), mPropertyListener);
 
         Dependency.get(TunerService.class).addTunable(this,
+                QS_SHOW_AUTO_BRIGHTNESS,
+                QS_SHOW_BRIGHTNESS_SLIDER,
                 SHOW_QS_CLOCK,
                 QS_SHOW_BATTERY_PERCENT,
                 QS_SHOW_BATTERY_ESTIMATE,
                 STATUS_BAR_BATTERY_STYLE,
                 QS_BATTERY_STYLE,
                 QS_BATTERY_LOCATION,
-                STATUS_BAR_CUSTOM_HEADER,
-                StatusBarIconController.ICON_BLACKLIST,
-                QS_SHOW_AUTO_BRIGHTNESS, QS_SHOW_BRIGHTNESS_SLIDER);
+                STATUS_BAR_CUSTOM_HEADER);
     }
 
     private List<String> getIgnoredIconSlots() {
@@ -436,6 +430,10 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                     R.dimen.brightness_mirror_height)
                     + mContext.getResources().getDimensionPixelSize(
                     R.dimen.qs_tile_margin_top);
+        }
+        if (mHeaderImageEnabled) {
+            qqsHeight += mContext.getResources().getDimensionPixelSize(
+                    R.dimen.qs_header_image_offset);
         }
 
         setMinimumHeight(sbHeight + qqsHeight);
@@ -588,12 +586,20 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         Pair<Integer, Integer> padding = PhoneStatusBarView.cornerCutoutMargins(
                 cutout, getDisplay());
         int paddingStart = getResources().getDimensionPixelSize(R.dimen.status_bar_padding_start);
+        int paddingTop = getResources().getDimensionPixelSize(R.dimen.status_bar_padding_top);
         int paddingEnd = getResources().getDimensionPixelSize(R.dimen.status_bar_padding_end);
         if (padding == null) {
-            mSystemIconsView.setPaddingRelative(paddingStart, 0, paddingEnd, 0);
+            mSystemIconsView.setPaddingRelative(
+                    paddingStart,
+                    paddingTop,
+                    paddingEnd,
+                    0);
         } else {
-            mSystemIconsView.setPadding(Math.max(paddingStart, padding.first), 0,
-                    Math.max(paddingEnd, padding.second), 0);
+            mSystemIconsView.setPadding(
+                    Math.max(paddingStart, padding.first),
+                    paddingTop,
+                    Math.max(paddingEnd, padding.second),
+                    0);
         }
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mSpace.getLayoutParams();
         if (cutout != null) {
@@ -654,7 +660,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
     @Override
     public void onClick(View v) {
-        if (v == mClockView || v == mNextAlarmTextView) {
+        if (v == mClockView) {
             mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
                     AlarmClock.ACTION_SHOW_ALARMS), 0);
         } else if (v == mNextAlarmContainer && mNextAlarmContainer.isVisibleToUser()) {
@@ -681,12 +687,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         } else if (v == mRingerContainer && mRingerContainer.isVisibleToUser()) {
             mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
                     Settings.ACTION_SOUND_SETTINGS), 0);
-        } else if (v == mDateView) {
-            Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-            builder.appendPath("time");
-            builder.appendPath(Long.toString(System.currentTimeMillis()));
-            Intent todayIntent = new Intent(Intent.ACTION_VIEW, builder.build());
-            mActivityStarter.postStartActivityDismissingKeyguard(todayIntent, 0);
         }
     }
 
@@ -786,6 +786,17 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     @Override
     public void onTuningChanged(String key, String newValue) {
         switch (key) {
+            case QS_SHOW_BRIGHTNESS_SLIDER:
+                int val =
+                        TunerService.parseInteger(newValue, 1);
+                mIsQuickQsBrightnessEnabled = val > 1;
+                updateResources();
+                break;
+            case QS_SHOW_AUTO_BRIGHTNESS:
+                mIsQsAutoBrightnessEnabled =
+                        TunerService.parseIntegerSwitch(newValue, true);
+                updateResources();
+                break;
             case SHOW_QS_CLOCK:
                 boolean showClock =
                         TunerService.parseIntegerSwitch(newValue, true);
@@ -840,20 +851,5 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             default:
                 break;
         }
-    }
-    if (QS_SHOW_BRIGHTNESS_SLIDER.equals(key)) {
-            try {
-                mIsQuickQsBrightnessEnabled = Integer.parseInt(newValue) > 1;
-            } catch (NumberFormatException e) {
-                // Catches exception as newValue may be null or malformed.
-                mIsQuickQsBrightnessEnabled = false;
-            }
-            updateResources();
-        } else if (QS_SHOW_AUTO_BRIGHTNESS.equals(key)) {
-            mIsQsAutoBrightnessEnabled = TunerService.parseIntegerSwitch(newValue, true);
-            updateResources();
-        } else if (StatusBarIconController.ICON_BLACKLIST.equals(key)) {
-            mClockView.setClockVisibleByUser(!StatusBarIconController.getIconBlacklist(newValue)
-                    .contains("clock"));
     }
 }
