@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2018 The Android Open Source Project
+<!-- Copyright (C) 2020 FireHound
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,15 +14,11 @@
      limitations under the License.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="28dp"
-    android:height="28dp"
-    android:viewportWidth="96"
-    android:viewportHeight="96">
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
 
-    <path
-        android:fillColor="?attr/singleToneColor"
-        android:pathData="M48 83.6c-19.6 0 -35.6 -16 -35.6 -35.6 0 -19.6 16 -35.6 35.6 -35.6 19.6 0 35.6 16 35.6 35.6l0 0.2C83.4 67.8 67.6 83.4 48 83.6ZM77.8 48.2C77.6 32 64.8 18.8 48.4 18.2c-16.2 0 -29.6 12.8 -30.2 29 0 16.6 13.2 30 29.6 30.4 16.4 -0.2 29.6 -13.2 30 -29.4z" />
-    <path
-        android:fillColor="?attr/singleToneColor"
-        android:pathData="M72 48.2C72 61.4 61.2 72.2 47.8 72 34.4 71.8 23.8 61.2 24 47.8 24.2 34.4 34.8 24 48 24l0.2 0C61.4 24.2 72 34.8 72 48.2c0 -0.2 0 0 0 0z" />
+    <path 
+        android:fillColor="?attr/singleToneColor" android:pathData="M11.71,19C9.93,19 8.5,17.59 8.5,15.86C8.5,14.24 9.53,13.1 11.3,12.74C13.07,12.38 14.9,11.53 15.92,10.16C16.31,11.45 16.5,12.81 16.5,14.2C16.5,16.84 14.36,19 11.71,19M13.5,0.67C13.5,0.67 14.24,3.32 14.24,5.47C14.24,7.53 12.89,9.2 10.83,9.2C8.76,9.2 7.2,7.53 7.2,5.47L7.23,5.1C5.21,7.5 4,10.61 4,14A8,8 0 0,0 12,22A8,8 0 0,0 20,14C20,8.6 17.41,3.8 13.5,0.67Z" />
 </vector>
