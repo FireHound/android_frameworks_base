@@ -113,10 +113,16 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             if (mFodGestureEnable && !mScreenTurnedOn) {
                 if (mDozeEnabled) {
                     mHandler.post(() -> mContext.sendBroadcast(new Intent(DOZE_INTENT)));
+                    if (mIsRecognizingAnimEnabled) {
+                        mHandler.post(() -> mFODAnimation.showFODanimation());
+                    }
                 } else {
                     mWakeLock.acquire(3000);
                     mHandler.post(() -> mPowerManager.wakeUp(SystemClock.uptimeMillis(),
                         PowerManager.WAKE_REASON_GESTURE, FODCircleView.class.getSimpleName()));
+                    if (mIsRecognizingAnimEnabled) {
+                        mHandler.post(() -> mFODAnimation.showFODanimation());
+                    }
                 }
                 mPressPending = true;
             } else {
@@ -127,6 +133,10 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         @Override
         public void onFingerUp() {
             mHandler.post(() -> hideCircle());
+            if (mIsRecognizingAnimEnabled) {
+                mFODAnimation.setAnimationKeyguard(false);
+                mHandler.post(() -> mFODAnimation.hideFODanimation());
+            }
             if (mPressPending) {
                 mPressPending = false;
             }
@@ -193,6 +203,11 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             if (mPressPending) {
                 mHandler.post(() -> showCircle());
                 mPressPending = false;
+            }
+
+            if (mIsRecognizingAnimEnabled) {
+                mFODAnimation.setAnimationKeyguard(mIsKeyguard);
+                mHandler.post(() -> mFODAnimation.hideFODanimation());
             }
             mScreenTurnedOn = true;
         }
